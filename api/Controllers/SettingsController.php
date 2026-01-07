@@ -38,11 +38,17 @@ class SettingsController
         if ($user['role'] === 'team_member') {
             $profile = $this->userModel->getProfile($user['id']);
         }
+        
+        $subscription = $this->db->queryOne(
+            'SELECT * FROM subscribers WHERE email = ? AND unsubscribed_at IS NULL',
+            [$user['email']]
+        );
 
         View::render('settings/index', [
             'title' => 'Settings',
             'user' => $user,
             'profile' => $profile,
+            'isSubscribed' => $subscription !== null,
             'defaultPalette' => $this->getDefaultPalette(),
             'styles' => ['settings'],
         ], 'main');
@@ -199,5 +205,41 @@ class SettingsController
         imagedestroy($cropped);
 
         return $path;
+    }
+
+    public function updateNewsletter(): void
+    {
+        $user = $this->auth->user();
+        $email = $user['email'];
+        
+        $existing = $this->db->queryOne('SELECT * FROM subscribers WHERE email = ?', [$email]);
+        
+        if (isset($_POST['subscribe'])) {
+            if ($existing) {
+                if ($existing['unsubscribed_at']) {
+                    $this->db->execute(
+                        'UPDATE subscribers SET unsubscribed_at = NULL, subscribed_at = NOW(), user_id = ? WHERE id = ?',
+                        [$user['id'], $existing['id']]
+                    );
+                }
+            } else {
+                $this->db->execute(
+                    'INSERT INTO subscribers (email, user_id) VALUES (?, ?)',
+                    [$email, $user['id']]
+                );
+            }
+            View::setFlash('success', 'Subscribed to newsletter');
+        } else {
+            if ($existing && !$existing['unsubscribed_at']) {
+                $this->db->execute(
+                    'UPDATE subscribers SET unsubscribed_at = NOW() WHERE id = ?',
+                    [$existing['id']]
+                );
+            }
+            View::setFlash('success', 'Unsubscribed from newsletter');
+        }
+        
+        header('Location: /settings');
+        exit;
     }
 }

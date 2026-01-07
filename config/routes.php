@@ -47,6 +47,7 @@ $router->get('/settings', [SettingsController::class, 'index']);
 $router->post('/settings', [SettingsController::class, 'update']);
 $router->post('/settings/avatar', [SettingsController::class, 'updateAvatar']);
 $router->post('/settings/profile', [SettingsController::class, 'updateProfile']);
+$router->post('/settings/newsletter', [SettingsController::class, 'updateNewsletter']);
 
 // User messages
 $router->get('/messages', [MessageController::class, 'index']);
@@ -57,8 +58,8 @@ $router->post('/messages/{id}/reply', [MessageController::class, 'reply']);
 $router->post('/messages/{id}/delete', [MessageController::class, 'delete']);
 
 // Public newsletter
-$router->post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
 $router->get('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe']);
+$router->post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
 
 // Team member pages
 $router->get('/team/{id}', [MemberController::class, 'show']);
@@ -129,3 +130,4 @@ $router->get('/admin/newsletter/{id}/edit', [AdminNewsletterController::class, '
 $router->post('/admin/newsletter/{id}', [AdminNewsletterController::class, 'update']);
 $router->post('/admin/newsletter/{id}/send', [AdminNewsletterController::class, 'send']);
 $router->post('/admin/newsletter/{id}/delete', [AdminNewsletterController::class, 'delete']);
+$router->get('/admin/newsletter/{id}/preview', [Admin\NewsletterController::class, 'preview']);

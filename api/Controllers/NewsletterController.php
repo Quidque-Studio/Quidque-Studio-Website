@@ -3,18 +3,50 @@
 namespace Api\Controllers;
 
 use Api\Core\Database;
-use Api\Core\Auth;
 use Api\Core\View;
 
 class NewsletterController
 {
     private Database $db;
-    private Auth $auth;
 
-    public function __construct(Database $db, Auth $auth)
+    public function __construct(Database $db)
     {
         $this->db = $db;
-        $this->auth = $auth;
+    }
+
+    public function unsubscribe(): void
+    {
+        $email = $_GET['email'] ?? '';
+        $token = $_GET['token'] ?? '';
+
+        $expectedToken = hash_hmac('sha256', $email, $_ENV['APP_SECRET'] ?? 'quidque-secret');
+
+        if (!hash_equals($expectedToken, $token)) {
+            View::render('newsletter/unsubscribe', [
+                'title' => 'Unsubscribe',
+                'success' => false,
+                'error' => 'Invalid unsubscribe link',
+            ], 'main');
+            return;
+        }
+
+        $subscriber = $this->db->queryOne(
+            'SELECT * FROM subscribers WHERE email = ? AND unsubscribed_at IS NULL',
+            [$email]
+        );
+
+        if ($subscriber) {
+            $this->db->execute(
+                'UPDATE subscribers SET unsubscribed_at = NOW() WHERE id = ?',
+                [$subscriber['id']]
+            );
+        }
+
+        View::render('newsletter/unsubscribe', [
+            'title' => 'Unsubscribed',
+            'success' => true,
+            'email' => $email,
+        ], 'main');
     }
 
     public function subscribe(): void
@@ -22,7 +54,8 @@ class NewsletterController
         $email = trim($_POST['email'] ?? '');
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            header('Location: /?newsletter=invalid');
+            View::setFlash('error', 'Please enter a valid email address');
+            header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
             exit;
         }
 
@@ -36,35 +69,11 @@ class NewsletterController
                 );
             }
         } else {
-            $userId = null;
-            if ($this->auth->check()) {
-                $userId = $this->auth->user()['id'];
-            }
-
-            $this->db->execute(
-                'INSERT INTO subscribers (email, user_id) VALUES (?, ?)',
-                [$email, $userId]
-            );
+            $this->db->execute('INSERT INTO subscribers (email) VALUES (?)', [$email]);
         }
 
-        header('Location: /?newsletter=subscribed');
+        View::setFlash('success', 'Thanks for subscribing!');
+        header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
         exit;
-    }
-
-    public function unsubscribe(): void
-    {
-        $email = trim($_GET['email'] ?? '');
-
-        if ($email) {
-            $this->db->execute(
-                'UPDATE subscribers SET unsubscribed_at = NOW() WHERE email = ?',
-                [$email]
-            );
-        }
-
-        View::render('newsletter/unsubscribed', [
-            'title' => 'Unsubscribed',
-            'user' => $this->auth->user(),
-        ], 'main');
     }
 }

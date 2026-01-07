@@ -56,6 +56,21 @@ if (!empty($profile['color_palette'])) {
         </form>
     </section>
 
+    <section class="settings-section">
+        <h2>Newsletter</h2>
+        <form method="POST" action="/settings/newsletter">
+            <?= \Api\Core\View::csrfField() ?>
+            <?php if ($isSubscribed): ?>
+                <p>You are currently <strong>subscribed</strong> to the Quidque Studio newsletter.</p>
+                <button type="submit" class="btn">Unsubscribe</button>
+            <?php else: ?>
+                <p>Stay updated with our latest projects, devlogs, and announcements.</p>
+                <input type="hidden" name="subscribe" value="1">
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            <?php endif; ?>
+        </form>
+    </section>
+
     <?php if ($user['role'] === 'team_member'): ?>
     <section class="settings-section">
         <h2>Team Profile</h2>

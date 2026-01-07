@@ -1,6 +1,14 @@
 <?php
 use Api\Core\ContentRenderer;
 use Api\Core\Date;
+
+function formatFileSize(?int $bytes): string {
+    if (!$bytes) return '';
+    if ($bytes < 1024) return $bytes . ' B';
+    if ($bytes < 1048576) return round($bytes / 1024, 1) . ' KB';
+    if ($bytes < 1073741824) return round($bytes / 1048576, 1) . ' MB';
+    return round($bytes / 1073741824, 1) . ' GB';
+}
 ?>
 
 <article class="project-single">
@@ -69,7 +77,12 @@ use Api\Core\Date;
                             <?php elseif ($res['type'] === 'youtube'): ?>
                                 <a href="https://youtube.com/watch?v=<?= htmlspecialchars($res['video_id']) ?>" target="_blank">YouTube</a>
                             <?php elseif ($res['type'] === 'download'): ?>
-                                <a href="<?= htmlspecialchars($res['file_path']) ?>" download><?= htmlspecialchars($res['label']) ?></a>
+                                <a href="<?= htmlspecialchars($res['file_path']) ?>" download>
+                                    <?= htmlspecialchars($res['label']) ?>
+                                    <?php if (!empty($res['file_size'])): ?>
+                                        <span class="file-size">(<?= formatFileSize($res['file_size']) ?>)</span>
+                                    <?php endif; ?>
+                                </a>
                             <?php endif; ?>
                         </li>
                     <?php endforeach; ?>
