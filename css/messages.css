@@ -1,0 +1,82 @@
+.messages-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.messages-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.conversation-list {
+  list-style: none;
+}
+
+.conversation-list li {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.conversation-list a {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--text-main);
+}
+
+.conversation-list a:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.conversation-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.message {
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.message-user {
+  background: rgba(157, 126, 219, 0.1);
+  border: 1px solid var(--purple-color);
+  align-self: flex-start;
+}
+
+.message-team {
+  background: rgba(57, 255, 182, 0.1);
+  border: 1px solid var(--aquamarine-color);
+  align-self: flex-end;
+}
+
+.message-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.reply-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-main);
+  margin-bottom: 1rem;
+  resize: vertical;
+}

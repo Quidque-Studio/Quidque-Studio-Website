@@ -1,0 +1,9 @@
+RewriteEngine On
+
+RewriteRule ^api/ - [F,L]
+RewriteRule ^config/ - [F,L]
+RewriteRule ^storage/ - [F,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]

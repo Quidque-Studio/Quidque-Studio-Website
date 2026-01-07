@@ -1,0 +1,23 @@
+:root {
+  --bg-color: #012a31;
+  --panel-bg: rgba(1, 42, 49, 0.5);
+  --purple-color: #9d7edb;
+  --magenta-color: #f0f;
+  --aquamarine-color: #39ffb6;
+  --text-main: #e0e0e0;
+  --text-muted: #8a9bb5;
+  --border-color: rgba(157, 126, 219, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: system-ui, sans-serif;
+  min-height: 100vh;
+}

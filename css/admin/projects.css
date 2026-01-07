@@ -1,0 +1,107 @@
+.gallery-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.gallery-item {
+  position: relative;
+  width: 120px;
+  height: 80px;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.gallery-item .remove-media {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--magenta-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.resource-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.resource-item input,
+.resource-item textarea {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-main);
+}
+
+.resource-item textarea {
+  min-height: 60px;
+}
+
+.resource-type-label {
+  background: var(--purple-color);
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.resource-item .remove-resource {
+  background: none;
+  border: none;
+  color: var(--magenta-color);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.resource-add {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.resource-add select {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-main);
+}
+
+.file-upload-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.file-upload-row input[type="file"] {
+  flex: 1;
+}
+
+.file-path-display {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}

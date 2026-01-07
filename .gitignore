@@ -1,0 +1,4 @@
+uploads/*
+storage/*
+config/*.php
+!config/routes.php
