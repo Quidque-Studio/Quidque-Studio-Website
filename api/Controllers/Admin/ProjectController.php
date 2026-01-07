@@ -5,14 +5,16 @@ namespace Api\Controllers\Admin;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Str;
+use Api\Core\Traits\RequiresAuth;
 use Api\Models\Project;
 use Api\Models\User;
 use Api\Models\Resource;
-use Api\Core\Str;
-use RequiresAuth;
 
 class ProjectController
 {
+    use RequiresAuth;
+
     private Database $db;
     private Auth $auth;
     private Project $projectModel;
@@ -57,6 +59,8 @@ class ProjectController
             'teamMembers' => $teamMembers,
             'gallery' => [],
             'resources' => [],
+            'selectedTech' => [],
+            'selectedAuthors' => [],
             'styles' => ['projects'],
         ], 'admin');
     }
@@ -172,15 +176,13 @@ class ProjectController
         }
     }
 
-    private function generateSlug(string $title, int $projectId): string
+    private function generateSlug(string $title): string
     {
         $slug = Str::slug($title);
-
-        $existing = $this->devlogModel->findBySlug($projectId, $slug);
+        $existing = $this->projectModel->findBySlug($slug);
         if ($existing) {
             $slug .= '-' . time();
         }
-
         return $slug;
     }
 }

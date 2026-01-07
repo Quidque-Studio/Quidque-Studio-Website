@@ -5,13 +5,15 @@ namespace Api\Controllers\Admin;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Str;
+use Api\Core\Traits\RequiresAuth;
 use Api\Models\Devlog;
 use Api\Models\Project;
-use Api\Core\Str;
-use RequiresAuth;
 
 class DevlogController
 {
+    use RequiresAuth;
+
     private Database $db;
     private Auth $auth;
     private Devlog $devlogModel;
@@ -141,12 +143,10 @@ class DevlogController
     private function generateSlug(string $title, int $projectId): string
     {
         $slug = Str::slug($title);
-
         $existing = $this->devlogModel->findBySlug($projectId, $slug);
         if ($existing) {
             $slug .= '-' . time();
         }
-
         return $slug;
     }
 }

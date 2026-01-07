@@ -5,10 +5,12 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
-use RequiresAuth;
+use Api\Core\Traits\RequiresAuth;
 
 class AdminController
 {
+    use RequiresAuth;
+
     protected Database $db;
     protected Auth $auth;
 
@@ -17,15 +19,6 @@ class AdminController
         $this->db = $db;
         $this->auth = $auth;
         $this->requireTeamMember();
-    }
-
-    protected function requirePermission(string $permission): void
-    {
-        if (!$this->auth->hasPermission($permission)) {
-            http_response_code(403);
-            View::render('admin/forbidden', ['title' => 'Forbidden'], 'admin');
-            exit;
-        }
     }
 
     public function dashboard(): void

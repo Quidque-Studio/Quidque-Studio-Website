@@ -1,4 +1,6 @@
 <?php
+use Api\Core\Date;
+
 $accentColor = $member['accent_color'] ?? '#9d7edb';
 $bgColor = $member['bg_color'] ?? '#012a31';
 ?>
@@ -31,7 +33,7 @@ $bgColor = $member['bg_color'] ?? '#012a31';
                     <li>
                         <a href="/team/<?= $member['id'] ?>/posts/<?= $post['slug'] ?>">
                             <strong><?= htmlspecialchars($post['title']) ?></strong>
-                            <span><?= $post['created_at'] ?></span>
+                            <span><?= Date::short($post['created_at']) ?></span>
                         </a>
                         <?php if ($canEdit): ?>
                             <div class="post-actions">

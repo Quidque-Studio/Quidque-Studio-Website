@@ -1,4 +1,7 @@
-<?php use Api\Core\ContentRenderer; ?>
+<?php
+use Api\Core\ContentRenderer;
+use Api\Core\Date;
+?>
 
 <div class="page-header">
     <h1><?= $currentCategory ? htmlspecialchars($currentCategory['name']) : 'Blog' ?></h1>
@@ -23,7 +26,7 @@
                     <h2><?= htmlspecialchars($post['title']) ?></h2>
                 </a>
                 <div class="blog-card-meta">
-                    <span><?= date('M j, Y', strtotime($post['created_at'])) ?></span>
+                    <span><?= Date::short($post['created_at']) ?></span>
                     <?php if ($post['category_name']): ?>
                         <a href="/blog?category=<?= htmlspecialchars($post['category_slug']) ?>" class="category"><?= htmlspecialchars($post['category_name']) ?></a>
                     <?php endif; ?>

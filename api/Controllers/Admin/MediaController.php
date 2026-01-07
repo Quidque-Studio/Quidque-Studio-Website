@@ -4,6 +4,7 @@ namespace Api\Controllers\Admin;
 
 use Api\Core\Database;
 use Api\Core\Auth;
+use Api\Core\View;
 use Api\Models\Media;
 
 class MediaController

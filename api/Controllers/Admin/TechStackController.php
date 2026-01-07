@@ -5,10 +5,13 @@ namespace Api\Controllers\Admin;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
-use RequiresAuth;
+use Api\Core\Str;
+use Api\Core\Traits\RequiresAuth;
 
 class TechStackController
 {
+    use RequiresAuth;
+
     private Database $db;
     private Auth $auth;
 

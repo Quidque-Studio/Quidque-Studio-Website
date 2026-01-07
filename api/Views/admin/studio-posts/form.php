@@ -1,3 +1,5 @@
+<?php use Api\Core\Str; ?>
+
 <form method="POST" action="<?= $post ? "/admin/studio-posts/{$post['id']}" : '/admin/studio-posts' ?>">
     <?= \Api\Core\View::csrfField() ?>
     <div class="form-group">
@@ -19,7 +21,7 @@
 
     <div class="form-group">
         <label for="tags">Tags (comma separated)</label>
-        <input type="text" id="tags" name="tags" value="<?= htmlspecialchars(implode(', ', json_decode($post['tags'] ?? '[]', true))) ?>">
+        <input type="text" id="tags" name="tags" value="<?= htmlspecialchars(implode(', ', Str::formatTags($post['tags'] ?? null))) ?>">
     </div>
 
     <div class="form-group">

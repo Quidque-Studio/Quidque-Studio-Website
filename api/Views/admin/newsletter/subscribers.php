@@ -1,3 +1,5 @@
+<?php use Api\Core\Date; ?>
+
 <div class="admin-toolbar">
     <a href="/admin/newsletter" class="btn">Back to Newsletters</a>
 </div>
@@ -19,7 +21,7 @@
                 <tr>
                     <td><?= htmlspecialchars($sub['email']) ?></td>
                     <td><?= htmlspecialchars($sub['user_name'] ?? '-') ?></td>
-                    <td><?= $sub['subscribed_at'] ?></td>
+                    <td><?= Date::short($sub['subscribed_at']) ?></td>
                     <td><?= $sub['unsubscribed_at'] ? 'Unsubscribed' : 'Active' ?></td>
                 </tr>
             <?php endforeach; ?>

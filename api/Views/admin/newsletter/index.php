@@ -1,3 +1,5 @@
+<?php use Api\Core\Date; ?>
+
 <?php if (isset($_GET['sent'])): ?>
     <div class="alert alert-success">Newsletter sent!</div>
 <?php endif; ?>
@@ -23,8 +25,8 @@
             <?php foreach ($newsletters as $nl): ?>
                 <tr>
                     <td><?= htmlspecialchars($nl['subject']) ?></td>
-                    <td><?= $nl['created_at'] ?></td>
-                    <td><?= $nl['sent_at'] ?? 'Draft' ?></td>
+                    <td><?= Date::short($nl['created_at']) ?></td>
+                    <td><?= $nl['sent_at'] ? Date::short($nl['sent_at']) : 'Draft' ?></td>
                     <td class="actions">
                         <?php if (!$nl['sent_at']): ?>
                             <a href="/admin/newsletter/<?= $nl['id'] ?>/edit">Edit</a>

@@ -30,6 +30,9 @@ trait RequiresAuth
     
     protected function requireOwner(int $resourceUserId): void
     {
-        $this->requireOwner((int) $id);
+        $this->requireAuth();
+        if ($this->auth->user()['id'] !== $resourceUserId) {
+            View::notFound();
+        }
     }
 }

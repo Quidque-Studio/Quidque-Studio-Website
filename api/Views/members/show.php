@@ -1,7 +1,9 @@
 <?php
+use Api\Core\Str;
+
 $accentColor = $member['accent_color'] ?? '#9d7edb';
 $bgColor = $member['bg_color'] ?? '#012a31';
-$socialLinks = json_decode($member['social_links'] ?? '[]', true);
+$socialLinks = Str::formatTags($member['social_links']);
 $aboutContent = json_decode($member['about_content'] ?? '[]', true);
 ?>
 

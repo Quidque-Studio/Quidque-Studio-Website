@@ -5,12 +5,14 @@ namespace Api\Controllers\Admin;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
-use Api\Models\StudioPost;
 use Api\Core\Str;
-use RequiresAuth;
+use Api\Core\Traits\RequiresAuth;
+use Api\Models\StudioPost;
 
 class StudioPostController
 {
+    use RequiresAuth;
+
     private Database $db;
     private Auth $auth;
     private StudioPost $postModel;
@@ -143,7 +145,7 @@ class StudioPostController
     public function storeCategory(): void
     {
         $name = trim($_POST['name']);
-        $slug = $this->generateSlug($name);
+        $slug = Str::slug($name);
 
         $this->db->execute(
             'INSERT INTO studio_categories (name, slug) VALUES (?, ?)',
@@ -161,18 +163,6 @@ class StudioPostController
         exit;
     }
 
-    private function generateSlug(string $title, int $projectId): string
-    {
-        $slug = Str::slug($title);
-
-        $existing = $this->devlogModel->findBySlug($projectId, $slug);
-        if ($existing) {
-            $slug .= '-' . time();
-        }
-
-        return $slug;
-    }
-
     public function updateCategory(string $id): void
     {
         $name = trim($_POST['name']);
@@ -185,5 +175,15 @@ class StudioPostController
         View::setFlash('success', 'Category updated');
         header('Location: /admin/studio-posts/categories');
         exit;
+    }
+
+    private function generateSlug(string $title): string
+    {
+        $slug = Str::slug($title);
+        $existing = $this->postModel->findBySlug($slug);
+        if ($existing) {
+            $slug .= '-' . time();
+        }
+        return $slug;
     }
 }

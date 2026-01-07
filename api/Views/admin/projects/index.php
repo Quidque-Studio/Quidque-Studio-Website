@@ -1,3 +1,5 @@
+<?php use Api\Core\Date; ?>
+
 <div class="admin-toolbar">
     <a href="/admin/projects/create" class="btn btn-primary">New Project</a>
 </div>
@@ -21,7 +23,7 @@
                     <td><?= htmlspecialchars($project['title']) ?></td>
                     <td><?= htmlspecialchars($project['status']) ?></td>
                     <td><?= $project['is_featured'] ? 'Yes' : 'No' ?></td>
-                    <td><?= $project['updated_at'] ?></td>
+                    <td><?= Date::short($project['updated_at']) ?></td>
                     <td class="actions">
                         <a href="/admin/projects/<?= $project['id'] ?>/devlogs">Devlogs</a>
                         <a href="/admin/projects/<?= $project['id'] ?>/edit">Edit</a>

@@ -1,3 +1,5 @@
+<?php use Api\Core\Str; ?>
+
 <div class="member-page">
     <div class="member-header">
         <h1><?= $post ? 'Edit Post' : 'New Post' ?></h1>
@@ -13,7 +15,7 @@
 
             <div class="form-group">
                 <label for="tags">Tags (comma separated)</label>
-                <input type="text" id="tags" name="tags" value="<?= htmlspecialchars(implode(', ', json_decode($post['tags'] ?? '[]', true))) ?>">
+                <input type="text" id="tags" name="tags" value="<?= htmlspecialchars(implode(', ', Str::formatTags($post['tags'] ?? null))) ?>">
             </div>
 
             <div class="form-group">

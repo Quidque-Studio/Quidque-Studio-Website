@@ -1,3 +1,5 @@
+<?php use Api\Core\Str; ?>
+
 <div class="admin-toolbar">
     <a href="/admin/projects/<?= $project['id'] ?>/devlogs" class="btn">Back to Devlogs</a>
 </div>
@@ -11,7 +13,7 @@
 
     <div class="form-group">
         <label for="tags">Tags (comma separated)</label>
-        <input type="text" id="tags" name="tags" value="<?= htmlspecialchars(implode(', ', json_decode($devlog['tags'] ?? '[]', true))) ?>" placeholder="update, bugfix, feature">
+        <input type="text" id="tags" name="tags" value="<?= htmlspecialchars(implode(', ', Str::formatTags($devlog['tags'] ?? null))) ?>" placeholder="update, bugfix, feature">
     </div>
 
     <div class="form-group">

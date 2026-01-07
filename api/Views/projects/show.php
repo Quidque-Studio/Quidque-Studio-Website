@@ -1,7 +1,9 @@
-<?php use Api\Core\ContentRenderer; ?>
+<?php
+use Api\Core\ContentRenderer;
+use Api\Core\Date;
+?>
 
 <article class="project-single">
-    <!-- Header -->
     <header class="project-header">
         <h1><?= htmlspecialchars($project['title']) ?></h1>
         <span class="status-badge status-<?= $project['status'] ?>"><?= ucfirst(str_replace('_', ' ', $project['status'])) ?></span>
@@ -10,7 +12,6 @@
         <?php endif; ?>
     </header>
 
-    <!-- Gallery -->
     <?php if (!empty($gallery)): ?>
         <section class="project-gallery">
             <?php foreach ($gallery as $media): ?>
@@ -23,9 +24,7 @@
         </section>
     <?php endif; ?>
 
-    <!-- Info Sidebar -->
     <aside class="project-meta">
-        <!-- Tech Stack -->
         <?php if (!empty($techStack)): ?>
             <div class="meta-section">
                 <h3>Tech Stack</h3>
@@ -37,7 +36,6 @@
             </div>
         <?php endif; ?>
 
-        <!-- Authors -->
         <?php if (!empty($authors)): ?>
             <div class="meta-section">
                 <h3>Team</h3>
@@ -56,7 +54,6 @@
             </div>
         <?php endif; ?>
 
-        <!-- Resources -->
         <?php if (!empty($resources)): ?>
             <div class="meta-section">
                 <h3>Links & Downloads</h3>
@@ -81,17 +78,15 @@
         <?php endif; ?>
     </aside>
 
-    <!-- Embeds -->
     <?php foreach ($resources as $res): ?>
         <?php if ($res['type'] === 'embed'): ?>
             <div class="project-embed">
                 <?php if ($res['label']): ?><h3><?= htmlspecialchars($res['label']) ?></h3><?php endif; ?>
-                <?= \Api\Core\ContentRenderer::sanitizeEmbed($res['html']) ?>
+                <?= ContentRenderer::sanitizeEmbed($res['html']) ?>
             </div>
         <?php endif; ?>
     <?php endforeach; ?>
 
-    <!-- Devlogs -->
     <?php if (!empty($devlogs)): ?>
         <section class="project-devlogs">
             <h2>Devlogs</h2>
@@ -99,7 +94,7 @@
                 <?php foreach ($devlogs as $devlog): ?>
                     <li>
                         <a href="/projects/<?= htmlspecialchars($project['slug']) ?>/devlogs/<?= htmlspecialchars($devlog['slug']) ?>">
-                            <span class="devlog-date"><?= date('M j, Y', strtotime($devlog['created_at'])) ?></span>
+                            <span class="devlog-date"><?= Date::short($devlog['created_at']) ?></span>
                             <span class="devlog-title"><?= htmlspecialchars($devlog['title']) ?></span>
                         </a>
                     </li>

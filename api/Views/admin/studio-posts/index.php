@@ -1,3 +1,5 @@
+<?php use Api\Core\Date; ?>
+
 <div class="admin-toolbar">
     <a href="/admin/studio-posts/create" class="btn btn-primary">New Post</a>
     <a href="/admin/studio-posts/categories" class="btn">Categories</a>
@@ -20,7 +22,7 @@
                 <tr>
                     <td><?= htmlspecialchars($post['title']) ?></td>
                     <td><?= htmlspecialchars($post['category_name'] ?? '-') ?></td>
-                    <td><?= $post['created_at'] ?></td>
+                    <td><?= Date::short($post['created_at']) ?></td>
                     <td class="actions">
                         <a href="/admin/studio-posts/<?= $post['id'] ?>/edit">Edit</a>
                         <form method="POST" action="/admin/studio-posts/<?= $post['id'] ?>/delete" style="display:inline">

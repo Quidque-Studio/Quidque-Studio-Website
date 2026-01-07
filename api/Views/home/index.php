@@ -1,4 +1,7 @@
-<?php use Api\Core\ContentRenderer; ?>
+<?php
+use Api\Core\ContentRenderer;
+use Api\Core\Date;
+?>
 
 <div class="home-page">
     <section class="hero">
@@ -32,7 +35,7 @@
                 <?php foreach ($recentPosts as $post): ?>
                     <li>
                         <a href="/blog/<?= htmlspecialchars($post['slug']) ?>">
-                            <span class="date"><?= date('M j', strtotime($post['created_at'])) ?></span>
+                            <span class="date"><?= Date::monthDay($post['created_at']) ?></span>
                             <span><?= htmlspecialchars($post['title']) ?></span>
                         </a>
                     </li>
@@ -49,7 +52,7 @@
                 <?php foreach ($recentDevlogs as $devlog): ?>
                     <li>
                         <a href="/projects/<?= htmlspecialchars($devlog['project_slug']) ?>/devlogs/<?= htmlspecialchars($devlog['slug']) ?>">
-                            <span class="date"><?= date('M j', strtotime($devlog['created_at'])) ?></span>
+                            <span class="date"><?= Date::monthDay($devlog['created_at']) ?></span>
                             <span><?= htmlspecialchars($devlog['title']) ?></span>
                             <small><?= htmlspecialchars($devlog['project_title']) ?></small>
                         </a>

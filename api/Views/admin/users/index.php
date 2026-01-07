@@ -1,3 +1,5 @@
+<?php use Api\Core\Date; ?>
+
 <?php if (isset($_GET['error']) && $_GET['error'] === 'self_delete'): ?>
     <div class="alert alert-error">You cannot delete yourself.</div>
 <?php endif; ?>
@@ -18,7 +20,7 @@
                 <td><?= htmlspecialchars($u['name']) ?></td>
                 <td><?= htmlspecialchars($u['email']) ?></td>
                 <td><?= $u['role'] ?></td>
-                <td><?= $u['created_at'] ?></td>
+                <td><?= Date::short($u['created_at']) ?></td>
                 <td class="actions">
                     <a href="/admin/users/<?= $u['id'] ?>/edit">Edit</a>
                     <?php if ($u['id'] !== $user['id']): ?>

@@ -1,3 +1,5 @@
+<?php use Api\Core\Date; ?>
+
 <div class="admin-toolbar">
     <a href="/admin/projects/<?= $project['id'] ?>/devlogs/create" class="btn btn-primary">New Devlog</a>
     <a href="/admin/projects/<?= $project['id'] ?>/edit" class="btn">Back to Project</a>
@@ -20,7 +22,7 @@
                 <tr>
                     <td><?= htmlspecialchars($devlog['title']) ?></td>
                     <td><?= htmlspecialchars($devlog['author_name'] ?? 'Unknown') ?></td>
-                    <td><?= $devlog['created_at'] ?></td>
+                    <td><?= Date::short($devlog['created_at']) ?></td>
                     <td class="actions">
                         <a href="/admin/projects/<?= $project['id'] ?>/devlogs/<?= $devlog['id'] ?>/edit">Edit</a>
                         <form method="POST" action="/admin/projects/<?= $project['id'] ?>/devlogs/<?= $devlog['id'] ?>/delete" style="display:inline">

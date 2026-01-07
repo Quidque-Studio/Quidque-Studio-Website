@@ -1,3 +1,5 @@
+<?php use Api\Core\Date; ?>
+
 <table class="admin-table">
     <thead>
         <tr>
@@ -17,7 +19,7 @@
                     <td><?= htmlspecialchars($conv['subject']) ?></td>
                     <td><?= htmlspecialchars($conv['user_name']) ?></td>
                     <td><?= $conv['message_count'] ?></td>
-                    <td><?= $conv['updated_at'] ?></td>
+                    <td><?= Date::relative($conv['updated_at']) ?></td>
                     <td class="actions">
                         <a href="/admin/messages/<?= $conv['id'] ?>">View</a>
                     </td>

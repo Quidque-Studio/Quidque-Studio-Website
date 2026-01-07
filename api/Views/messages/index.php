@@ -1,3 +1,5 @@
+<?php use Api\Core\Date; ?>
+
 <div class="messages-container">
     <?php if (!empty($flash)): ?>
         <div class="alert alert-<?= $flash['type'] ?>"><?= htmlspecialchars($flash['message']) ?></div>
@@ -17,7 +19,7 @@
                     <a href="/messages/<?= $conv['id'] ?>">
                         <strong><?= htmlspecialchars($conv['subject']) ?></strong>
                         <span><?= $conv['message_count'] ?> messages</span>
-                        <span><?= $conv['updated_at'] ?></span>
+                        <span><?= Date::relative($conv['updated_at']) ?></span>
                     </a>
                     <form method="POST" action="/messages/<?= $conv['id'] ?>/delete" class="delete-form">
                         <?= \Api\Core\View::csrfField() ?>

@@ -1,8 +1,11 @@
 <?php
+use Api\Core\Date;
+use Api\Core\Str;
+
 $accentColor = $member['accent_color'] ?? '#9d7edb';
 $bgColor = $member['bg_color'] ?? '#012a31';
 $content = json_decode($post['content'] ?? '[]', true);
-$tags = json_decode($post['tags'] ?? '[]', true);
+$tags = Str::formatTags($post['tags']);
 ?>
 
 <style>
@@ -13,7 +16,7 @@ $tags = json_decode($post['tags'] ?? '[]', true);
     <div class="member-header">
         <a href="/team/<?= $member['id'] ?>/posts">← Back to blog</a>
         <h1><?= htmlspecialchars($post['title']) ?></h1>
-        <p class="post-meta"><?= $post['created_at'] ?></p>
+        <p class="post-meta"><?= Date::long($post['created_at']) ?></p>
         <?php if (!empty($tags)): ?>
             <div class="post-tags">
                 <?php foreach ($tags as $tag): ?>

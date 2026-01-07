@@ -5,12 +5,15 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Str;
+use Api\Core\Traits\RequiresAuth;
 use Api\Models\User;
 use Api\Models\MemberPost;
-use Api\Core\Str;
 
 class MemberController
 {
+    use RequiresAuth;
+
     private Database $db;
     private Auth $auth;
     private User $userModel;
@@ -108,7 +111,6 @@ class MemberController
         $this->requireOwner((int) $id);
 
         $slug = $this->generateSlug($_POST['title'], (int) $id);
-
         $tags = Str::parseTags($_POST['tags'] ?? '');
 
         $this->postModel->create([
@@ -212,15 +214,13 @@ class MemberController
         ], 'main');
     }
 
-    private function generateSlug(string $title, int $projectId): string
+    private function generateSlug(string $title, int $authorId): string
     {
         $slug = Str::slug($title);
-
-        $existing = $this->devlogModel->findBySlug($projectId, $slug);
+        $existing = $this->postModel->findBySlug($authorId, $slug);
         if ($existing) {
             $slug .= '-' . time();
         }
-
         return $slug;
     }
 }

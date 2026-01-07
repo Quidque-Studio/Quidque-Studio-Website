@@ -1,3 +1,5 @@
+<?php use Api\Core\Date; ?>
+
 <div class="conversation-header">
     <a href="/admin/messages" class="btn">Back</a>
     <span>From: <?= htmlspecialchars($conversation['user_name']) ?> (<?= htmlspecialchars($conversation['user_email']) ?>)</span>
@@ -8,7 +10,7 @@
         <div class="message <?= $msg['sender_role'] === 'team_member' ? 'message-team' : 'message-user' ?>">
             <div class="message-meta">
                 <strong><?= htmlspecialchars($msg['sender_name']) ?></strong>
-                <span><?= $msg['created_at'] ?></span>
+                <span><?= Date::relative($msg['created_at']) ?></span>
             </div>
             <div class="message-content"><?= nl2br(htmlspecialchars($msg['content'])) ?></div>
         </div>
