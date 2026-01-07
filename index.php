@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+session_start();
+
 define('BASE_PATH', __DIR__);
 
 spl_autoload_register(function (string $class): void {

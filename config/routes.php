@@ -38,6 +38,7 @@ $router->get('/messages/new', [MessageController::class, 'create']);
 $router->post('/messages', [MessageController::class, 'store']);
 $router->get('/messages/{id}', [MessageController::class, 'show']);
 $router->post('/messages/{id}/reply', [MessageController::class, 'reply']);
+$router->post('/messages/{id}/delete', [MessageController::class, 'delete']);
 
 // Public newsletter
 $router->post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
@@ -77,6 +78,7 @@ $router->get('/admin/studio-posts/create', [StudioPostController::class, 'create
 $router->post('/admin/studio-posts', [StudioPostController::class, 'store']);
 $router->get('/admin/studio-posts/categories', [StudioPostController::class, 'categories']);
 $router->post('/admin/studio-posts/categories', [StudioPostController::class, 'storeCategory']);
+$router->post('/admin/studio-posts/categories/{id}', [StudioPostController::class, 'updateCategory']);
 $router->post('/admin/studio-posts/categories/{id}/delete', [StudioPostController::class, 'deleteCategory']);
 $router->get('/admin/studio-posts/{id}/edit', [StudioPostController::class, 'edit']);
 $router->post('/admin/studio-posts/{id}', [StudioPostController::class, 'update']);
@@ -85,8 +87,10 @@ $router->post('/admin/studio-posts/{id}/delete', [StudioPostController::class, '
 $router->get('/admin/tech-stack', [TechStackController::class, 'index']);
 $router->post('/admin/tech-stack/tiers', [TechStackController::class, 'storeTier']);
 $router->post('/admin/tech-stack/tiers/order', [TechStackController::class, 'updateTierOrder']);
+$router->post('/admin/tech-stack/tiers/{id}', [TechStackController::class, 'updateTier']);
 $router->post('/admin/tech-stack/tiers/{id}/delete', [TechStackController::class, 'deleteTier']);
 $router->post('/admin/tech-stack', [TechStackController::class, 'storeTech']);
+$router->post('/admin/tech-stack/{id}', [TechStackController::class, 'updateTech']);
 $router->post('/admin/tech-stack/{id}/delete', [TechStackController::class, 'deleteTech']);
 
 $router->get('/admin/messages', [AdminMessageController::class, 'index']);

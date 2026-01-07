@@ -111,3 +111,141 @@
 .admin-table .actions a:hover {
   color: var(--magenta-color);
 }
+
+.inline-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.inline-edit-form {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.inline-input {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-main);
+  border-radius: 4px;
+}
+
+.inline-input:hover,
+.inline-input:focus {
+  border-color: var(--border-color);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.inline-input-small {
+  width: 50px;
+  padding: 0.25rem;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-main);
+  border-radius: 4px;
+}
+
+.inline-select {
+  padding: 0.25rem;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-main);
+  border-radius: 4px;
+}
+
+.inline-save {
+  background: none;
+  border: none;
+  color: var(--aquamarine-color);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.inline-save:hover {
+  text-decoration: underline;
+}
+
+.tier-list {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.tier-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.settings-note a {
+  color: var(--purple-color);
+}
+
+.alert-error {
+  background: rgba(255, 0, 100, 0.1);
+  border: 1px solid var(--magenta-color);
+  color: var(--magenta-color);
+}
+
+.delete-form {
+  margin-left: auto;
+}
+
+.delete-form button {
+  background: none;
+  border: none;
+  color: var(--magenta-color);
+  cursor: pointer;
+  font-size: 1.25rem;
+}
+
+.tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--purple-color);
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.tag-remove {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.tags-input {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.tags-display {
+  margin-bottom: 0.5rem;
+}
+
+.tags-text-input {
+  border: none;
+  background: transparent;
+  color: var(--text-main);
+  outline: none;
+  width: 100%;
+}

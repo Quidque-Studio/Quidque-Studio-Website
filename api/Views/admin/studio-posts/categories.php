@@ -24,7 +24,12 @@
         <?php else: ?>
             <?php foreach ($categories as $cat): ?>
                 <tr>
-                    <td><?= htmlspecialchars($cat['name']) ?></td>
+                    <td>
+                        <form method="POST" action="/admin/studio-posts/categories/<?= $cat['id'] ?>" class="inline-edit-form">
+                            <input type="text" name="name" value="<?= htmlspecialchars($cat['name']) ?>" class="inline-input">
+                            <button type="submit" class="inline-save">Save</button>
+                        </form>
+                    </td>
                     <td><?= htmlspecialchars($cat['slug']) ?></td>
                     <td class="actions">
                         <form method="POST" action="/admin/studio-posts/categories/<?= $cat['id'] ?>/delete" style="display:inline">

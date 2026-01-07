@@ -52,6 +52,8 @@ class Router
 
     private function execute(callable|array $handler, array $params): void
     {
+        $GLOBALS['auth'] = $this->auth;
+        
         if (is_array($handler)) {
             [$class, $method] = $handler;
             $controller = new $class($this->db, $this->auth);

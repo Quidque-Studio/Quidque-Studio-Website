@@ -104,6 +104,20 @@ class Auth
         return $link['email'];
     }
 
+    public function getAllPermissions(): array
+    {
+        if (!$this->user) return [];
+
+        $perms = $this->db->query(
+            'SELECT p.slug FROM permissions p
+            JOIN user_permissions up ON up.permission_id = p.id
+            WHERE up.user_id = ?',
+            [$this->user['id']]
+        );
+
+        return array_column($perms, 'slug');
+    }
+
     public function login(int $userId): void
     {
         $token = bin2hex(random_bytes(32));

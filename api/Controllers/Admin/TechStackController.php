@@ -114,4 +114,31 @@ class TechStackController
         header('Location: /admin/tech-stack');
         exit;
     }
+
+    public function updateTier(string $id): void
+    {
+        $this->db->execute(
+            'UPDATE tech_stack_tiers SET name = ?, sort_order = ? WHERE id = ?',
+            [$_POST['name'], $_POST['sort_order'], $id]
+        );
+
+        View::setFlash('success', 'Tier updated');
+        header('Location: /admin/tech-stack');
+        exit;
+    }
+
+    public function updateTech(string $id): void
+    {
+        $name = trim($_POST['name']);
+        $slug = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $name));
+
+        $this->db->execute(
+            'UPDATE tech_stack SET name = ?, slug = ?, tier_id = ? WHERE id = ?',
+            [$name, $slug, $_POST['tier_id'], $id]
+        );
+
+        View::setFlash('success', 'Technology updated');
+        header('Location: /admin/tech-stack');
+        exit;
+    }
 }

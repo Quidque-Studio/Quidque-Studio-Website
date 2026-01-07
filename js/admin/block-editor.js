@@ -1,28 +1,95 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const container = document.getElementById('blocks-container');
-  const jsonInput = document.getElementById('content-json');
-  const addBtn = document.getElementById('add-block');
-  const typeSelect = document.getElementById('block-type');
+class BlockEditor {
+  constructor(container, options = {}) {
+    this.container = container;
+    this.blocksContainer = container.querySelector('.blocks-container');
+    this.jsonInput = container.querySelector('.content-json');
+    this.typeSelect = container.querySelector('.block-type-select');
+    this.addBtn = container.querySelector('.add-block-btn');
 
-  if (!container) return;
+    this.blocks = [];
+    this.blockTypes = options.blockTypes || ['text', 'heading', 'image', 'code'];
+    this.uploadUrl = options.uploadUrl || '/admin/media/upload';
 
-  let blocks = [];
-  try {
-    blocks = JSON.parse(jsonInput.value) || [];
-  } catch (e) {
-    blocks = [];
+    this.init();
   }
 
-  function render() {
-    container.innerHTML = '';
-    blocks.forEach((block, index) => {
-      const el = createBlockElement(block, index);
-      container.appendChild(el);
+  init() {
+    try {
+      this.blocks = JSON.parse(this.jsonInput.value) || [];
+    } catch (e) {
+      this.blocks = [];
+    }
+
+    this.render();
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    this.addBtn?.addEventListener('click', () => {
+      this.blocks.push({ type: this.typeSelect.value, value: '' });
+      this.render();
     });
-    updateJson();
+
+    this.blocksContainer.addEventListener('input', (e) => {
+      if (e.target.classList.contains('block-content')) {
+        const item = e.target.closest('.block-item');
+        const index = parseInt(item.dataset.index);
+        this.blocks[index].value = e.target.value;
+        this.updateJson();
+      }
+    });
+
+    this.blocksContainer.addEventListener('click', (e) => {
+      const item = e.target.closest('.block-item');
+      if (!item) return;
+      const index = parseInt(item.dataset.index);
+
+      if (e.target.classList.contains('block-delete')) {
+        this.blocks.splice(index, 1);
+        this.render();
+      } else if (e.target.classList.contains('block-move-up') && index > 0) {
+        [this.blocks[index], this.blocks[index - 1]] = [this.blocks[index - 1], this.blocks[index]];
+        this.render();
+      } else if (e.target.classList.contains('block-move-down') && index < this.blocks.length - 1) {
+        [this.blocks[index], this.blocks[index + 1]] = [this.blocks[index + 1], this.blocks[index]];
+        this.render();
+      }
+    });
+
+    this.blocksContainer.addEventListener('change', async (e) => {
+      if (e.target.classList.contains('block-image-input')) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const res = await fetch(this.uploadUrl, {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          const item = e.target.closest('.block-item');
+          const index = parseInt(item.dataset.index);
+          this.blocks[index].value = data.media.path;
+          this.render();
+        }
+      }
+    });
   }
 
-  function createBlockElement(block, index) {
+  render() {
+    this.blocksContainer.innerHTML = '';
+    this.blocks.forEach((block, index) => {
+      const el = this.createBlockElement(block, index);
+      this.blocksContainer.appendChild(el);
+    });
+    this.updateJson();
+  }
+
+  createBlockElement(block, index) {
     const div = document.createElement('div');
     div.className = 'block-item';
     div.dataset.index = index;
@@ -30,22 +97,22 @@ document.addEventListener('DOMContentLoaded', function () {
     let content = '';
     switch (block.type) {
       case 'text':
-        content = `<textarea class="block-content" rows="4" placeholder="Text content...">${block.value || ''}</textarea>`;
+        content = `<textarea class="block-content" rows="4" placeholder="Text content...">${this.escapeHtml(block.value || '')}</textarea>`;
         break;
       case 'heading':
-        content = `<input type="text" class="block-content" placeholder="Heading..." value="${block.value || ''}">`;
+        content = `<input type="text" class="block-content" placeholder="Heading..." value="${this.escapeHtml(block.value || '')}">`;
         break;
       case 'image':
         content = `
                     <div class="block-image-upload">
-                        ${block.value ? `<img src="${block.value}" class="block-image-preview">` : ''}
+                        ${block.value ? `<img src="${this.escapeHtml(block.value)}" class="block-image-preview">` : ''}
                         <input type="file" class="block-image-input" accept="image/*">
-                        <input type="hidden" class="block-content" value="${block.value || ''}">
+                        <input type="hidden" class="block-content" value="${this.escapeHtml(block.value || '')}">
                     </div>
                 `;
         break;
       case 'code':
-        content = `<textarea class="block-content block-code" rows="6" placeholder="Code...">${block.value || ''}</textarea>`;
+        content = `<textarea class="block-content block-code" rows="6" placeholder="Code...">${this.escapeHtml(block.value || '')}</textarea>`;
         break;
     }
 
@@ -54,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <span class="block-type-label">${block.type}</span>
                 <div class="block-controls">
                     <button type="button" class="block-move-up" ${index === 0 ? 'disabled' : ''}>↑</button>
-                    <button type="button" class="block-move-down" ${index === blocks.length - 1 ? 'disabled' : ''}>↓</button>
+                    <button type="button" class="block-move-down" ${index === this.blocks.length - 1 ? 'disabled' : ''}>↓</button>
                     <button type="button" class="block-delete">×</button>
                 </div>
             </div>
@@ -64,68 +131,19 @@ document.addEventListener('DOMContentLoaded', function () {
     return div;
   }
 
-  function updateJson() {
-    jsonInput.value = JSON.stringify(blocks);
+  updateJson() {
+    this.jsonInput.value = JSON.stringify(this.blocks);
   }
 
-  function getBlockValue(el) {
-    const content = el.querySelector('.block-content');
-    return content ? content.value : '';
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
+}
 
-  addBtn.addEventListener('click', function () {
-    blocks.push({ type: typeSelect.value, value: '' });
-    render();
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.block-editor').forEach(container => {
+    new BlockEditor(container);
   });
-
-  container.addEventListener('input', function (e) {
-    if (e.target.classList.contains('block-content')) {
-      const item = e.target.closest('.block-item');
-      const index = parseInt(item.dataset.index);
-      blocks[index].value = e.target.value;
-      updateJson();
-    }
-  });
-
-  container.addEventListener('click', function (e) {
-    const item = e.target.closest('.block-item');
-    if (!item) return;
-    const index = parseInt(item.dataset.index);
-
-    if (e.target.classList.contains('block-delete')) {
-      blocks.splice(index, 1);
-      render();
-    } else if (e.target.classList.contains('block-move-up') && index > 0) {
-      [blocks[index], blocks[index - 1]] = [blocks[index - 1], blocks[index]];
-      render();
-    } else if (e.target.classList.contains('block-move-down') && index < blocks.length - 1) {
-      [blocks[index], blocks[index + 1]] = [blocks[index + 1], blocks[index]];
-      render();
-    }
-  });
-
-  container.addEventListener('change', async function (e) {
-    if (e.target.classList.contains('block-image-input')) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const res = await fetch('/admin/media/upload', {
-        method: 'POST',
-        body: formData
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        const item = e.target.closest('.block-item');
-        const index = parseInt(item.dataset.index);
-        blocks[index].value = data.media.path;
-        render();
-      }
-    }
-  });
-
-  render();
 });

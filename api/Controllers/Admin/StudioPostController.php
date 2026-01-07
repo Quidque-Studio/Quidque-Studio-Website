@@ -192,4 +192,18 @@ class StudioPostController
 
         return $slug;
     }
+
+    public function updateCategory(string $id): void
+    {
+        $name = trim($_POST['name']);
+        
+        $this->db->execute(
+            'UPDATE studio_categories SET name = ? WHERE id = ?',
+            [$name, $id]
+        );
+
+        View::setFlash('success', 'Category updated');
+        header('Location: /admin/studio-posts/categories');
+        exit;
+    }
 }

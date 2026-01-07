@@ -1,6 +1,6 @@
 <div class="settings-container">
-    <?php if (isset($_GET['saved'])): ?>
-        <div class="alert alert-success">Settings saved.</div>
+    <?php if (!empty($flash)): ?>
+        <div class="alert alert-<?= $flash['type'] ?>"><?= htmlspecialchars($flash['message']) ?></div>
     <?php endif; ?>
 
     <section class="settings-section">
@@ -73,28 +73,13 @@
                 </div>
                 <button type="button" id="add-social" class="btn">Add Link</button>
             </div>
-            <div class="form-group">
-                <label>About Me (Freeform)</label>
-                <div id="block-editor" class="block-editor">
-                    <div id="blocks-container"></div>
-                    <div class="block-add">
-                        <select id="block-type">
-                            <option value="text">Text</option>
-                            <option value="heading">Heading</option>
-                            <option value="image">Image</option>
-                        </select>
-                        <button type="button" id="add-block" class="btn">Add Block</button>
-                    </div>
-                </div>
-                <input type="hidden" name="about_content" id="content-json" value="<?= htmlspecialchars($profile['about_content'] ?? '[]') ?>">
-            </div>
             <button type="submit" class="btn btn-primary">Save Profile</button>
         </form>
+        <p class="settings-note">Edit your About page content on your <a href="/team/<?= $user['id'] ?>">public profile page</a>.</p>
     </section>
     <?php endif; ?>
 </div>
 
-<script src="/js/admin/block-editor.js"></script>
 <script>
 document.getElementById('add-social')?.addEventListener('click', function() {
     const container = document.getElementById('social-links');

@@ -5,8 +5,8 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Validator;
 use Api\Models\User;
-use Api\Models\Media;
 
 class SettingsController
 {
@@ -49,13 +49,23 @@ class SettingsController
 
     public function update(): void
     {
-        $user = $this->auth->user();
+        $validator = Validator::make($_POST)
+            ->required('name', 'Display Name')
+            ->min('name', 2, 'Display Name')
+            ->max('name', 100, 'Display Name');
 
-        $this->userModel->update($user['id'], [
+        if ($validator->fails()) {
+            View::setFlash('error', $validator->firstError());
+            header('Location: /settings');
+            exit;
+        }
+
+        $this->userModel->update($this->auth->user()['id'], [
             'name' => $_POST['name'],
         ]);
 
-        header('Location: /settings?saved=1');
+        View::setFlash('success', 'Settings saved');
+        header('Location: /settings');
         exit;
     }
 
@@ -64,7 +74,8 @@ class SettingsController
         $user = $this->auth->user();
 
         if (empty($_FILES['avatar']) || $_FILES['avatar']['error'] !== UPLOAD_ERR_OK) {
-            header('Location: /settings?error=avatar');
+            View::setFlash('error', 'No file uploaded');
+            header('Location: /settings');
             exit;
         }
 
@@ -72,7 +83,8 @@ class SettingsController
         $allowed = ['image/jpeg', 'image/png', 'image/webp'];
 
         if (!in_array($file['type'], $allowed)) {
-            header('Location: /settings?error=avatar_type');
+            View::setFlash('error', 'Invalid file type. Use JPG, PNG or WebP');
+            header('Location: /settings');
             exit;
         }
 
@@ -80,9 +92,12 @@ class SettingsController
 
         if ($avatar) {
             $this->userModel->update($user['id'], ['avatar' => $avatar]);
+            View::setFlash('success', 'Avatar updated');
+        } else {
+            View::setFlash('error', 'Failed to process avatar');
         }
 
-        header('Location: /settings?saved=1');
+        header('Location: /settings');
         exit;
     }
 
@@ -107,21 +122,16 @@ class SettingsController
             }
         }
 
-        $aboutContent = null;
-        if (!empty($_POST['about_content'])) {
-            $aboutContent = $_POST['about_content'];
-        }
-
         $this->userModel->updateProfile($user['id'], [
             'role_title' => $_POST['role_title'] ?? null,
             'short_bio' => $_POST['short_bio'] ?? null,
             'accent_color' => $_POST['accent_color'] ?? null,
             'bg_color' => $_POST['bg_color'] ?? null,
-            'about_content' => $aboutContent,
             'social_links' => json_encode($socialLinks),
         ]);
 
-        header('Location: /settings?saved=1');
+        View::setFlash('success', 'Profile updated');
+        header('Location: /settings');
         exit;
     }
 

@@ -1,3 +1,10 @@
+<?php
+$userPermissions = $auth ?? null;
+$perms = [];
+if (isset($GLOBALS['auth'])) {
+    $perms = $GLOBALS['auth']->getAllPermissions();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,8 +29,12 @@
             <a href="/admin/studio-posts">Studio News</a>
             <a href="/admin/tech-stack">Tech Stack</a>
             <a href="/admin/messages">Messages</a>
-            <a href="/admin/users">Users</a>
-            <a href="/admin/newsletter">Newsletter</a>
+            <?php if (in_array('manage_users', $perms)): ?>
+                <a href="/admin/users">Users</a>
+            <?php endif; ?>
+            <?php if (in_array('manage_newsletter', $perms)): ?>
+                <a href="/admin/newsletter">Newsletter</a>
+            <?php endif; ?>
             <a href="/" target="_blank">View Site</a>
             <a href="/auth/logout">Logout</a>
         </nav>
@@ -34,6 +45,9 @@
             <span>Logged in as <?= htmlspecialchars($user['name']) ?></span>
         </header>
         <div class="admin-content">
+            <?php if (!empty($flash)): ?>
+                <div class="alert alert-<?= $flash['type'] ?>"><?= htmlspecialchars($flash['message']) ?></div>
+            <?php endif; ?>
             <?= $content ?>
         </div>
     </main>
