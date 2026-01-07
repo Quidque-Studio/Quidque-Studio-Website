@@ -82,9 +82,7 @@ class MessageController
         );
 
         if (!$conversation) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $messages = $this->db->query(
@@ -113,9 +111,7 @@ class MessageController
         );
 
         if (!$conversation) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $this->db->execute(
@@ -140,9 +136,7 @@ class MessageController
         );
 
         if (!$conversation) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $this->db->execute('DELETE FROM messages WHERE conversation_id = ?', [$id]);

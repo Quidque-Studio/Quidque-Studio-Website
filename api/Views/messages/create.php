@@ -2,6 +2,7 @@
     <h1>New Message</h1>
     
     <form method="POST" action="/messages">
+        <?= \Api\Core\View::csrfField() ?>
         <div class="form-group">
             <label for="subject">Subject</label>
             <input type="text" id="subject" name="subject" required>

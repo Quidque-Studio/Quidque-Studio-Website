@@ -1,4 +1,5 @@
 <form method="POST" action="/admin/users/<?= $editUser['id'] ?>">
+    <?= \Api\Core\View::csrfField() ?>
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" value="<?= htmlspecialchars($editUser['name']) ?>" required>

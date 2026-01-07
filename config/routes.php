@@ -6,8 +6,13 @@ use Api\Controllers\AdminController;
 use Api\Controllers\SettingsController;
 use Api\Controllers\MessageController;
 use Api\Controllers\MemberController;
-use Api\Controllers\Admin\ProjectController;
-use Api\Controllers\Admin\DevlogController;
+use Api\Controllers\ProjectController;
+use Api\Controllers\DevlogController;
+use Api\Controllers\BlogController;
+use Api\Controllers\AboutController;
+use Api\Controllers\SearchController;
+use Api\Controllers\Admin\ProjectController as AdminProjectController;
+use Api\Controllers\Admin\DevlogController as AdminDevlogController;
 use Api\Controllers\Admin\MediaController;
 use Api\Controllers\Admin\StudioPostController;
 use Api\Controllers\Admin\TechStackController;
@@ -16,7 +21,18 @@ use Api\Controllers\Admin\UserController;
 use Api\Controllers\Admin\NewsletterController as AdminNewsletterController;
 use Api\Controllers\NewsletterController;
 
+// Public pages
 $router->get('/', [HomeController::class, 'index']);
+$router->get('/about', [AboutController::class, 'index']);
+$router->get('/search', [SearchController::class, 'index']);
+$router->get('/team', function() { header('Location: /about'); exit; });
+
+$router->get('/projects', [ProjectController::class, 'index']);
+$router->get('/projects/{slug}', [ProjectController::class, 'show']);
+$router->get('/projects/{projectSlug}/devlogs/{devlogSlug}', [DevlogController::class, 'show']);
+
+$router->get('/blog', [BlogController::class, 'index']);
+$router->get('/blog/{slug}', [BlogController::class, 'show']);
 
 // Auth
 $router->get('/auth/login', [AuthController::class, 'showLogin']);
@@ -44,7 +60,6 @@ $router->post('/messages/{id}/delete', [MessageController::class, 'delete']);
 $router->post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
 $router->get('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe']);
 
-
 // Team member pages
 $router->get('/team/{id}', [MemberController::class, 'show']);
 $router->post('/team/{id}/about', [MemberController::class, 'updateAbout']);
@@ -59,19 +74,19 @@ $router->post('/team/{id}/posts/{postId}/delete', [MemberController::class, 'del
 // Admin
 $router->get('/admin', [AdminController::class, 'dashboard']);
 
-$router->get('/admin/projects', [ProjectController::class, 'index']);
-$router->get('/admin/projects/create', [ProjectController::class, 'create']);
-$router->post('/admin/projects', [ProjectController::class, 'store']);
-$router->get('/admin/projects/{id}/edit', [ProjectController::class, 'edit']);
-$router->post('/admin/projects/{id}', [ProjectController::class, 'update']);
-$router->post('/admin/projects/{id}/delete', [ProjectController::class, 'delete']);
+$router->get('/admin/projects', [AdminProjectController::class, 'index']);
+$router->get('/admin/projects/create', [AdminProjectController::class, 'create']);
+$router->post('/admin/projects', [AdminProjectController::class, 'store']);
+$router->get('/admin/projects/{id}/edit', [AdminProjectController::class, 'edit']);
+$router->post('/admin/projects/{id}', [AdminProjectController::class, 'update']);
+$router->post('/admin/projects/{id}/delete', [AdminProjectController::class, 'delete']);
 
-$router->get('/admin/projects/{projectId}/devlogs', [DevlogController::class, 'index']);
-$router->get('/admin/projects/{projectId}/devlogs/create', [DevlogController::class, 'create']);
-$router->post('/admin/projects/{projectId}/devlogs', [DevlogController::class, 'store']);
-$router->get('/admin/projects/{projectId}/devlogs/{id}/edit', [DevlogController::class, 'edit']);
-$router->post('/admin/projects/{projectId}/devlogs/{id}', [DevlogController::class, 'update']);
-$router->post('/admin/projects/{projectId}/devlogs/{id}/delete', [DevlogController::class, 'delete']);
+$router->get('/admin/projects/{projectId}/devlogs', [AdminDevlogController::class, 'index']);
+$router->get('/admin/projects/{projectId}/devlogs/create', [AdminDevlogController::class, 'create']);
+$router->post('/admin/projects/{projectId}/devlogs', [AdminDevlogController::class, 'store']);
+$router->get('/admin/projects/{projectId}/devlogs/{id}/edit', [AdminDevlogController::class, 'edit']);
+$router->post('/admin/projects/{projectId}/devlogs/{id}', [AdminDevlogController::class, 'update']);
+$router->post('/admin/projects/{projectId}/devlogs/{id}/delete', [AdminDevlogController::class, 'delete']);
 
 $router->get('/admin/studio-posts', [StudioPostController::class, 'index']);
 $router->get('/admin/studio-posts/create', [StudioPostController::class, 'create']);

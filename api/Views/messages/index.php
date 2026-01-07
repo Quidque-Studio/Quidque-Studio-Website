@@ -20,6 +20,7 @@
                         <span><?= $conv['updated_at'] ?></span>
                     </a>
                     <form method="POST" action="/messages/<?= $conv['id'] ?>/delete" class="delete-form">
+                        <?= \Api\Core\View::csrfField() ?>
                         <button type="submit" onclick="return confirm('Delete this conversation?')">×</button>
                     </form>
                 </li>

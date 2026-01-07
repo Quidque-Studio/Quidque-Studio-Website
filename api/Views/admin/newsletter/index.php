@@ -29,10 +29,12 @@
                         <?php if (!$nl['sent_at']): ?>
                             <a href="/admin/newsletter/<?= $nl['id'] ?>/edit">Edit</a>
                             <form method="POST" action="/admin/newsletter/<?= $nl['id'] ?>/send" style="display:inline">
+                                <?= \Api\Core\View::csrfField() ?>
                                 <button type="submit" onclick="return confirm('Send to all subscribers?')">Send</button>
                             </form>
                         <?php endif; ?>
                         <form method="POST" action="/admin/newsletter/<?= $nl['id'] ?>/delete" style="display:inline">
+                            <?= \Api\Core\View::csrfField() ?>
                             <button type="submit" onclick="return confirm('Delete?')">Delete</button>
                         </form>
                     </td>

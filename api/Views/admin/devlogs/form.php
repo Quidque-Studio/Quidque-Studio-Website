@@ -3,6 +3,7 @@
 </div>
 
 <form method="POST" action="<?= $devlog ? "/admin/projects/{$project['id']}/devlogs/{$devlog['id']}" : "/admin/projects/{$project['id']}/devlogs" ?>">
+    <?= \Api\Core\View::csrfField() ?>
     <div class="form-group">
         <label for="title">Title</label>
         <input type="text" id="title" name="title" value="<?= htmlspecialchars($devlog['title'] ?? '') ?>" required>
@@ -23,6 +24,11 @@
                     <option value="heading">Heading</option>
                     <option value="image">Image</option>
                     <option value="code">Code</option>
+                    <option value="quote">Quote</option>
+                    <option value="list">List</option>
+                    <option value="callout">Callout</option>
+                    <option value="video">Video</option>
+                    <option value="divider">Divider</option>
                 </select>
                 <button type="button" id="add-block" class="btn">Add Block</button>
             </div>

@@ -20,9 +20,7 @@ class UserController
         $this->userModel = new User($db);
         
         if (!$this->auth->isTeamMember() || !$this->auth->hasPermission('manage_users')) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
     }
 
@@ -43,9 +41,7 @@ class UserController
         $editUser = $this->userModel->find((int) $id);
 
         if (!$editUser) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $permissions = $this->db->query('SELECT * FROM permissions ORDER BY label');
@@ -66,9 +62,7 @@ class UserController
         $editUser = $this->userModel->find((int) $id);
 
         if (!$editUser) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $this->userModel->update((int) $id, [

@@ -104,3 +104,27 @@ body {
   background: var(--magenta-color);
   border-color: var(--magenta-color);
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.pagination a {
+  color: var(--purple-color);
+  text-decoration: none;
+}
+
+.pagination a:hover {
+  color: var(--magenta-color);
+}
+
+.pagination-info {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}

@@ -7,6 +7,8 @@ use Api\Core\Auth;
 use Api\Core\View;
 use Api\Models\Devlog;
 use Api\Models\Project;
+use Api\Core\Str;
+use RequiresAuth;
 
 class DevlogController
 {
@@ -24,22 +26,11 @@ class DevlogController
         $this->requireTeamMember();
     }
 
-    private function requireTeamMember(): void
-    {
-        if (!$this->auth->isTeamMember()) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
-        }
-    }
-
     private function getProjectOr404(string $projectId): array
     {
         $project = $this->projectModel->find((int) $projectId);
         if (!$project) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
         return $project;
     }
@@ -81,10 +72,7 @@ class DevlogController
             $content = $_POST['content'];
         }
 
-        $tags = null;
-        if (!empty($_POST['tags'])) {
-            $tags = json_encode(array_map('trim', explode(',', $_POST['tags'])));
-        }
+        $tags = Str::parseTags($_POST['tags'] ?? '');
 
         $this->devlogModel->create([
             'project_id' => (int) $projectId,
@@ -105,9 +93,7 @@ class DevlogController
         $devlog = $this->devlogModel->find((int) $id);
 
         if (!$devlog || $devlog['project_id'] !== (int) $projectId) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         View::render('admin/devlogs/form', [
@@ -125,9 +111,7 @@ class DevlogController
         $devlog = $this->devlogModel->find((int) $id);
 
         if (!$devlog || $devlog['project_id'] !== (int) $projectId) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $content = null;
@@ -135,10 +119,7 @@ class DevlogController
             $content = $_POST['content'];
         }
 
-        $tags = null;
-        if (!empty($_POST['tags'])) {
-            $tags = json_encode(array_map('trim', explode(',', $_POST['tags'])));
-        }
+        $tags = Str::parseTags($_POST['tags'] ?? '');
 
         $this->devlogModel->update((int) $id, [
             'title' => $_POST['title'],
@@ -159,10 +140,7 @@ class DevlogController
 
     private function generateSlug(string $title, int $projectId): string
     {
-        $slug = strtolower(trim($title));
-        $slug = preg_replace('/[^a-z0-9-]/', '-', $slug);
-        $slug = preg_replace('/-+/', '-', $slug);
-        $slug = trim($slug, '-');
+        $slug = Str::slug($title);
 
         $existing = $this->devlogModel->findBySlug($projectId, $slug);
         if ($existing) {

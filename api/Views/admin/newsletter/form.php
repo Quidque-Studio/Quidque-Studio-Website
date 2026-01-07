@@ -1,4 +1,5 @@
 <form method="POST" action="<?= $newsletter ? "/admin/newsletter/{$newsletter['id']}" : '/admin/newsletter' ?>">
+    <?= \Api\Core\View::csrfField() ?>
     <div class="form-group">
         <label for="subject">Subject</label>
         <input type="text" id="subject" name="subject" value="<?= htmlspecialchars($newsletter['subject'] ?? '') ?>" required>

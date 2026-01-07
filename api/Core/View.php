@@ -46,4 +46,21 @@ class View
         unset($_SESSION['flash']);
         return $flash;
     }
+
+    public static function notFound(): void
+    {
+        http_response_code(404);
+        self::render('errors/404', [
+            'title' => '404 Not Found',
+            'user' => $GLOBALS['auth']->user(),
+            'styles' => ['errors'],
+        ], 'main');
+        exit;
+    }
+
+    public static function csrfField(): string
+    {
+        $token = $GLOBALS['auth']->generateCsrfToken();
+        return '<input type="hidden" name="_csrf" value="' . htmlspecialchars($token) . '">';
+    }
 }

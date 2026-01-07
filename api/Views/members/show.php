@@ -37,6 +37,7 @@ $aboutContent = json_decode($member['about_content'] ?? '[]', true);
     <div class="member-content">
         <?php if ($canEdit): ?>
             <form method="POST" action="/team/<?= $member['id'] ?>/about" class="about-edit-form">
+                <?= \Api\Core\View::csrfField() ?>
                 <div id="block-editor" class="block-editor">
                     <div id="blocks-container"></div>
                     <div class="block-add">
@@ -44,6 +45,12 @@ $aboutContent = json_decode($member['about_content'] ?? '[]', true);
                             <option value="text">Text</option>
                             <option value="heading">Heading</option>
                             <option value="image">Image</option>
+                            <option value="code">Code</option>
+                            <option value="quote">Quote</option>
+                            <option value="list">List</option>
+                            <option value="callout">Callout</option>
+                            <option value="video">Video</option>
+                            <option value="divider">Divider</option>
                         </select>
                         <button type="button" id="add-block" class="btn">Add Block</button>
                     </div>

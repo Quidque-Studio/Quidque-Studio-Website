@@ -24,6 +24,7 @@
                     <td class="actions">
                         <a href="/admin/studio-posts/<?= $post['id'] ?>/edit">Edit</a>
                         <form method="POST" action="/admin/studio-posts/<?= $post['id'] ?>/delete" style="display:inline">
+                            <?= \Api\Core\View::csrfField() ?>
                             <button type="submit" onclick="return confirm('Delete this post?')">Delete</button>
                         </form>
                     </td>

@@ -8,6 +8,8 @@ use Api\Core\View;
 use Api\Models\Project;
 use Api\Models\User;
 use Api\Models\Resource;
+use Api\Core\Str;
+use RequiresAuth;
 
 class ProjectController
 {
@@ -23,15 +25,6 @@ class ProjectController
         $this->projectModel = new Project($db);
         $this->resourceModel = new Resource($db);
         $this->requireTeamMember();
-    }
-
-    private function requireTeamMember(): void
-    {
-        if (!$this->auth->isTeamMember()) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
-        }
     }
 
     public function index(): void
@@ -103,9 +96,7 @@ class ProjectController
         $project = $this->projectModel->find((int) $id);
 
         if (!$project) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $techTiers = $this->db->query(
@@ -139,9 +130,7 @@ class ProjectController
         $project = $this->projectModel->find((int) $id);
 
         if (!$project) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $this->projectModel->update((int) $id, [
@@ -183,14 +172,11 @@ class ProjectController
         }
     }
 
-    private function generateSlug(string $title): string
+    private function generateSlug(string $title, int $projectId): string
     {
-        $slug = strtolower(trim($title));
-        $slug = preg_replace('/[^a-z0-9-]/', '-', $slug);
-        $slug = preg_replace('/-+/', '-', $slug);
-        $slug = trim($slug, '-');
+        $slug = Str::slug($title);
 
-        $existing = $this->projectModel->findBySlug($slug);
+        $existing = $this->devlogModel->findBySlug($projectId, $slug);
         if ($existing) {
             $slug .= '-' . time();
         }

@@ -6,6 +6,7 @@
     <?php endif; ?>
 
     <form method="POST" action="/auth/register">
+        <?= \Api\Core\View::csrfField() ?>
         <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
         
         <label for="name">Display Name</label>

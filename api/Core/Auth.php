@@ -128,10 +128,13 @@ class Auth
             [$userId, $token, $expires]
         );
 
+        $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        
         setcookie('session_token', $token, [
             'expires' => strtotime('+30 days'),
             'path' => '/',
             'httponly' => true,
+            'secure' => $secure,
             'samesite' => 'Lax',
         ]);
     }
@@ -146,5 +149,42 @@ class Auth
 
         setcookie('session_token', '', ['expires' => 1, 'path' => '/']);
         $this->user = null;
+    }
+
+    public function generateCsrfToken(): string
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        
+        return $_SESSION['csrf_token'];
+    }
+
+    public function verifyCsrfToken(?string $token): bool
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (empty($_SESSION['csrf_token']) || empty($token)) {
+            return false;
+        }
+        
+        return hash_equals($_SESSION['csrf_token'], $token);
+    }
+
+    public function canRequestMagicLink(string $email): bool
+    {
+        $count = $this->db->queryOne(
+            'SELECT COUNT(*) as count FROM magic_links 
+            WHERE email = ? AND created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR)',
+            [$email]
+        );
+        
+        return ($count['count'] ?? 0) < 3;
     }
 }

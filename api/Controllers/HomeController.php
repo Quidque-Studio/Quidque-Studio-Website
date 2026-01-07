@@ -5,6 +5,9 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Models\Project;
+use Api\Models\StudioPost;
+use Api\Models\Devlog;
 
 class HomeController
 {
@@ -19,9 +22,30 @@ class HomeController
 
     public function index(): void
     {
+        $projectModel = new Project($this->db);
+        $postModel = new StudioPost($this->db);
+        $devlogModel = new Devlog($this->db);
+
+        $featuredProjects = $this->db->query(
+            "SELECT p.*, m.path as thumbnail
+             FROM projects p
+             LEFT JOIN project_gallery pg ON pg.project_id = p.id AND pg.sort_order = 0
+             LEFT JOIN media m ON m.id = pg.media_id
+             WHERE p.is_featured = 1
+             ORDER BY p.updated_at DESC
+             LIMIT 3"
+        );
+
+        $recentPosts = $postModel->getRecent(5);
+        $recentDevlogs = $devlogModel->getRecent(5);
+
         View::render('home/index', [
             'title' => 'Quidque Studio',
             'user' => $this->auth->user(),
-        ]);
+            'featuredProjects' => $featuredProjects,
+            'recentPosts' => $recentPosts,
+            'recentDevlogs' => $recentDevlogs,
+            'styles' => ['home'],
+        ], 'main');
     }
 }

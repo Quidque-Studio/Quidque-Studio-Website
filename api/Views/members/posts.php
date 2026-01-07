@@ -37,6 +37,7 @@ $bgColor = $member['bg_color'] ?? '#012a31';
                             <div class="post-actions">
                                 <a href="/team/<?= $member['id'] ?>/posts/<?= $post['id'] ?>/edit">Edit</a>
                                 <form method="POST" action="/team/<?= $member['id'] ?>/posts/<?= $post['id'] ?>/delete" style="display:inline">
+                                    <?= \Api\Core\View::csrfField() ?>
                                     <button type="submit" onclick="return confirm('Delete?')">Delete</button>
                                 </form>
                             </div>

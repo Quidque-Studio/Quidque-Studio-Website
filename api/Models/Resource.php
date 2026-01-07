@@ -2,9 +2,11 @@
 
 namespace Api\Models;
 
+use Api\Core\Database;
+
 class Resource
 {
-    private \Api\Core\Database $db;
+    private Database $db;
 
     private array $tables = [
         'link' => 'resource_links',
@@ -15,9 +17,14 @@ class Resource
         'embed' => 'resource_embeds',
     ];
 
-    public function __construct(\Api\Core\Database $db)
+    public function __construct(Database $db)
     {
         $this->db = $db;
+    }
+
+    public function getTable(string $type): ?string
+    {
+        return $this->tables[$type] ?? null;
     }
 
     public function getAllForProject(int $projectId): array
@@ -38,7 +45,7 @@ class Resource
 
     public function create(string $type, array $data): int
     {
-        $table = $this->tables[$type] ?? null;
+        $table = $this->getTable($type);
         if (!$table) return 0;
 
         $columns = implode(', ', array_keys($data));
@@ -54,7 +61,7 @@ class Resource
 
     public function delete(string $type, int $id): void
     {
-        $table = $this->tables[$type] ?? null;
+        $table = $this->getTable($type);
         if (!$table) return;
 
         $this->db->execute("DELETE FROM {$table} WHERE id = ?", [$id]);
@@ -65,13 +72,5 @@ class Resource
         foreach ($this->tables as $table) {
             $this->db->execute("DELETE FROM {$table} WHERE project_id = ?", [$projectId]);
         }
-    }
-
-    public function updateSortOrder(string $type, int $id, int $order): void
-    {
-        $table = $this->tables[$type] ?? null;
-        if (!$table) return;
-
-        $this->db->execute("UPDATE {$table} SET sort_order = ? WHERE id = ?", [$order, $id]);
     }
 }

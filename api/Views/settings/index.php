@@ -6,6 +6,7 @@
     <section class="settings-section">
         <h2>Account</h2>
         <form method="POST" action="/settings">
+            <?= \Api\Core\View::csrfField() ?>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" value="<?= htmlspecialchars($user['email']) ?>" disabled>
@@ -21,6 +22,7 @@
     <section class="settings-section">
         <h2>Avatar</h2>
         <form method="POST" action="/settings/avatar" enctype="multipart/form-data">
+            <?= \Api\Core\View::csrfField() ?>
             <div class="avatar-preview">
                 <?php if ($user['avatar']): ?>
                     <img src="<?= $user['avatar'] ?>" alt="Avatar">
@@ -40,6 +42,7 @@
     <section class="settings-section">
         <h2>Team Profile</h2>
         <form method="POST" action="/settings/profile">
+            <?= \Api\Core\View::csrfField() ?>
             <div class="form-group">
                 <label for="role_title">Role Title</label>
                 <input type="text" id="role_title" name="role_title" value="<?= htmlspecialchars($profile['role_title'] ?? '') ?>" placeholder="e.g. Lead Developer">

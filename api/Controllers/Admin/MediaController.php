@@ -19,9 +19,7 @@ class MediaController
         $this->mediaModel = new Media($db);
 
         if (!$this->auth->isTeamMember()) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
     }
 
@@ -54,8 +52,22 @@ class MediaController
         }
 
         $file = $_FILES['file'];
+        
+        $allowedExt = ['zip', 'rar', '7z', 'tar', 'gz', 'pdf', 'exe', 'dmg', 'apk'];
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        
+        if (!in_array($ext, $allowedExt)) {
+            echo json_encode(['error' => 'File type not allowed. Allowed: ' . implode(', ', $allowedExt)]);
+            return;
+        }
+        
+        $maxSize = 500 * 1024 * 1024;
+        if ($file['size'] > $maxSize) {
+            echo json_encode(['error' => 'File too large. Max 500MB']);
+            return;
+        }
+
         $sha = sha1_file($file['tmp_name']);
-        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
         $filename = $sha . '.' . $ext;
         $path = "/uploads/files/{$filename}";
         $fullPath = BASE_PATH . $path;

@@ -16,19 +16,21 @@
     <nav class="main-nav">
         <a href="/" class="nav-logo">Quidque</a>
         <div class="nav-links">
-            <a href="/projects">Projects</a>
-            <a href="/blog">Blog</a>
-            <a href="/about">About</a>
-            <?php if (!empty($user)): ?>
-                <a href="/settings">Settings</a>
-                <?php if ($user['role'] === 'team_member'): ?>
-                    <a href="/admin">Admin</a>
-                <?php endif; ?>
-                <a href="/auth/logout">Logout</a>
-            <?php else: ?>
-                <a href="/auth/login">Login</a>
+        <a href="/projects">Projects</a>
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+        <a href="/search">Search</a>
+        <?php if (!empty($user)): ?>
+            <a href="/messages">Messages</a>
+            <a href="/settings">Settings</a>
+            <?php if ($user['role'] === 'team_member'): ?>
+                <a href="/admin">Admin</a>
             <?php endif; ?>
-        </div>
+            <a href="/auth/logout">Logout</a>
+        <?php else: ?>
+            <a href="/auth/login">Login</a>
+        <?php endif; ?>
+    </div>
     </nav>
     <main class="main-content">
         <?= $content ?>

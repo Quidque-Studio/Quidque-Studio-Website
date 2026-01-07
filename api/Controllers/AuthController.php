@@ -42,6 +42,14 @@ class AuthController
             return;
         }
 
+        if (!$this->auth->canRequestMagicLink($email)) {
+            View::render('auth/login', [
+                'title' => 'Login',
+                'error' => 'Too many requests. Please try again later.',
+            ]);
+            return;
+        }
+
         $token = $this->auth->createMagicLink($email);
         $link = "http://{$_SERVER['HTTP_HOST']}/auth/verify?token={$token}";
 

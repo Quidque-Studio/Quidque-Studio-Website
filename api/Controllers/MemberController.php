@@ -7,6 +7,7 @@ use Api\Core\Auth;
 use Api\Core\View;
 use Api\Models\User;
 use Api\Models\MemberPost;
+use Api\Core\Str;
 
 class MemberController
 {
@@ -34,9 +35,7 @@ class MemberController
         );
 
         if (!$member) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $canEdit = $this->auth->check() && $this->auth->user()['id'] === (int) $id;
@@ -52,11 +51,7 @@ class MemberController
 
     public function updateAbout(string $id): void
     {
-        if (!$this->auth->check() || $this->auth->user()['id'] !== (int) $id) {
-            http_response_code(403);
-            echo '403 Forbidden';
-            exit;
-        }
+        $this->requireOwner((int) $id);
 
         $this->userModel->updateProfile((int) $id, [
             'about_content' => $_POST['about_content'] ?? null,
@@ -77,9 +72,7 @@ class MemberController
         );
 
         if (!$member) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $posts = $this->postModel->getByAuthor((int) $id);
@@ -97,11 +90,7 @@ class MemberController
 
     public function createPost(string $id): void
     {
-        if (!$this->auth->check() || $this->auth->user()['id'] !== (int) $id) {
-            http_response_code(403);
-            echo '403 Forbidden';
-            exit;
-        }
+        $this->requireOwner((int) $id);
 
         $member = $this->userModel->find((int) $id);
 
@@ -116,18 +105,11 @@ class MemberController
 
     public function storePost(string $id): void
     {
-        if (!$this->auth->check() || $this->auth->user()['id'] !== (int) $id) {
-            http_response_code(403);
-            echo '403 Forbidden';
-            exit;
-        }
+        $this->requireOwner((int) $id);
 
         $slug = $this->generateSlug($_POST['title'], (int) $id);
 
-        $tags = null;
-        if (!empty($_POST['tags'])) {
-            $tags = json_encode(array_map('trim', explode(',', $_POST['tags'])));
-        }
+        $tags = Str::parseTags($_POST['tags'] ?? '');
 
         $this->postModel->create([
             'author_id' => (int) $id,
@@ -143,19 +125,13 @@ class MemberController
 
     public function editPost(string $id, string $postId): void
     {
-        if (!$this->auth->check() || $this->auth->user()['id'] !== (int) $id) {
-            http_response_code(403);
-            echo '403 Forbidden';
-            exit;
-        }
+        $this->requireOwner((int) $id);
 
         $member = $this->userModel->find((int) $id);
         $post = $this->postModel->find((int) $postId);
 
         if (!$post || $post['author_id'] !== (int) $id) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         View::render('members/post-form', [
@@ -169,24 +145,15 @@ class MemberController
 
     public function updatePost(string $id, string $postId): void
     {
-        if (!$this->auth->check() || $this->auth->user()['id'] !== (int) $id) {
-            http_response_code(403);
-            echo '403 Forbidden';
-            exit;
-        }
+        $this->requireOwner((int) $id);
 
         $post = $this->postModel->find((int) $postId);
 
         if (!$post || $post['author_id'] !== (int) $id) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
-        $tags = null;
-        if (!empty($_POST['tags'])) {
-            $tags = json_encode(array_map('trim', explode(',', $_POST['tags'])));
-        }
+        $tags = Str::parseTags($_POST['tags'] ?? '');
 
         $this->postModel->update((int) $postId, [
             'title' => $_POST['title'],
@@ -200,18 +167,12 @@ class MemberController
 
     public function deletePost(string $id, string $postId): void
     {
-        if (!$this->auth->check() || $this->auth->user()['id'] !== (int) $id) {
-            http_response_code(403);
-            echo '403 Forbidden';
-            exit;
-        }
+        $this->requireOwner((int) $id);
 
         $post = $this->postModel->find((int) $postId);
 
         if (!$post || $post['author_id'] !== (int) $id) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $this->postModel->delete((int) $postId);
@@ -230,17 +191,13 @@ class MemberController
         );
 
         if (!$member) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $post = $this->postModel->findBySlug((int) $id, $slug);
 
         if (!$post) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $canEdit = $this->auth->check() && $this->auth->user()['id'] === (int) $id;
@@ -255,14 +212,11 @@ class MemberController
         ], 'main');
     }
 
-    private function generateSlug(string $title, int $authorId): string
+    private function generateSlug(string $title, int $projectId): string
     {
-        $slug = strtolower(trim($title));
-        $slug = preg_replace('/[^a-z0-9-]/', '-', $slug);
-        $slug = preg_replace('/-+/', '-', $slug);
-        $slug = trim($slug, '-');
+        $slug = Str::slug($title);
 
-        $existing = $this->postModel->findBySlug($authorId, $slug);
+        $existing = $this->devlogModel->findBySlug($projectId, $slug);
         if ($existing) {
             $slug .= '-' . time();
         }

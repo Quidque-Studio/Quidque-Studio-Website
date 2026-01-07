@@ -6,6 +6,8 @@ use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
 use Api\Models\StudioPost;
+use Api\Core\Str;
+use RequiresAuth;
 
 class StudioPostController
 {
@@ -19,15 +21,6 @@ class StudioPostController
         $this->auth = $auth;
         $this->postModel = new StudioPost($db);
         $this->requireTeamMember();
-    }
-
-    private function requireTeamMember(): void
-    {
-        if (!$this->auth->isTeamMember()) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
-        }
     }
 
     public function index(): void
@@ -69,10 +62,7 @@ class StudioPostController
             $content = $_POST['content'];
         }
 
-        $tags = null;
-        if (!empty($_POST['tags'])) {
-            $tags = json_encode(array_map('trim', explode(',', $_POST['tags'])));
-        }
+        $tags = Str::parseTags($_POST['tags'] ?? '');
 
         $this->postModel->create([
             'title' => $_POST['title'],
@@ -91,9 +81,7 @@ class StudioPostController
         $post = $this->postModel->find((int) $id);
 
         if (!$post) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $categories = $this->db->query('SELECT * FROM studio_categories ORDER BY name');
@@ -112,9 +100,7 @@ class StudioPostController
         $post = $this->postModel->find((int) $id);
 
         if (!$post) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $content = null;
@@ -122,10 +108,7 @@ class StudioPostController
             $content = $_POST['content'];
         }
 
-        $tags = null;
-        if (!empty($_POST['tags'])) {
-            $tags = json_encode(array_map('trim', explode(',', $_POST['tags'])));
-        }
+        $tags = Str::parseTags($_POST['tags'] ?? '');
 
         $this->postModel->update((int) $id, [
             'title' => $_POST['title'],
@@ -178,14 +161,11 @@ class StudioPostController
         exit;
     }
 
-    private function generateSlug(string $title): string
+    private function generateSlug(string $title, int $projectId): string
     {
-        $slug = strtolower(trim($title));
-        $slug = preg_replace('/[^a-z0-9-]/', '-', $slug);
-        $slug = preg_replace('/-+/', '-', $slug);
-        $slug = trim($slug, '-');
+        $slug = Str::slug($title);
 
-        $existing = $this->postModel->findBySlug($slug);
+        $existing = $this->devlogModel->findBySlug($projectId, $slug);
         if ($existing) {
             $slug .= '-' . time();
         }

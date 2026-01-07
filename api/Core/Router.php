@@ -29,6 +29,16 @@ class Router
         $uri = parse_url($uri, PHP_URL_PATH);
         $uri = rtrim($uri, '/') ?: '/';
 
+        // CSRF check for POST requests
+        if ($method === 'POST') {
+            $token = $_POST['_csrf'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? null;
+            if (!$this->auth->verifyCsrfToken($token)) {
+                http_response_code(403);
+                echo '403 Forbidden - Invalid CSRF token';
+                exit;
+            }
+        }
+
         foreach ($this->routes[$method] ?? [] as $path => $handler) {
             $pattern = $this->pathToRegex($path);
             
@@ -66,6 +76,10 @@ class Router
     private function notFound(): void
     {
         http_response_code(404);
-        echo '404 Not Found';
+        \Api\Core\View::render('errors/404', [
+            'title' => '404 Not Found',
+            'user' => $this->auth->user(),
+            'styles' => ['errors'],
+        ], 'main');
     }
 }

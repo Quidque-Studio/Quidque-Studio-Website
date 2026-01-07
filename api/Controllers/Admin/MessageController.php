@@ -5,6 +5,7 @@ namespace Api\Controllers\Admin;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use RequiresAuth;
 
 class MessageController
 {
@@ -16,15 +17,6 @@ class MessageController
         $this->db = $db;
         $this->auth = $auth;
         $this->requireTeamMember();
-    }
-
-    private function requireTeamMember(): void
-    {
-        if (!$this->auth->isTeamMember()) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
-        }
     }
 
     public function index(): void
@@ -56,9 +48,7 @@ class MessageController
         );
 
         if (!$conversation) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $messages = $this->db->query(
@@ -87,9 +77,7 @@ class MessageController
         );
 
         if (!$conversation) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $this->db->execute(

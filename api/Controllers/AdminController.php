@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use RequiresAuth;
 
 class AdminController
 {
@@ -16,15 +17,6 @@ class AdminController
         $this->db = $db;
         $this->auth = $auth;
         $this->requireTeamMember();
-    }
-
-    protected function requireTeamMember(): void
-    {
-        if (!$this->auth->isTeamMember()) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
-        }
     }
 
     protected function requirePermission(string $permission): void

@@ -10,6 +10,7 @@
     <div class="form-section">
         <h2>Tiers</h2>
         <form method="POST" action="/admin/tech-stack/tiers" class="inline-form">
+            <?= \Api\Core\View::csrfField() ?>
             <input type="text" name="name" placeholder="Tier name (e.g. Framework)" required>
             <button type="submit" class="btn btn-primary">Add</button>
         </form>
@@ -18,11 +19,13 @@
             <?php foreach ($tiers as $tier): ?>
                 <li>
                     <form method="POST" action="/admin/tech-stack/tiers/<?= $tier['id'] ?>" class="inline-edit-form">
+                        <?= \Api\Core\View::csrfField() ?>
                         <input type="text" name="name" value="<?= htmlspecialchars($tier['name']) ?>" class="inline-input">
                         <input type="number" name="sort_order" value="<?= $tier['sort_order'] ?>" class="inline-input-small">
                         <button type="submit" class="inline-save">Save</button>
                     </form>
                     <form method="POST" action="/admin/tech-stack/tiers/<?= $tier['id'] ?>/delete" style="display:inline">
+                        <?= \Api\Core\View::csrfField() ?>
                         <button type="submit" onclick="return confirm('Delete?')">×</button>
                     </form>
                 </li>
@@ -33,6 +36,7 @@
     <div class="form-section">
         <h2>Technologies</h2>
         <form method="POST" action="/admin/tech-stack" class="inline-form">
+            <?= \Api\Core\View::csrfField() ?>
             <input type="text" name="name" placeholder="Technology name" required>
             <select name="tier_id" required>
                 <?php foreach ($tiers as $tier): ?>
@@ -55,6 +59,7 @@
                     <tr>
                         <td>
                             <form method="POST" action="/admin/tech-stack/<?= $t['id'] ?>" class="inline-edit-form">
+                                <?= \Api\Core\View::csrfField() ?>
                                 <input type="text" name="name" value="<?= htmlspecialchars($t['name']) ?>" class="inline-input">
                                 <select name="tier_id" class="inline-select">
                                     <?php foreach ($tiers as $tier): ?>
@@ -69,6 +74,7 @@
                         <td><?= htmlspecialchars($t['tier_name']) ?></td>
                         <td class="actions">
                             <form method="POST" action="/admin/tech-stack/<?= $t['id'] ?>/delete" style="display:inline">
+                                <?= \Api\Core\View::csrfField() ?>
                                 <button type="submit" onclick="return confirm('Delete?')">×</button>
                             </form>
                         </td>

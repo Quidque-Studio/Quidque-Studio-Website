@@ -17,9 +17,7 @@ class NewsletterController
         $this->auth = $auth;
 
         if (!$this->auth->isTeamMember() || !$this->auth->hasPermission('manage_newsletter')) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
     }
 
@@ -98,9 +96,7 @@ class NewsletterController
         $newsletter = $this->db->queryOne('SELECT * FROM newsletters WHERE id = ?', [$id]);
 
         if (!$newsletter) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         View::render('admin/newsletter/form', [
@@ -117,9 +113,7 @@ class NewsletterController
         $newsletter = $this->db->queryOne('SELECT * FROM newsletters WHERE id = ?', [$id]);
 
         if (!$newsletter || $newsletter['sent_at']) {
-            http_response_code(404);
-            echo '404 Not Found';
-            exit;
+            View::notFound();
         }
 
         $this->db->execute(

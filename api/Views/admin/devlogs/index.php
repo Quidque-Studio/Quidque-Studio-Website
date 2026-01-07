@@ -24,6 +24,7 @@
                     <td class="actions">
                         <a href="/admin/projects/<?= $project['id'] ?>/devlogs/<?= $devlog['id'] ?>/edit">Edit</a>
                         <form method="POST" action="/admin/projects/<?= $project['id'] ?>/devlogs/<?= $devlog['id'] ?>/delete" style="display:inline">
+                            <?= \Api\Core\View::csrfField() ?>
                             <button type="submit" onclick="return confirm('Delete this devlog?')">Delete</button>
                         </form>
                     </td>

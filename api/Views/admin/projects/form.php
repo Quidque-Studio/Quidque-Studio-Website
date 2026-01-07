@@ -1,4 +1,5 @@
 <form method="POST" action="<?= $project ? "/admin/projects/{$project['id']}" : '/admin/projects' ?>" enctype="multipart/form-data">
+    <?= \Api\Core\View::csrfField() ?>
     <div class="form-group">
         <label for="title">Title</label>
         <input type="text" id="title" name="title" value="<?= htmlspecialchars($project['title'] ?? '') ?>" required>

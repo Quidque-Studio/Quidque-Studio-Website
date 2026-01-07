@@ -16,6 +16,7 @@
 </div>
 
 <form method="POST" action="/admin/messages/<?= $conversation['id'] ?>/reply" class="reply-form">
+    <?= \Api\Core\View::csrfField() ?>
     <textarea name="content" rows="4" placeholder="Write a reply..." required></textarea>
     <button type="submit" class="btn btn-primary">Send Reply</button>
 </form>

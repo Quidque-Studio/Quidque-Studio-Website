@@ -1,0 +1,15 @@
+.error-page {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.error-page h1 {
+  font-size: 6rem;
+  color: var(--purple-color);
+  margin-bottom: 1rem;
+}
+
+.error-page p {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}

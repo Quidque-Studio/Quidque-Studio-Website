@@ -23,6 +23,7 @@
                     <a href="/admin/users/<?= $u['id'] ?>/edit">Edit</a>
                     <?php if ($u['id'] !== $user['id']): ?>
                         <form method="POST" action="/admin/users/<?= $u['id'] ?>/delete" style="display:inline">
+                            <?= \Api\Core\View::csrfField() ?>
                             <button type="submit" onclick="return confirm('Delete this user?')">Delete</button>
                         </form>
                     <?php endif; ?>

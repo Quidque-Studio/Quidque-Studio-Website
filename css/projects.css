@@ -1,0 +1,73 @@
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  display: block;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s;
+}
+
+.project-card:hover {
+  border-color: var(--purple-color);
+}
+
+.project-card-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.project-card-thumb-empty {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.project-card-body {
+  padding: 1rem;
+}
+
+.project-card-body h2,
+.project-card-body h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.status-planned {
+  background: rgba(157, 126, 219, 0.2);
+  color: var(--purple-color);
+}
+
+.status-in_progress {
+  background: rgba(57, 255, 182, 0.2);
+  color: var(--aquamarine-color);
+}
+
+.status-completed {
+  background: rgba(57, 255, 182, 0.3);
+  color: var(--aquamarine-color);
+}
+
+.status-on_hold {
+  background: rgba(255, 255, 0, 0.2);
+  color: #ff0;
+}
+
+.status-abandoned {
+  background: rgba(255, 0, 255, 0.2);
+  color: var(--magenta-color);
+}

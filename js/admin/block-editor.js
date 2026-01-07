@@ -1,14 +1,20 @@
 class BlockEditor {
   constructor(container, options = {}) {
     this.container = container;
-    this.blocksContainer = container.querySelector('.blocks-container');
-    this.jsonInput = container.querySelector('.content-json');
-    this.typeSelect = container.querySelector('.block-type-select');
-    this.addBtn = container.querySelector('.add-block-btn');
+    this.blocksContainer = container.querySelector('#blocks-container');
+    this.typeSelect = container.querySelector('#block-type');
+    this.addBtn = container.querySelector('#add-block');
+
+    const form = container.closest('form');
+    this.jsonInput = form ? form.querySelector('#content-json') : document.querySelector('#content-json');
 
     this.blocks = [];
-    this.blockTypes = options.blockTypes || ['text', 'heading', 'image', 'code'];
     this.uploadUrl = options.uploadUrl || '/admin/media/upload';
+
+    if (!this.blocksContainer || !this.jsonInput) {
+      console.error('BlockEditor: Missing required elements');
+      return;
+    }
 
     this.init();
   }
@@ -26,15 +32,32 @@ class BlockEditor {
 
   bindEvents() {
     this.addBtn?.addEventListener('click', () => {
-      this.blocks.push({ type: this.typeSelect.value, value: '' });
+      const type = this.typeSelect.value;
+      const block = { type, value: '' };
+
+      if (type === 'list') {
+        block.items = [''];
+        block.ordered = false;
+      }
+
+      this.blocks.push(block);
       this.render();
     });
 
     this.blocksContainer.addEventListener('input', (e) => {
+      const item = e.target.closest('.block-item');
+      if (!item) return;
+      const index = parseInt(item.dataset.index);
+
       if (e.target.classList.contains('block-content')) {
-        const item = e.target.closest('.block-item');
-        const index = parseInt(item.dataset.index);
         this.blocks[index].value = e.target.value;
+        this.updateJson();
+      } else if (e.target.classList.contains('block-caption')) {
+        this.blocks[index].caption = e.target.value;
+        this.updateJson();
+      } else if (e.target.classList.contains('list-item-input')) {
+        const itemIndex = parseInt(e.target.dataset.itemIndex);
+        this.blocks[index].items[itemIndex] = e.target.value;
         this.updateJson();
       }
     });
@@ -52,6 +75,16 @@ class BlockEditor {
         this.render();
       } else if (e.target.classList.contains('block-move-down') && index < this.blocks.length - 1) {
         [this.blocks[index], this.blocks[index + 1]] = [this.blocks[index + 1], this.blocks[index]];
+        this.render();
+      } else if (e.target.classList.contains('add-list-item')) {
+        this.blocks[index].items.push('');
+        this.render();
+      } else if (e.target.classList.contains('remove-list-item')) {
+        const itemIndex = parseInt(e.target.dataset.itemIndex);
+        this.blocks[index].items.splice(itemIndex, 1);
+        this.render();
+      } else if (e.target.classList.contains('toggle-list-type')) {
+        this.blocks[index].ordered = !this.blocks[index].ordered;
         this.render();
       }
     });
@@ -107,12 +140,44 @@ class BlockEditor {
                     <div class="block-image-upload">
                         ${block.value ? `<img src="${this.escapeHtml(block.value)}" class="block-image-preview">` : ''}
                         <input type="file" class="block-image-input" accept="image/*">
-                        <input type="hidden" class="block-content" value="${this.escapeHtml(block.value || '')}">
+                        <input type="text" class="block-caption" placeholder="Caption (optional)" value="${this.escapeHtml(block.caption || '')}">
                     </div>
                 `;
         break;
       case 'code':
         content = `<textarea class="block-content block-code" rows="6" placeholder="Code...">${this.escapeHtml(block.value || '')}</textarea>`;
+        break;
+      case 'quote':
+        content = `<textarea class="block-content" rows="3" placeholder="Quote...">${this.escapeHtml(block.value || '')}</textarea>`;
+        break;
+      case 'divider':
+        content = `<div class="block-divider-preview"><hr></div>`;
+        break;
+      case 'list':
+        const items = block.items || [''];
+        content = `
+                    <div class="block-list">
+                        <div class="list-controls">
+                            <button type="button" class="toggle-list-type btn-small">${block.ordered ? 'Numbered' : 'Bulleted'}</button>
+                            <button type="button" class="add-list-item btn-small">+ Add Item</button>
+                        </div>
+                        <div class="list-items">
+                            ${items.map((item, i) => `
+                                <div class="list-item-row">
+                                    <span class="list-marker">${block.ordered ? (i + 1) + '.' : '•'}</span>
+                                    <input type="text" class="list-item-input" data-item-index="${i}" value="${this.escapeHtml(item)}">
+                                    <button type="button" class="remove-list-item" data-item-index="${i}">×</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+        break;
+      case 'callout':
+        content = `<textarea class="block-content" rows="3" placeholder="Callout text...">${this.escapeHtml(block.value || '')}</textarea>`;
+        break;
+      case 'video':
+        content = `<input type="text" class="block-content" placeholder="YouTube URL or video path..." value="${this.escapeHtml(block.value || '')}">`;
         break;
     }
 
@@ -143,7 +208,7 @@ class BlockEditor {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.block-editor').forEach(container => {
+  document.querySelectorAll('#block-editor').forEach(container => {
     new BlockEditor(container);
   });
 });
