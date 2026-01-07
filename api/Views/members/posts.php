@@ -1,12 +1,32 @@
 <?php
 use Api\Core\Date;
 
-$accentColor = $member['accent_color'] ?? '#9d7edb';
-$bgColor = $member['bg_color'] ?? '#012a31';
+$defaultPalette = [
+    'bg' => '#012a31',
+    'panel' => 'rgba(1, 42, 49, 0.5)',
+    'accent' => '#9d7edb',
+    'highlight' => '#ff00ff',
+    'success' => '#39ffb6',
+    'text' => '#e0e0e0',
+    'textMuted' => '#8a9bb5',
+    'border' => 'rgba(157, 126, 219, 0.2)',
+];
+
+$customPalette = json_decode($member['color_palette'] ?? '{}', true) ?: [];
+$palette = array_merge($defaultPalette, $customPalette);
 ?>
 
 <style>
-.member-page { --member-accent: <?= htmlspecialchars($accentColor) ?>; --member-bg: <?= htmlspecialchars($bgColor) ?>; }
+.member-page {
+    --member-bg: <?= htmlspecialchars($palette['bg']) ?>;
+    --member-panel: <?= htmlspecialchars($palette['panel']) ?>;
+    --member-accent: <?= htmlspecialchars($palette['accent']) ?>;
+    --member-highlight: <?= htmlspecialchars($palette['highlight']) ?>;
+    --member-success: <?= htmlspecialchars($palette['success']) ?>;
+    --member-text: <?= htmlspecialchars($palette['text']) ?>;
+    --member-text-muted: <?= htmlspecialchars($palette['textMuted']) ?>;
+    --member-border: <?= htmlspecialchars($palette['border']) ?>;
+}
 </style>
 
 <div class="member-page">

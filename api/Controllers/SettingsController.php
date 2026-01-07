@@ -43,6 +43,7 @@ class SettingsController
             'title' => 'Settings',
             'user' => $user,
             'profile' => $profile,
+            'defaultPalette' => $this->getDefaultPalette(),
             'styles' => ['settings'],
         ], 'main');
     }
@@ -122,17 +123,44 @@ class SettingsController
             }
         }
 
+        $colorPalette = null;
+        if (!empty($_POST['palette'])) {
+            $palette = [];
+            $defaults = $this->getDefaultPalette();
+            foreach ($_POST['palette'] as $key => $value) {
+                if (isset($defaults[$key]) && !empty($value) && $value !== $defaults[$key]) {
+                    $palette[$key] = $value;
+                }
+            }
+            if (!empty($palette)) {
+                $colorPalette = json_encode($palette);
+            }
+        }
+
         $this->userModel->updateProfile($user['id'], [
             'role_title' => $_POST['role_title'] ?? null,
             'short_bio' => $_POST['short_bio'] ?? null,
-            'accent_color' => $_POST['accent_color'] ?? null,
-            'bg_color' => $_POST['bg_color'] ?? null,
             'social_links' => json_encode($socialLinks),
+            'color_palette' => $colorPalette,
         ]);
 
         View::setFlash('success', 'Profile updated');
         header('Location: /settings');
         exit;
+    }
+
+    private function getDefaultPalette(): array
+    {
+        return [
+            'bg' => '#012a31',
+            'panel' => 'rgba(1, 42, 49, 0.5)',
+            'accent' => '#9d7edb',
+            'highlight' => '#ff00ff',
+            'success' => '#39ffb6',
+            'text' => '#e0e0e0',
+            'textMuted' => '#8a9bb5',
+            'border' => 'rgba(157, 126, 219, 0.2)',
+        ];
     }
 
     private function processAvatar(string $source, string $mime): ?string

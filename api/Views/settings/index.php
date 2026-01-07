@@ -1,3 +1,21 @@
+<?php
+$paletteLabels = [
+    'bg' => 'Background',
+    'panel' => 'Panel Background',
+    'accent' => 'Accent (links, buttons)',
+    'highlight' => 'Highlight (hover, active)',
+    'success' => 'Success/Positive',
+    'text' => 'Text',
+    'textMuted' => 'Muted Text',
+    'border' => 'Borders',
+];
+
+$currentPalette = [];
+if (!empty($profile['color_palette'])) {
+    $currentPalette = json_decode($profile['color_palette'], true) ?? [];
+}
+?>
+
 <div class="settings-container">
     <?php if (!empty($flash)): ?>
         <div class="alert alert-<?= $flash['type'] ?>"><?= htmlspecialchars($flash['message']) ?></div>
@@ -51,14 +69,7 @@
                 <label for="short_bio">Short Bio / Tagline</label>
                 <input type="text" id="short_bio" name="short_bio" value="<?= htmlspecialchars($profile['short_bio'] ?? '') ?>" placeholder="A short funny line or description">
             </div>
-            <div class="form-group">
-                <label for="accent_color">Accent Color</label>
-                <input type="color" id="accent_color" name="accent_color" value="<?= htmlspecialchars($profile['accent_color'] ?? '#9d7edb') ?>">
-            </div>
-            <div class="form-group">
-                <label for="bg_color">Background Color</label>
-                <input type="color" id="bg_color" name="bg_color" value="<?= htmlspecialchars($profile['bg_color'] ?? '#012a31') ?>">
-            </div>
+
             <div class="form-group">
                 <label>Social Links</label>
                 <div id="social-links">
@@ -76,6 +87,28 @@
                 </div>
                 <button type="button" id="add-social" class="btn">Add Link</button>
             </div>
+
+            <div class="form-group">
+                <label>Color Palette</label>
+                <p class="form-hint">Customize your page colors. Leave blank to use defaults.</p>
+                <div class="palette-grid">
+                    <?php foreach ($defaultPalette as $key => $default): ?>
+                        <div class="palette-item">
+                            <label for="palette_<?= $key ?>"><?= $paletteLabels[$key] ?? $key ?></label>
+                            <div class="palette-input-row">
+                                <input type="color" 
+                                       id="palette_<?= $key ?>" 
+                                       name="palette[<?= $key ?>]" 
+                                       value="<?= htmlspecialchars($currentPalette[$key] ?? $default) ?>"
+                                       data-default="<?= htmlspecialchars($default) ?>">
+                                <button type="button" class="palette-reset btn" data-target="palette_<?= $key ?>">Reset</button>
+                            </div>
+                            <small class="palette-default">Default: <?= htmlspecialchars($default) ?></small>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary">Save Profile</button>
         </form>
         <p class="settings-note">Edit your About page content on your <a href="/team/<?= $user['id'] ?>">public profile page</a>.</p>
@@ -100,5 +133,14 @@ document.getElementById('social-links')?.addEventListener('click', function(e) {
     if (e.target.classList.contains('remove-social')) {
         e.target.closest('.social-link-row').remove();
     }
+});
+
+document.querySelectorAll('.palette-reset').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const target = document.getElementById(this.dataset.target);
+        if (target) {
+            target.value = target.dataset.default;
+        }
+    });
 });
 </script>

@@ -1,15 +1,35 @@
 <?php
 use Api\Core\Date;
 use Api\Core\Str;
+use Api\Core\ContentRenderer;
 
-$accentColor = $member['accent_color'] ?? '#9d7edb';
-$bgColor = $member['bg_color'] ?? '#012a31';
-$content = json_decode($post['content'] ?? '[]', true);
+$defaultPalette = [
+    'bg' => '#012a31',
+    'panel' => 'rgba(1, 42, 49, 0.5)',
+    'accent' => '#9d7edb',
+    'highlight' => '#ff00ff',
+    'success' => '#39ffb6',
+    'text' => '#e0e0e0',
+    'textMuted' => '#8a9bb5',
+    'border' => 'rgba(157, 126, 219, 0.2)',
+];
+
+$customPalette = json_decode($member['color_palette'] ?? '{}', true) ?: [];
+$palette = array_merge($defaultPalette, $customPalette);
 $tags = Str::formatTags($post['tags']);
 ?>
 
 <style>
-.member-page { --member-accent: <?= htmlspecialchars($accentColor) ?>; --member-bg: <?= htmlspecialchars($bgColor) ?>; }
+.member-page {
+    --member-bg: <?= htmlspecialchars($palette['bg']) ?>;
+    --member-panel: <?= htmlspecialchars($palette['panel']) ?>;
+    --member-accent: <?= htmlspecialchars($palette['accent']) ?>;
+    --member-highlight: <?= htmlspecialchars($palette['highlight']) ?>;
+    --member-success: <?= htmlspecialchars($palette['success']) ?>;
+    --member-text: <?= htmlspecialchars($palette['text']) ?>;
+    --member-text-muted: <?= htmlspecialchars($palette['textMuted']) ?>;
+    --member-border: <?= htmlspecialchars($palette['border']) ?>;
+}
 </style>
 
 <div class="member-page">
@@ -27,17 +47,7 @@ $tags = Str::formatTags($post['tags']);
     </div>
 
     <div class="member-content post-content">
-        <?php foreach ($content as $block): ?>
-            <?php if ($block['type'] === 'heading'): ?>
-                <h2><?= htmlspecialchars($block['value']) ?></h2>
-            <?php elseif ($block['type'] === 'text'): ?>
-                <p><?= nl2br(htmlspecialchars($block['value'])) ?></p>
-            <?php elseif ($block['type'] === 'image'): ?>
-                <img src="<?= htmlspecialchars($block['value']) ?>" alt="">
-            <?php elseif ($block['type'] === 'code'): ?>
-                <pre><code><?= htmlspecialchars($block['value']) ?></code></pre>
-            <?php endif; ?>
-        <?php endforeach; ?>
+        <?= ContentRenderer::render($post['content']) ?>
     </div>
 
     <?php if ($canEdit): ?>

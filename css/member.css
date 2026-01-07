@@ -1,6 +1,12 @@
 .member-page {
   max-width: 800px;
   margin: 0 auto;
+  background: var(--member-bg, var(--bg-color));
+  color: var(--member-text, var(--text-main));
+  min-height: 100vh;
+  padding: 2rem;
+  margin: -2rem;
+  margin-bottom: 0;
 }
 
 .member-header {
@@ -20,7 +26,7 @@
 }
 
 .member-bio {
-  color: var(--text-muted);
+  color: var(--member-text-muted, var(--text-muted));
   font-style: italic;
 }
 
@@ -34,16 +40,20 @@
   color: var(--member-accent, var(--purple-color));
 }
 
+.member-socials a:hover {
+  color: var(--member-highlight, var(--magenta-color));
+}
+
 .member-nav {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--member-border, var(--border-color));
   padding-bottom: 0.5rem;
 }
 
 .member-nav a {
-  color: var(--text-muted);
+  color: var(--member-text-muted, var(--text-muted));
   text-decoration: none;
 }
 
@@ -52,21 +62,32 @@
   color: var(--member-accent, var(--purple-color));
 }
 
+.member-content {
+  background: var(--member-panel, var(--panel-bg));
+  border: 1px solid var(--member-border, var(--border-color));
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
 .post-list {
   list-style: none;
 }
 
 .post-list li {
   padding: 1rem 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--member-border, var(--border-color));
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .post-list a {
-  color: var(--text-main);
+  color: var(--member-text, var(--text-main));
   text-decoration: none;
+}
+
+.post-list a:hover strong {
+  color: var(--member-accent, var(--purple-color));
 }
 
 .post-actions {
@@ -74,16 +95,21 @@
   gap: 0.5rem;
 }
 
+.post-actions a {
+  color: var(--member-accent, var(--purple-color));
+}
+
 .post-actions button {
   background: none;
   border: none;
-  color: var(--magenta-color);
+  color: var(--member-highlight, var(--magenta-color));
   cursor: pointer;
 }
 
 .post-tags {
   display: flex;
   gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .tag {
@@ -106,6 +132,30 @@
   overflow-x: auto;
 }
 
+.post-content a {
+  color: var(--member-accent, var(--purple-color));
+}
+
+.post-content a:hover {
+  color: var(--member-highlight, var(--magenta-color));
+}
+
 .toolbar {
   margin-bottom: 1rem;
+}
+
+.member-page .btn {
+  border-color: var(--member-border, var(--border-color));
+  color: var(--member-text, var(--text-main));
+}
+
+.member-page .btn-primary {
+  background: var(--member-accent, var(--purple-color));
+  border-color: var(--member-accent, var(--purple-color));
+  color: #fff;
+}
+
+.member-page .btn-primary:hover {
+  background: var(--member-highlight, var(--magenta-color));
+  border-color: var(--member-highlight, var(--magenta-color));
 }
