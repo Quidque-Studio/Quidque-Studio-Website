@@ -130,4 +130,4 @@ $router->get('/admin/newsletter/{id}/edit', [AdminNewsletterController::class, '
 $router->post('/admin/newsletter/{id}', [AdminNewsletterController::class, 'update']);
 $router->post('/admin/newsletter/{id}/send', [AdminNewsletterController::class, 'send']);
 $router->post('/admin/newsletter/{id}/delete', [AdminNewsletterController::class, 'delete']);
-$router->get('/admin/newsletter/{id}/preview', [Admin\NewsletterController::class, 'preview']);
+$router->get('/admin/newsletter/{id}/preview', [AdminNewsletterController::class, 'preview']);

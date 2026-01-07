@@ -30,10 +30,10 @@ class MemberController
     public function show(string $id): void
     {
         $member = $this->db->queryOne(
-            'SELECT u.*, tp.role_title, tp.short_bio, tp.about_content, tp.social_links, tp.accent_color, tp.bg_color
-             FROM users u
-             LEFT JOIN team_profiles tp ON tp.user_id = u.id
-             WHERE u.id = ? AND u.role = ?',
+            'SELECT u.*, tp.role_title, tp.short_bio, tp.about_content, tp.social_links, tp.color_palette
+            FROM users u
+            LEFT JOIN team_profiles tp ON tp.user_id = u.id
+            WHERE u.id = ? AND u.role = ?',
             [$id, 'team_member']
         );
 
@@ -67,10 +67,10 @@ class MemberController
     public function posts(string $id): void
     {
         $member = $this->db->queryOne(
-            'SELECT u.*, tp.accent_color, tp.bg_color
-             FROM users u
-             LEFT JOIN team_profiles tp ON tp.user_id = u.id
-             WHERE u.id = ? AND u.role = ?',
+            'SELECT u.*, tp.color_palette
+            FROM users u
+            LEFT JOIN team_profiles tp ON tp.user_id = u.id
+            WHERE u.id = ? AND u.role = ?',
             [$id, 'team_member']
         );
 
@@ -185,7 +185,7 @@ class MemberController
     public function showPost(string $id, string $slug): void
     {
         $member = $this->db->queryOne(
-            'SELECT u.*, tp.accent_color, tp.bg_color
+            'SELECT u.*, tp.color_palette
             FROM users u
             LEFT JOIN team_profiles tp ON tp.user_id = u.id
             WHERE u.id = ? AND u.role = ?',

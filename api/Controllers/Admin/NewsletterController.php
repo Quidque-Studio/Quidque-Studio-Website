@@ -29,11 +29,16 @@ class NewsletterController
             'SELECT * FROM newsletters ORDER BY created_at DESC'
         );
 
+        $subscriberCount = $this->db->queryOne(
+            'SELECT COUNT(*) as count FROM subscribers WHERE unsubscribed_at IS NULL'
+        )['count'];
+
         View::render('admin/newsletter/index', [
             'title' => 'Newsletters',
             'user' => $this->auth->user(),
             'newsletters' => $newsletters,
-            'styles' => ['admin'],
+            'subscriberCount' => $subscriberCount,
+            'styles' => ['newsletter'],
         ], 'admin');
     }
 
@@ -51,7 +56,7 @@ class NewsletterController
             'title' => 'Subscribers',
             'user' => $this->auth->user(),
             'subscribers' => $subscribers,
-            'styles' => ['admin'],
+            'styles' => ['newsletter'],
         ], 'admin');
     }
 
@@ -61,7 +66,7 @@ class NewsletterController
             'title' => 'New Newsletter',
             'user' => $this->auth->user(),
             'newsletter' => null,
-            'styles' => ['admin'],
+            'styles' => ['newsletter'],
         ], 'admin');
     }
 
@@ -99,7 +104,7 @@ class NewsletterController
             'title' => 'Edit Newsletter',
             'user' => $this->auth->user(),
             'newsletter' => $newsletter,
-            'styles' => ['admin'],
+            'styles' => ['newsletter'],
         ], 'admin');
     }
 
@@ -152,7 +157,7 @@ class NewsletterController
             'user' => $this->auth->user(),
             'newsletter' => $newsletter,
             'htmlContent' => $htmlContent,
-            'styles' => ['admin'],
+            'styles' => ['newsletter'],
         ], 'admin');
     }
 

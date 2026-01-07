@@ -35,4 +35,12 @@ trait RequiresAuth
             View::notFound();
         }
     }
+    
+    protected function requireAdmin(): void
+    {
+        $this->requireTeamMember();
+        if (!$this->auth->hasPermission('manage_newsletter')) {
+            View::notFound();
+        }
+    }
 }
