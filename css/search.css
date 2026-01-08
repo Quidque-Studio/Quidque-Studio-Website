@@ -1,5 +1,5 @@
 .search-container {
-  max-width: 1000px;
+  max-width: min(100%, 62.5rem);
   margin: 0 auto;
 }
 
@@ -7,22 +7,24 @@
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 32px;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
 }
 
 .search-input-wrapper {
   display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  flex-wrap: wrap;
 }
 
 .search-field {
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
@@ -31,12 +33,12 @@
 
 .search-field:focus-within {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-dim);
+  box-shadow: 0 0 0 0.1875rem var(--primary-dim);
 }
 
 .search-field svg {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   color: var(--text-muted);
   flex-shrink: 0;
 }
@@ -46,8 +48,9 @@
   background: none;
   border: none;
   color: var(--text-primary);
-  font-size: 15px;
+  font-size: var(--text-base);
   outline: none;
+  min-width: 0;
 }
 
 .search-field input::placeholder {
@@ -57,45 +60,45 @@
 .search-options {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: var(--space-md);
   flex-wrap: wrap;
 }
 
 .search-option {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 
 .search-option label {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-xs);
 }
 
 .search-option select {
-  padding: 6px 10px;
+  padding: var(--space-xs) var(--space-sm);
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   color: var(--text-primary);
-  font-size: 13px;
+  font-size: var(--text-sm);
   cursor: pointer;
 }
 
 .search-option input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   accent-color: var(--primary);
 }
 
 .search-summary {
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--text-muted);
-  margin-bottom: 24px;
+  margin-bottom: var(--space-lg);
 }
 
 .search-summary strong {
@@ -103,29 +106,29 @@
 }
 
 .search-results-section {
-  margin-bottom: 32px;
+  margin-bottom: var(--space-xl);
 }
 
 .search-results-title {
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-muted);
-  margin-bottom: 12px;
-  padding-bottom: 8px;
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-sm);
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .search-results-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-sm);
 }
 
 .search-result-item {
   display: block;
-  padding: 16px 20px;
+  padding: var(--space-md) var(--space-lg);
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
@@ -139,10 +142,10 @@
 }
 
 .search-result-title {
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
 }
 
 .search-result-item:hover .search-result-title {
@@ -150,30 +153,45 @@
 }
 
 .search-result-meta {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--primary);
-  margin-bottom: 6px;
+  margin-bottom: var(--space-xs);
 }
 
 .search-result-excerpt {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
   line-height: 1.5;
 }
 
 .search-empty {
   text-align: center;
-  padding: 60px 20px;
+  padding: var(--space-2xl) var(--space-md);
   color: var(--text-muted);
 }
 
 .search-empty svg {
-  width: 64px;
-  height: 64px;
-  margin-bottom: 16px;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: var(--space-md);
   opacity: 0.3;
 }
 
 .search-empty p {
-  font-size: 15px;
+  font-size: var(--text-base);
+}
+
+@media (max-width: 480px) {
+  .search-input-wrapper {
+    flex-direction: column;
+  }
+
+  .search-input-wrapper .btn {
+    width: 100%;
+  }
+
+  .search-options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

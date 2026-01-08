@@ -1,46 +1,50 @@
 .admin {
   display: flex;
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-color);
 }
 
 .admin-sidebar {
-  width: 220px;
+  width: clamp(180px, 20vw, 220px);
   background: var(--bg-surface);
   border-right: 1px solid var(--border-subtle);
-  padding: 20px 16px;
+  padding: var(--space-md);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-lg);
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+  transition: transform var(--transition-normal);
 }
 
 .admin-logo {
-  font-size: 20px;
+  font-size: var(--text-lg);
   font-weight: 700;
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  padding: 0 8px;
+  padding: 0 var(--space-sm);
 }
 
 .admin-nav {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.25rem;
   flex: 1;
 }
 
 .admin-nav a {
   color: var(--text-secondary);
   text-decoration: none;
-  padding: 10px 12px;
+  padding: var(--space-sm) var(--space-sm);
   border-radius: var(--radius-md);
-  font-size: 14px;
+  font-size: var(--text-sm);
   font-weight: 500;
   transition: all var(--transition-fast);
 }
@@ -57,15 +61,17 @@
 
 .admin-main {
   flex: 1;
-  margin-left: 220px;
+  margin-left: clamp(180px, 20vw, 220px);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
+  transition: margin-left var(--transition-normal);
 }
 
 .admin-header {
-  height: 64px;
-  padding: 0 32px;
+  height: var(--header-height);
+  padding: 0 var(--space-xl);
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
@@ -74,26 +80,103 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  gap: var(--space-md);
 }
 
 .admin-header h1 {
-  font-size: 18px;
+  font-size: var(--text-lg);
   font-weight: 600;
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .admin-header span {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--text-muted);
+  flex-shrink: 0;
 }
 
 .admin-content {
-  padding: 24px 32px;
+  padding: var(--space-lg) var(--space-xl);
   flex: 1;
 }
 
 .admin-toolbar {
   display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 200px;
+  }
+
+  .admin-main {
+    margin-left: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 100%;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--bottom-nav-height);
+    flex-direction: row;
+    padding: 0;
+    border-right: none;
+    border-top: 1px solid var(--border-subtle);
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .admin-logo {
+    display: none;
+  }
+
+  .admin-nav {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 var(--space-sm);
+    gap: 0;
+  }
+
+  .admin-nav a {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--text-xs);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .admin-main {
+    margin-left: 0;
+    margin-bottom: var(--bottom-nav-height);
+  }
+
+  .admin-header {
+    padding: 0 var(--space-md);
+  }
+
+  .admin-content {
+    padding: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-header h1 {
+    font-size: var(--text-base);
+  }
+
+  .admin-header span {
+    display: none;
+  }
 }
