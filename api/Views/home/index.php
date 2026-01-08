@@ -21,7 +21,7 @@ use Api\Core\Date;
         </div>
     </div>
     <div class="hero-visual">
-        <img src="/QuidqueLogo.png" alt="Quidque Logo" class="hero-logo">
+        <img src="/QuidqueLogo.svg" alt="Quidque Logo" class="hero-logo">
     </div>
 </section>
 

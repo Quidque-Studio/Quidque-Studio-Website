@@ -633,6 +633,14 @@ html.sidebar-collapsed .main-wrapper,
     display: none;
   }
 
+  .nav-section-desktop {
+    display: none;
+  }
+
+  .nav-link-desktop {
+    display: none !important;
+  }
+
   .nav-link {
     flex-direction: column;
     padding: var(--space-xs) var(--space-sm);
