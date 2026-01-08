@@ -15,14 +15,20 @@
     </thead>
     <tbody>
         <?php if (empty($subscribers)): ?>
-            <tr><td colspan="4">No subscribers yet.</td></tr>
+            <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">No subscribers yet.</td></tr>
         <?php else: ?>
             <?php foreach ($subscribers as $sub): ?>
                 <tr>
                     <td><?= htmlspecialchars($sub['email']) ?></td>
-                    <td><?= htmlspecialchars($sub['user_name'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($sub['user_name'] ?? '—') ?></td>
                     <td><?= Date::short($sub['subscribed_at']) ?></td>
-                    <td><?= $sub['unsubscribed_at'] ? 'Unsubscribed' : 'Active' ?></td>
+                    <td>
+                        <?php if ($sub['unsubscribed_at']): ?>
+                            <span class="badge">Unsubscribed</span>
+                        <?php else: ?>
+                            <span class="badge badge-primary">Active</span>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>

@@ -4,14 +4,12 @@ use Api\Core\Str;
 use Api\Core\ContentRenderer;
 
 $defaultPalette = [
-    'bg' => '#012a31',
-    'panel' => 'rgba(1, 42, 49, 0.5)',
+    'bg' => '#0a1214',
+    'panel' => '#142125',
     'accent' => '#9d7edb',
-    'highlight' => '#ff00ff',
-    'success' => '#39ffb6',
-    'text' => '#e0e0e0',
-    'textMuted' => '#8a9bb5',
-    'border' => 'rgba(157, 126, 219, 0.2)',
+    'text' => '#f0f4f5',
+    'textMuted' => '#5a6d73',
+    'border' => 'rgba(255, 255, 255, 0.06)',
 ];
 
 $customPalette = json_decode($member['color_palette'] ?? '{}', true) ?: [];
@@ -24,8 +22,7 @@ $tags = Str::formatTags($post['tags']);
     --member-bg: <?= htmlspecialchars($palette['bg']) ?>;
     --member-panel: <?= htmlspecialchars($palette['panel']) ?>;
     --member-accent: <?= htmlspecialchars($palette['accent']) ?>;
-    --member-highlight: <?= htmlspecialchars($palette['highlight']) ?>;
-    --member-success: <?= htmlspecialchars($palette['success']) ?>;
+    --member-accent-dim: <?= htmlspecialchars($palette['accent']) ?>26;
     --member-text: <?= htmlspecialchars($palette['text']) ?>;
     --member-text-muted: <?= htmlspecialchars($palette['textMuted']) ?>;
     --member-border: <?= htmlspecialchars($palette['border']) ?>;
@@ -33,26 +30,31 @@ $tags = Str::formatTags($post['tags']);
 </style>
 
 <div class="member-page">
-    <div class="member-header">
-        <a href="/team/<?= $member['id'] ?>/posts">← Back to blog</a>
-        <h1><?= htmlspecialchars($post['title']) ?></h1>
-        <p class="post-meta"><?= Date::long($post['created_at']) ?></p>
-        <?php if (!empty($tags)): ?>
-            <div class="post-tags">
-                <?php foreach ($tags as $tag): ?>
-                    <span class="tag"><?= htmlspecialchars($tag) ?></span>
-                <?php endforeach; ?>
+    <div class="member-profile">
+        <div class="member-content">
+            <div class="post-header">
+                <a href="/team/<?= $member['id'] ?>/posts" class="post-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Back to blog
+                </a>
+                <h1 class="post-title"><?= htmlspecialchars($post['title']) ?></h1>
+                <p class="post-meta"><?= Date::long($post['created_at']) ?></p>
+                <?php if (!empty($tags)): ?>
+                    <div class="post-tags">
+                        <?php foreach ($tags as $tag): ?>
+                            <span class="post-tag"><?= htmlspecialchars($tag) ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
-        <?php endif; ?>
-    </div>
 
-    <div class="member-content post-content">
-        <?= ContentRenderer::render($post['content']) ?>
-    </div>
+            <?= ContentRenderer::render($post['content']) ?>
 
-    <?php if ($canEdit): ?>
-        <div class="post-actions">
-            <a href="/team/<?= $member['id'] ?>/posts/<?= $post['id'] ?>/edit" class="btn">Edit</a>
+            <?php if ($canEdit): ?>
+                <div class="post-footer">
+                    <a href="/team/<?= $member['id'] ?>/posts/<?= $post['id'] ?>/edit" class="btn">Edit Post</a>
+                </div>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
+    </div>
 </div>

@@ -1,8 +1,14 @@
 <?php use Api\Core\Date; ?>
 
 <div class="admin-toolbar">
-    <a href="/admin/studio-posts/create" class="btn btn-primary">New Post</a>
-    <a href="/admin/studio-posts/categories" class="btn">Categories</a>
+    <a href="/admin/studio-posts/create" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+        New Post
+    </a>
+    <a href="/admin/studio-posts/categories" class="btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+        Manage Categories
+    </a>
 </div>
 
 <table class="admin-table">
@@ -16,12 +22,18 @@
     </thead>
     <tbody>
         <?php if (empty($posts)): ?>
-            <tr><td colspan="4">No posts yet.</td></tr>
+            <tr><td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px;">No posts yet. Share some news!</td></tr>
         <?php else: ?>
             <?php foreach ($posts as $post): ?>
                 <tr>
-                    <td><?= htmlspecialchars($post['title']) ?></td>
-                    <td><?= htmlspecialchars($post['category_name'] ?? '-') ?></td>
+                    <td style="font-weight: 500;"><?= htmlspecialchars($post['title']) ?></td>
+                    <td>
+                        <?php if ($post['category_name']): ?>
+                            <span class="badge badge-purple"><?= htmlspecialchars($post['category_name']) ?></span>
+                        <?php else: ?>
+                            <span style="color: var(--text-muted);">—</span>
+                        <?php endif; ?>
+                    </td>
                     <td><?= Date::short($post['created_at']) ?></td>
                     <td class="actions">
                         <a href="/admin/studio-posts/<?= $post['id'] ?>/edit">Edit</a>

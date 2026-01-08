@@ -1,6 +1,8 @@
-<div class="admin-form">
-    <h1><?= $newsletter ? 'Edit' : 'New' ?> Newsletter</h1>
+<div class="admin-toolbar">
+    <a href="/admin/newsletter" class="btn">Back to Newsletters</a>
+</div>
 
+<div class="form-section" style="max-width: 800px;">
     <form method="POST" action="<?= $newsletter ? "/admin/newsletter/{$newsletter['id']}" : '/admin/newsletter' ?>">
         <?= \Api\Core\View::csrfField() ?>
 
@@ -11,53 +13,22 @@
 
         <div class="form-group">
             <label for="content">Content</label>
-            <div class="markdown-help">
-                <strong>Formatting:</strong>
-                <code># Heading</code>
-                <code>**bold**</code>
-                <code>*italic*</code>
-                <code>[link text](url)</code>
-                <code>---</code> for divider
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; padding: 12px; background: var(--bg-surface); border-radius: 8px; font-size: 13px;">
+                <span style="color: var(--text-muted);">Formatting:</span>
+                <code style="background: var(--purple-dim); padding: 2px 8px; border-radius: 4px; color: var(--purple);"># Heading</code>
+                <code style="background: var(--purple-dim); padding: 2px 8px; border-radius: 4px; color: var(--purple);">**bold**</code>
+                <code style="background: var(--purple-dim); padding: 2px 8px; border-radius: 4px; color: var(--purple);">*italic*</code>
+                <code style="background: var(--purple-dim); padding: 2px 8px; border-radius: 4px; color: var(--purple);">[link](url)</code>
             </div>
-            <textarea id="content" name="content" rows="20" required><?= htmlspecialchars($newsletter['content'] ?? '') ?></textarea>
+            <textarea id="content" name="content" rows="20" required style="font-family: 'SF Mono', Monaco, monospace; font-size: 13px;"><?= htmlspecialchars($newsletter['content'] ?? '') ?></textarea>
         </div>
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save Draft</button>
-            <a href="/admin/newsletter" class="btn">Cancel</a>
             <?php if ($newsletter && !$newsletter['sent_at']): ?>
                 <a href="/admin/newsletter/<?= $newsletter['id'] ?>/preview" class="btn">Preview</a>
             <?php endif; ?>
+            <a href="/admin/newsletter" class="btn">Cancel</a>
         </div>
     </form>
 </div>
-
-<style>
-.markdown-help {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    padding: 0.75rem;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    font-size: 0.85rem;
-}
-
-.markdown-help strong {
-    color: var(--text-muted);
-}
-
-.markdown-help code {
-    background: rgba(157, 126, 219, 0.2);
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
-    font-family: monospace;
-}
-
-#content {
-    font-family: monospace;
-    line-height: 1.5;
-}
-</style>

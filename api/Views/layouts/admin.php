@@ -4,6 +4,7 @@ $perms = [];
 if (isset($GLOBALS['auth'])) {
     $perms = $GLOBALS['auth']->getAllPermissions();
 }
+$currentPath = $_SERVER['REQUEST_URI'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +15,7 @@ if (isset($GLOBALS['auth'])) {
     <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/admin/base.css">
     <link rel="stylesheet" href="/css/admin/components.css">
+    <link rel="stylesheet" href="/css/admin/editor.css">
     <?php if (!empty($styles)): ?>
         <?php foreach ($styles as $style): ?>
             <link rel="stylesheet" href="/css/admin/<?= $style ?>.css">
@@ -24,16 +26,16 @@ if (isset($GLOBALS['auth'])) {
     <aside class="admin-sidebar">
         <div class="admin-logo">Quidque</div>
         <nav class="admin-nav">
-            <a href="/admin">Dashboard</a>
-            <a href="/admin/projects">Projects</a>
-            <a href="/admin/studio-posts">Studio News</a>
-            <a href="/admin/tech-stack">Tech Stack</a>
-            <a href="/admin/messages">Messages</a>
+            <a href="/admin" class="<?= $currentPath === '/admin' ? 'active' : '' ?>">Dashboard</a>
+            <a href="/admin/projects" class="<?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>">Projects</a>
+            <a href="/admin/studio-posts" class="<?= str_starts_with($currentPath, '/admin/studio-posts') ? 'active' : '' ?>">Studio News</a>
+            <a href="/admin/tech-stack" class="<?= str_starts_with($currentPath, '/admin/tech-stack') ? 'active' : '' ?>">Tech Stack</a>
+            <a href="/admin/messages" class="<?= str_starts_with($currentPath, '/admin/messages') ? 'active' : '' ?>">Messages</a>
             <?php if (in_array('manage_users', $perms)): ?>
-                <a href="/admin/users">Users</a>
+                <a href="/admin/users" class="<?= str_starts_with($currentPath, '/admin/users') ? 'active' : '' ?>">Users</a>
             <?php endif; ?>
             <?php if (in_array('manage_newsletter', $perms)): ?>
-                <a href="/admin/newsletter">Newsletter</a>
+                <a href="/admin/newsletter" class="<?= str_starts_with($currentPath, '/admin/newsletter') ? 'active' : '' ?>">Newsletter</a>
             <?php endif; ?>
             <a href="/" target="_blank">View Site</a>
             <a href="/auth/logout">Logout</a>

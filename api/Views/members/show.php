@@ -1,23 +1,19 @@
 <?php
-use Api\Core\Str;
 use Api\Core\ContentRenderer;
 
 $defaultPalette = [
-    'bg' => '#012a31',
-    'panel' => 'rgba(1, 42, 49, 0.5)',
+    'bg' => '#0a1214',
+    'panel' => '#142125',
     'accent' => '#9d7edb',
-    'highlight' => '#ff00ff',
-    'success' => '#39ffb6',
-    'text' => '#e0e0e0',
-    'textMuted' => '#8a9bb5',
-    'border' => 'rgba(157, 126, 219, 0.2)',
+    'text' => '#f0f4f5',
+    'textMuted' => '#5a6d73',
+    'border' => 'rgba(255, 255, 255, 0.06)',
 ];
 
 $customPalette = json_decode($member['color_palette'] ?? '{}', true) ?: [];
 $palette = array_merge($defaultPalette, $customPalette);
 
 $socialLinks = json_decode($member['social_links'] ?? '[]', true) ?: [];
-$aboutContent = json_decode($member['about_content'] ?? '[]', true) ?: [];
 ?>
 
 <style>
@@ -25,8 +21,7 @@ $aboutContent = json_decode($member['about_content'] ?? '[]', true) ?: [];
     --member-bg: <?= htmlspecialchars($palette['bg']) ?>;
     --member-panel: <?= htmlspecialchars($palette['panel']) ?>;
     --member-accent: <?= htmlspecialchars($palette['accent']) ?>;
-    --member-highlight: <?= htmlspecialchars($palette['highlight']) ?>;
-    --member-success: <?= htmlspecialchars($palette['success']) ?>;
+    --member-accent-dim: <?= htmlspecialchars($palette['accent']) ?>26;
     --member-text: <?= htmlspecialchars($palette['text']) ?>;
     --member-text-muted: <?= htmlspecialchars($palette['textMuted']) ?>;
     --member-border: <?= htmlspecialchars($palette['border']) ?>;
@@ -34,58 +29,93 @@ $aboutContent = json_decode($member['about_content'] ?? '[]', true) ?: [];
 </style>
 
 <div class="member-page">
-    <div class="member-header">
-        <?php if ($member['avatar']): ?>
-            <img src="<?= htmlspecialchars($member['avatar']) ?>" alt="Avatar" class="member-avatar">
-        <?php endif; ?>
-        <h1><?= htmlspecialchars($member['name']) ?></h1>
-        <?php if ($member['role_title']): ?>
-            <p class="member-role"><?= htmlspecialchars($member['role_title']) ?></p>
-        <?php endif; ?>
-        <?php if ($member['short_bio']): ?>
-            <p class="member-bio"><?= htmlspecialchars($member['short_bio']) ?></p>
-        <?php endif; ?>
-        <?php if (!empty($socialLinks)): ?>
-            <div class="member-socials">
-                <?php foreach ($socialLinks as $link): ?>
-                    <a href="<?= htmlspecialchars($link['url']) ?>" target="_blank"><?= htmlspecialchars($link['platform']) ?></a>
-                <?php endforeach; ?>
+    <div class="member-profile">
+        <div class="member-header">
+            <div class="member-avatar">
+                <?php if ($member['avatar']): ?>
+                    <img src="<?= htmlspecialchars($member['avatar']) ?>" alt="">
+                <?php else: ?>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <?php endif; ?>
             </div>
-        <?php endif; ?>
+            <div class="member-info">
+                <h1 class="member-name"><?= htmlspecialchars($member['name']) ?></h1>
+                <?php if ($member['role_title']): ?>
+                    <p class="member-role"><?= htmlspecialchars($member['role_title']) ?></p>
+                <?php endif; ?>
+                <?php if ($member['short_bio']): ?>
+                    <p class="member-bio"><?= htmlspecialchars($member['short_bio']) ?></p>
+                <?php endif; ?>
+                <?php if (!empty($socialLinks)): ?>
+                    <div class="member-socials">
+                        <?php foreach ($socialLinks as $link): ?>
+                            <a href="<?= htmlspecialchars($link['url']) ?>" target="_blank"><?= htmlspecialchars($link['platform']) ?></a>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
         <div class="member-nav">
             <a href="/team/<?= $member['id'] ?>" class="active">About</a>
             <a href="/team/<?= $member['id'] ?>/posts">Blog</a>
         </div>
-    </div>
 
-    <div class="member-content">
         <?php if ($canEdit): ?>
-            <form method="POST" action="/team/<?= $member['id'] ?>/about" class="about-edit-form">
-                <?= \Api\Core\View::csrfField() ?>
-                <div id="block-editor" class="block-editor">
-                    <div id="blocks-container"></div>
-                    <div class="block-add">
-                        <select id="block-type">
-                            <option value="text">Text</option>
-                            <option value="heading">Heading</option>
-                            <option value="image">Image</option>
-                            <option value="code">Code</option>
-                            <option value="quote">Quote</option>
-                            <option value="list">List</option>
-                            <option value="callout">Callout</option>
-                            <option value="video">Video</option>
-                            <option value="divider">Divider</option>
-                        </select>
-                        <button type="button" id="add-block" class="btn">Add Block</button>
+            <div class="editor-page" style="max-width: none;">
+                <form method="POST" action="/team/<?= $member['id'] ?>/about" class="editor-form">
+                    <?= \Api\Core\View::csrfField() ?>
+                    
+                    <div class="editor-section">
+                        <div class="editor-section-header">
+                            <div class="editor-section-icon purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <span class="editor-section-title">About Me</span>
+                        </div>
+                        <div class="editor-section-body" style="padding: 0;">
+                            <div class="block-editor">
+                                <div class="block-editor-header">
+                                    <span class="block-editor-title">Content Blocks</span>
+                                    <span class="block-editor-count" id="block-count">0 blocks</span>
+                                </div>
+                                <div class="blocks-container" id="blocks-container"></div>
+                                <div class="block-add-bar">
+                                    <select id="block-type" class="block-add-select">
+                                        <option value="text">Text</option>
+                                        <option value="heading">Heading</option>
+                                        <option value="image">Image</option>
+                                        <option value="code">Code</option>
+                                        <option value="quote">Quote</option>
+                                        <option value="list">List</option>
+                                        <option value="callout">Callout</option>
+                                        <option value="video">Video</option>
+                                        <option value="divider">Divider</option>
+                                    </select>
+                                    <button type="button" id="add-block" class="btn btn-primary">Add Block</button>
+                                </div>
+                            </div>
+                            <input type="hidden" name="about_content" id="content-json" value="<?= htmlspecialchars($member['about_content'] ?? '[]') ?>">
+                        </div>
                     </div>
-                </div>
-                <input type="hidden" name="about_content" id="content-json" value="<?= htmlspecialchars($member['about_content'] ?? '[]') ?>">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
+
+                    <div class="editor-section">
+                        <div class="editor-actions">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <script src="/js/admin/block-editor.js"></script>
         <?php else: ?>
-            <div class="about-content">
-                <?= ContentRenderer::render($member['about_content']) ?>
+            <div class="member-content">
+                <?php if (empty($member['about_content']) || $member['about_content'] === '[]'): ?>
+                    <div class="member-empty">
+                        <p>This member hasn't added any content yet.</p>
+                    </div>
+                <?php else: ?>
+                    <?= ContentRenderer::render($member['about_content']) ?>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
     </div>

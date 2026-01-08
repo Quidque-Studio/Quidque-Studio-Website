@@ -1,67 +1,99 @@
 .admin {
   display: flex;
   min-height: 100vh;
+  background: var(--bg-color);
 }
 
 .admin-sidebar {
   width: 220px;
-  background: var(--panel-bg);
-  border-right: 1px solid var(--border-color);
-  padding: 1.5rem;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-subtle);
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
 }
 
 .admin-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--aquamarine-color);
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding: 0 8px;
 }
 
 .admin-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 4px;
+  flex: 1;
 }
 
 .admin-nav a {
-  color: var(--text-main);
+  color: var(--text-secondary);
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  transition: background 0.2s;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all var(--transition-fast);
 }
 
 .admin-nav a:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--aquamarine-color);
+  background: var(--panel-bg);
+  color: var(--text-primary);
+}
+
+.admin-nav a.active {
+  background: var(--primary-dim);
+  color: var(--primary);
 }
 
 .admin-main {
   flex: 1;
+  margin-left: 220px;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 .admin-header {
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid var(--border-color);
+  height: 64px;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: var(--bg-surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .admin-header h1 {
-  font-size: 1.5rem;
-  color: var(--text-main);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.admin-header span {
+  font-size: 13px;
+  color: var(--text-muted);
 }
 
 .admin-content {
-  padding: 2rem;
+  padding: 24px 32px;
   flex: 1;
 }
 
 .admin-toolbar {
-  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
 }

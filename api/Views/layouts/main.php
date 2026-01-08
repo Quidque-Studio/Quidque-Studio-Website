@@ -6,6 +6,7 @@
     <title><?= $title ?? 'Quidque Studio' ?></title>
     <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/admin/editor.css">
     <?php if (!empty($styles)): ?>
         <?php foreach ($styles as $style): ?>
             <link rel="stylesheet" href="/css/<?= $style ?>.css">

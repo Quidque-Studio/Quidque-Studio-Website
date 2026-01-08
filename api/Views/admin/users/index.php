@@ -19,7 +19,11 @@
             <tr>
                 <td><?= htmlspecialchars($u['name']) ?></td>
                 <td><?= htmlspecialchars($u['email']) ?></td>
-                <td><?= $u['role'] ?></td>
+                <td>
+                    <span class="badge <?= $u['role'] === 'team_member' ? 'badge-primary' : '' ?>">
+                        <?= $u['role'] === 'team_member' ? 'Team' : 'User' ?>
+                    </span>
+                </td>
                 <td><?= Date::short($u['created_at']) ?></td>
                 <td class="actions">
                     <a href="/admin/users/<?= $u['id'] ?>/edit">Edit</a>

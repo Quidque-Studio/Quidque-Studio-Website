@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         <?php if (empty($conversations)): ?>
-            <tr><td colspan="5">No messages yet.</td></tr>
+            <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No messages yet.</td></tr>
         <?php else: ?>
             <?php foreach ($conversations as $conv): ?>
                 <tr>
