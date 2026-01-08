@@ -435,6 +435,82 @@
   color: var(--purple);
 }
 
+.project-tech-devlogs {
+  margin-top: var(--space-xl);
+}
+
+.tech-devlogs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.tech-stack-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+}
+
+.tech-stack-panel .project-section-title {
+  margin-bottom: var(--space-md);
+}
+
+.tech-stack-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.tech-tier {
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.tech-tier:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.tech-tier-name {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.tech-tier-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.devlogs-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+}
+
+.devlogs-panel .devlogs-header {
+  margin-bottom: var(--space-md);
+}
+
+.devlogs-panel .devlog-timeline {
+  padding-left: var(--space-md);
+}
+
+.devlogs-panel .devlog-timeline::before {
+  left: 0.3rem;
+}
+
+.devlogs-panel .devlog-entry::before {
+  left: -0.875rem;
+}
+
 @media (max-width: 768px) {
   .project-overview-grid {
     grid-template-columns: 1fr;
@@ -451,6 +527,10 @@
   .gallery-main {
     max-height: none;
   }
+
+  .tech-devlogs-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -460,5 +540,10 @@
 
   .resource-grid {
     grid-template-columns: 1fr;
+  }
+
+  .tech-stack-panel,
+  .devlogs-panel {
+    padding: var(--space-md);
   }
 }

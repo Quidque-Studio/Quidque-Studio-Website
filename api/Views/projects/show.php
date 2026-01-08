@@ -9,6 +9,20 @@ function formatFileSize(?int $bytes): string {
     if ($bytes < 1073741824) return round($bytes / 1048576, 1) . ' MB';
     return round($bytes / 1073741824, 1) . ' GB';
 }
+
+$techByTier = [];
+foreach ($techStack as $tech) {
+    $tierName = $tech['tier_name'] ?? 'Other';
+    $tierOrder = $tech['tier_sort_order'] ?? 999;
+    if (!isset($techByTier[$tierOrder])) {
+        $techByTier[$tierOrder] = [
+            'name' => $tierName,
+            'items' => []
+        ];
+    }
+    $techByTier[$tierOrder]['items'][] = $tech;
+}
+ksort($techByTier);
 ?>
 
 <article class="project-single">
@@ -65,50 +79,32 @@ function formatFileSize(?int $bytes): string {
         <?php endif; ?>
     </section>
 
-    <?php if (!empty($techStack) || !empty($authors)): ?>
+    <?php if (!empty($authors)): ?>
     <section class="project-meta-section">
-        <div class="project-meta-grid">
-            <?php if (!empty($techStack)): ?>
-            <div class="project-meta-card">
-                <h3 class="project-meta-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
-                    Tech Stack
-                </h3>
-                <div class="tech-tags">
-                    <?php foreach ($techStack as $tech): ?>
-                        <span class="tech-tag"><?= htmlspecialchars($tech['name']) ?></span>
-                    <?php endforeach; ?>
-                </div>
+        <div class="project-meta-card">
+            <h3 class="project-meta-title">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Team
+            </h3>
+            <div class="author-list">
+                <?php foreach ($authors as $author): ?>
+                <a href="/team/<?= $author['id'] ?>" class="author-item">
+                    <div class="author-avatar">
+                        <?php if ($author['avatar']): ?>
+                            <img src="<?= htmlspecialchars($author['avatar']) ?>" alt="">
+                        <?php else: ?>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <?php endif; ?>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name"><?= htmlspecialchars($author['name']) ?></div>
+                        <?php if ($author['role_title']): ?>
+                            <div class="author-role"><?= htmlspecialchars($author['role_title']) ?></div>
+                        <?php endif; ?>
+                    </div>
+                </a>
+                <?php endforeach; ?>
             </div>
-            <?php endif; ?>
-            
-            <?php if (!empty($authors)): ?>
-            <div class="project-meta-card">
-                <h3 class="project-meta-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    Team
-                </h3>
-                <div class="author-list">
-                    <?php foreach ($authors as $author): ?>
-                    <a href="/team/<?= $author['id'] ?>" class="author-item">
-                        <div class="author-avatar">
-                            <?php if ($author['avatar']): ?>
-                                <img src="<?= htmlspecialchars($author['avatar']) ?>" alt="">
-                            <?php else: ?>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                            <?php endif; ?>
-                        </div>
-                        <div class="author-info">
-                            <div class="author-name"><?= htmlspecialchars($author['name']) ?></div>
-                            <?php if ($author['role_title']): ?>
-                                <div class="author-role"><?= htmlspecialchars($author['role_title']) ?></div>
-                            <?php endif; ?>
-                        </div>
-                    </a>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-            <?php endif; ?>
         </div>
     </section>
     <?php endif; ?>
@@ -164,24 +160,51 @@ function formatFileSize(?int $bytes): string {
     </section>
     <?php endif; ?>
 
-    <?php if (!empty($devlogs)): ?>
-    <section class="project-devlogs">
-        <div class="devlogs-header">
-            <h2 class="project-section-title">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
-                Development Log
-            </h2>
-            <span class="badge"><?= count($devlogs) ?> entries</span>
-        </div>
-        <div class="devlog-timeline">
-            <?php foreach ($devlogs as $devlog): ?>
-            <div class="devlog-entry">
-                <a href="/projects/<?= htmlspecialchars($project['slug']) ?>/devlogs/<?= htmlspecialchars($devlog['slug']) ?>" class="devlog-card">
-                    <div class="devlog-date"><?= Date::short($devlog['created_at']) ?></div>
-                    <div class="devlog-card-title"><?= htmlspecialchars($devlog['title']) ?></div>
-                </a>
+    <?php if (!empty($techStack) || !empty($devlogs)): ?>
+    <section class="project-tech-devlogs">
+        <div class="tech-devlogs-grid">
+            <?php if (!empty($techStack)): ?>
+            <div class="tech-stack-panel">
+                <h2 class="project-section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                    Tech Stack
+                </h2>
+                <div class="tech-stack-tiers">
+                    <?php foreach ($techByTier as $tier): ?>
+                    <div class="tech-tier">
+                        <div class="tech-tier-name"><?= htmlspecialchars($tier['name']) ?></div>
+                        <div class="tech-tier-items">
+                            <?php foreach ($tier['items'] as $tech): ?>
+                                <span class="tech-tag"><?= htmlspecialchars($tech['name']) ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
-            <?php endforeach; ?>
+            <?php endif; ?>
+
+            <?php if (!empty($devlogs)): ?>
+            <div class="devlogs-panel">
+                <div class="devlogs-header">
+                    <h2 class="project-section-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+                        Development Log
+                    </h2>
+                    <span class="badge"><?= count($devlogs) ?> entries</span>
+                </div>
+                <div class="devlog-timeline">
+                    <?php foreach ($devlogs as $devlog): ?>
+                    <div class="devlog-entry">
+                        <a href="/projects/<?= htmlspecialchars($project['slug']) ?>/devlogs/<?= htmlspecialchars($devlog['slug']) ?>" class="devlog-card">
+                            <div class="devlog-date"><?= Date::short($devlog['created_at']) ?></div>
+                            <div class="devlog-card-title"><?= htmlspecialchars($devlog['title']) ?></div>
+                        </a>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
     </section>
     <?php endif; ?>

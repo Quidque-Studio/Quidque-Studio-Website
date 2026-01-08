@@ -11,13 +11,17 @@ use Api\Core\Date;
     
     <?php if (!empty($categories)): ?>
     <div class="blog-filters">
-        <a href="/blog" class="category-tag <?= !$currentCategory ? 'active' : '' ?>">All</a>
-        <?php foreach ($categories as $cat): ?>
-            <a href="/blog?category=<?= htmlspecialchars($cat['slug']) ?>" 
-               class="category-tag <?= $currentCategory && $currentCategory['id'] === $cat['id'] ? 'active' : '' ?>">
-                <?= htmlspecialchars($cat['name']) ?>
-            </a>
-        <?php endforeach; ?>
+        <div class="category-dropdown">
+            <select id="category-select" onchange="window.location.href = this.value ? '/blog?category=' + this.value : '/blog'">
+                <option value="" <?= !$currentCategory ? 'selected' : '' ?>>All Categories</option>
+                <?php foreach ($categories as $cat): ?>
+                    <option value="<?= htmlspecialchars($cat['slug']) ?>" <?= $currentCategory && $currentCategory['id'] === $cat['id'] ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($cat['name']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
     </div>
     <?php endif; ?>
 </div>
