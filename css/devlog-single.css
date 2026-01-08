@@ -1,145 +1,234 @@
-.devlog-single {
-    max-width: 700px;
+.devlog-container {
+    max-width: 720px;
     margin: 0 auto;
 }
 
 .devlog-header {
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
 }
 
-.back-link {
+.devlog-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
     color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.devlog-breadcrumb a {
+    color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.9rem;
+    transition: color var(--transition-fast);
 }
 
-.back-link:hover {
-    color: var(--purple-color);
+.devlog-breadcrumb a:hover {
+    color: var(--primary);
 }
 
-.devlog-header h1 {
-    margin: 0.5rem 0;
+.devlog-breadcrumb svg {
+    width: 14px;
+    height: 14px;
 }
 
 .devlog-meta {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-.devlog-meta span+span::before {
-    content: ' • ';
-}
-
-.devlog-tags,
-.blog-tags {
-    margin-top: 1rem;
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
 }
 
-.tag {
-    background: var(--purple-color);
-    color: #fff;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-}
-
-.devlog-content,
-.blog-content {
-    line-height: 1.7;
-}
-
-.devlog-content h2,
-.blog-content h2 {
-    margin: 2rem 0 1rem;
-}
-
-.devlog-content p,
-.blog-content p {
-    margin-bottom: 1rem;
-}
-
-.devlog-content figure,
-.blog-content figure {
-    margin: 1.5rem 0;
-}
-
-.devlog-content img,
-.blog-content img {
-    max-width: 100%;
-    border-radius: 6px;
-}
-
-.devlog-content pre,
-.blog-content pre {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 1rem;
-    border-radius: 6px;
-    overflow-x: auto;
-    margin: 1rem 0;
-}
-
-.devlog-content blockquote,
-.blog-content blockquote {
-    border-left: 3px solid var(--purple-color);
-    padding-left: 1rem;
-    margin: 1.5rem 0;
+.devlog-date {
+    font-size: 13px;
     color: var(--text-muted);
+}
+
+.devlog-author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.devlog-author svg {
+    width: 14px;
+    height: 14px;
+}
+
+.devlog-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin-bottom: 16px;
+}
+
+.devlog-project-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--purple-dim);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    margin-bottom: 16px;
+}
+
+.devlog-project-badge:hover {
+    background: rgba(157, 126, 219, 0.25);
+}
+
+.devlog-project-badge svg {
+    width: 16px;
+    height: 16px;
+    color: var(--purple);
+}
+
+.devlog-project-badge span {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--purple);
+}
+
+.devlog-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.devlog-tag {
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--panel-bg);
+    border: 1px solid var(--border-subtle);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+}
+
+.devlog-content {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+.devlog-content h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    color: var(--text-primary);
+}
+
+.devlog-content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 32px 0 12px;
+    color: var(--text-primary);
+}
+
+.devlog-content p {
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+}
+
+.devlog-content a {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px solid var(--primary-dim);
+}
+
+.devlog-content a:hover {
+    border-color: var(--primary);
+}
+
+.devlog-content img {
+    max-width: 100%;
+    border-radius: var(--radius-md);
+    margin: 24px 0;
+}
+
+.devlog-content figure {
+    margin: 32px 0;
+}
+
+.devlog-content figcaption {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 10px;
+}
+
+.devlog-content pre {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    overflow-x: auto;
+    margin: 24px 0;
+    font-size: 13px;
+}
+
+.devlog-content code {
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 13px;
+    background: var(--panel-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.devlog-content pre code {
+    background: none;
+    padding: 0;
+}
+
+.devlog-content blockquote {
+    border-left: 3px solid var(--purple);
+    padding-left: 20px;
+    margin: 24px 0;
     font-style: italic;
+    color: var(--text-secondary);
 }
 
-.devlog-content .callout,
-.blog-content .callout {
-    background: rgba(157, 126, 219, 0.1);
-    border: 1px solid var(--purple-color);
-    border-radius: 6px;
-    padding: 1rem;
-    margin: 1.5rem 0;
+.devlog-content ul,
+.devlog-content ol {
+    margin: 20px 0;
+    padding-left: 24px;
 }
 
-.devlog-content .video-embed,
-.blog-content .video-embed {
+.devlog-content li {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.devlog-content hr {
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+    margin: 40px 0;
+}
+
+.devlog-content .callout {
+    background: var(--purple-dim);
+    border: 1px solid rgba(157, 126, 219, 0.3);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin: 24px 0;
+}
+
+.devlog-content .video-embed {
     position: relative;
     padding-bottom: 56.25%;
     height: 0;
-    margin: 1.5rem 0;
+    margin: 32px 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
 }
 
-.devlog-content .video-embed iframe,
-.blog-content .video-embed iframe {
+.devlog-content .video-embed iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 6px;
-}
-
-.devlog-content figcaption,
-.blog-content figcaption {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-}
-
-.devlog-content ul,
-.devlog-content ol,
-.blog-content ul,
-.blog-content ol {
-    margin: 1rem 0;
-    padding-left: 1.5rem;
-}
-
-.devlog-content li,
-.blog-content li {
-    margin-bottom: 0.5rem;
-}
-
-.devlog-content hr,
-.blog-content hr {
-    border: none;
-    border-top: 1px solid var(--border-color);
-    margin: 2rem 0;
 }

@@ -4,27 +4,40 @@ use Api\Core\Date;
 use Api\Core\Str;
 ?>
 
-<article class="blog-single">
-    <header class="blog-header">
-        <a href="/blog" class="back-link">← Back to Blog</a>
-        <h1><?= htmlspecialchars($post['title']) ?></h1>
-        <div class="blog-meta">
-            <span><?= Date::long($post['created_at']) ?></span>
+<article class="article-container">
+    <header class="article-header">
+        <nav class="article-breadcrumb">
+            <a href="/blog">News</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
             <?php if (!empty($post['category_name'])): ?>
-                <span class="category"><?= htmlspecialchars($post['category_name']) ?></span>
+                <a href="/blog?category=<?= htmlspecialchars($post['category_slug']) ?>"><?= htmlspecialchars($post['category_name']) ?></a>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            <?php endif; ?>
+            <span>Article</span>
+        </nav>
+        
+        <div class="article-meta">
+            <span class="article-date"><?= Date::long($post['created_at']) ?></span>
+            <?php if (!empty($post['category_name'])): ?>
+                <a href="/blog?category=<?= htmlspecialchars($post['category_slug']) ?>" class="article-category">
+                    <?= htmlspecialchars($post['category_name']) ?>
+                </a>
             <?php endif; ?>
         </div>
+        
+        <h1 class="article-title"><?= htmlspecialchars($post['title']) ?></h1>
+        
         <?php $tags = Str::formatTags($post['tags']); ?>
         <?php if (!empty($tags)): ?>
-            <div class="blog-tags">
-                <?php foreach ($tags as $tag): ?>
-                    <span class="tag"><?= htmlspecialchars($tag) ?></span>
-                <?php endforeach; ?>
-            </div>
+        <div class="article-tags">
+            <?php foreach ($tags as $tag): ?>
+                <span class="article-tag"><?= htmlspecialchars($tag) ?></span>
+            <?php endforeach; ?>
+        </div>
         <?php endif; ?>
     </header>
 
-    <div class="blog-content">
+    <div class="article-content">
         <?= ContentRenderer::render($post['content']) ?>
     </div>
 </article>

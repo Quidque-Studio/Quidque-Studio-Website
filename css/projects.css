@@ -1,73 +1,188 @@
+.projects-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.projects-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  color: var(--primary);
+  border-color: var(--primary-dim);
+  background: var(--primary-dim);
+}
+
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .project-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   background: var(--panel-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   text-decoration: none;
-  color: inherit;
-  transition: border-color 0.2s;
+  transition: all var(--transition-fast);
 }
 
 .project-card:hover {
-  border-color: var(--purple-color);
+  border-color: var(--primary-dim);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .project-card-thumb {
   width: 100%;
   aspect-ratio: 16/9;
   object-fit: cover;
+  background: var(--bg-surface);
 }
 
 .project-card-thumb-empty {
-  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--panel-bg) 100%);
+}
+
+.project-card-thumb-empty svg {
+  width: 40px;
+  height: 40px;
+  color: var(--text-muted);
+  opacity: 0.5;
 }
 
 .project-card-body {
-  padding: 1rem;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.project-card-body h2,
-.project-card-body h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+.project-card-body h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.project-card-body p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-top: 8px;
+  flex: 1;
+}
+
+.project-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .status-badge {
-  display: inline-block;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-radius: 20px;
+}
+
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
 }
 
 .status-planned {
-  background: rgba(157, 126, 219, 0.2);
-  color: var(--purple-color);
+  background: var(--purple-dim);
+  color: var(--purple);
+}
+
+.status-planned::before {
+  background: var(--purple);
 }
 
 .status-in_progress {
-  background: rgba(57, 255, 182, 0.2);
-  color: var(--aquamarine-color);
+  background: var(--primary-dim);
+  color: var(--primary);
+}
+
+.status-in_progress::before {
+  background: var(--primary);
 }
 
 .status-completed {
-  background: rgba(57, 255, 182, 0.3);
-  color: var(--aquamarine-color);
+  background: rgba(0, 255, 187, 0.2);
+  color: var(--primary);
+}
+
+.status-completed::before {
+  background: var(--primary);
 }
 
 .status-on_hold {
-  background: rgba(255, 255, 0, 0.2);
-  color: #ff0;
+  background: rgba(255, 200, 0, 0.15);
+  color: #ffc800;
+}
+
+.status-on_hold::before {
+  background: #ffc800;
 }
 
 .status-abandoned {
-  background: rgba(255, 0, 255, 0.2);
-  color: var(--magenta-color);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.status-abandoned::before {
+  background: var(--accent);
+}
+
+.projects-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.projects-empty svg {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.projects-empty p {
+  font-size: 15px;
 }
