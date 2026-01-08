@@ -102,11 +102,20 @@ class BlockEditor {
         const formData = new FormData();
         formData.append('file', file);
 
+        const csrfToken = document.querySelector('input[name="_csrf"]');
+        if (csrfToken) {
+          formData.append('_csrf', csrfToken.value);
+        }
+
         try {
           const res = await fetch(this.uploadUrl, {
             method: 'POST',
             body: formData
           });
+
+          if (!res.ok) {
+            throw new Error(`Server returned ${res.status}`);
+          }
 
           const data = await res.json();
           if (data.success) {
