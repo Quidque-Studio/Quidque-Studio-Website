@@ -12,6 +12,11 @@ function initCheckboxHighlight() {
   });
 }
 
+function getCsrfToken() {
+  const input = document.querySelector('input[name="_csrf"]');
+  return input ? input.value : '';
+}
+
 function initGalleryUpload() {
   const input = document.getElementById('gallery-upload');
   const preview = document.getElementById('gallery-preview');
@@ -22,11 +27,17 @@ function initGalleryUpload() {
       const formData = new FormData();
       formData.append('file', file);
 
+      formData.append('_csrf', getCsrfToken());
+
       try {
         const res = await fetch('/admin/media/upload', {
           method: 'POST',
           body: formData
         });
+
+        if (!res.ok) {
+          throw new Error(`Server returned ${res.status}`);
+        }
 
         const data = await res.json();
         if (data.success) {
@@ -103,11 +114,17 @@ function initResourceManager() {
       const formData = new FormData();
       formData.append('file', file);
 
+      formData.append('_csrf', getCsrfToken());
+
       try {
         const res = await fetch('/admin/media/upload-download', {
           method: 'POST',
           body: formData
         });
+
+        if (!res.ok) {
+          throw new Error(`Server returned ${res.status}`);
+        }
 
         const data = await res.json();
         if (data.success) {
@@ -131,80 +148,80 @@ function addResourceForm(container, type) {
   switch (type) {
     case 'link':
       fields = `
-        <div class="resource-item-row">
-          <div class="resource-item-field">
-            <span class="resource-item-label">Label</span>
-            <input type="text" name="resources[${index}][label]" class="resource-item-input" placeholder="Link text" required>
+          <div class="resource-item-row">
+            <div class="resource-item-field">
+              <span class="resource-item-label">Label</span>
+              <input type="text" name="resources[${index}][label]" class="resource-item-input" placeholder="Link text" required>
+            </div>
+            <div class="resource-item-field">
+              <span class="resource-item-label">URL</span>
+              <input type="url" name="resources[${index}][url]" class="resource-item-input" placeholder="https://..." required>
+            </div>
           </div>
-          <div class="resource-item-field">
-            <span class="resource-item-label">URL</span>
-            <input type="url" name="resources[${index}][url]" class="resource-item-input" placeholder="https://..." required>
-          </div>
-        </div>
-      `;
+        `;
       break;
     case 'steam':
       fields = `
-        <div class="resource-item-field">
-          <span class="resource-item-label">Steam App ID</span>
-          <input type="text" name="resources[${index}][app_id]" class="resource-item-input" placeholder="e.g. 730" required>
-        </div>
-      `;
+          <div class="resource-item-field">
+            <span class="resource-item-label">Steam App ID</span>
+            <input type="text" name="resources[${index}][app_id]" class="resource-item-input" placeholder="e.g. 730" required>
+          </div>
+        `;
       break;
     case 'itch':
       fields = `
-        <div class="resource-item-field">
-          <span class="resource-item-label">Itch.io URL</span>
-          <input type="url" name="resources[${index}][url]" class="resource-item-input" placeholder="https://username.itch.io/game" required>
-        </div>
-      `;
+          <div class="resource-item-field">
+            <span class="resource-item-label">Itch.io URL</span>
+            <input type="url" name="resources[${index}][url]" class="resource-item-input" placeholder="https://username.itch.io/game" required>
+          </div>
+        `;
       break;
     case 'youtube':
       fields = `
-        <div class="resource-item-field">
-          <span class="resource-item-label">YouTube Video ID</span>
-          <input type="text" name="resources[${index}][video_id]" class="resource-item-input" placeholder="e.g. dQw4w9WgXcQ" required>
-        </div>
-      `;
+          <div class="resource-item-field">
+            <span class="resource-item-label">YouTube Video ID</span>
+            <input type="text" name="resources[${index}][video_id]" class="resource-item-input" placeholder="e.g. dQw4w9WgXcQ" required>
+          </div>
+        `;
       break;
     case 'download':
       fields = `
-        <div class="resource-item-row">
-          <div class="resource-item-field">
-            <span class="resource-item-label">Label</span>
-            <input type="text" name="resources[${index}][label]" class="resource-item-input" placeholder="e.g. v1.0" required>
+          <div class="resource-item-row">
+            <div class="resource-item-field">
+              <span class="resource-item-label">Label</span>
+              <input type="text" name="resources[${index}][label]" class="resource-item-input" placeholder="e.g. v1.0" required>
+            </div>
+            <div class="resource-item-field">
+              <span class="resource-item-label">File</span>
+              <input type="file" class="download-file-input resource-item-input">
+              <input type="hidden" name="resources[${index}][file_path]" class="download-path-input" required>
+              <input type="hidden" name="resources[${index}][file_size]" class="download-size-input">
+            </div>
           </div>
-          <div class="resource-item-field">
-            <span class="resource-item-label">File</span>
-            <input type="file" class="download-file-input resource-item-input">
-            <input type="hidden" name="resources[${index}][file_path]" class="download-path-input" required>
-            <input type="hidden" name="resources[${index}][file_size]" class="download-size-input">
-          </div>
-        </div>
-      `;
+        `;
       break;
     case 'embed':
       fields = `
-        <div class="resource-item-field">
-          <span class="resource-item-label">Label (optional)</span>
-          <input type="text" name="resources[${index}][label]" class="resource-item-input" placeholder="Section title">
-        </div>
-        <div class="resource-item-field">
-          <span class="resource-item-label">Embed HTML</span>
-          <textarea name="resources[${index}][html]" class="resource-item-textarea" placeholder="<iframe>...</iframe>" required></textarea>
-        </div>
-      `;
+          <div class="resource-item-field">
+            <span class="resource-item-label">Label (optional)</span>
+            <input type="text" name="resources[${index}][label]" class="resource-item-input" placeholder="Section title">
+          </div>
+          <div class="resource-item-field">
+            <span class="resource-item-label">Embed HTML</span>
+            <textarea name="resources[${index}][html]" class="resource-item-textarea" placeholder="<iframe>...</iframe>" required></textarea>
+          </div>
+        `;
       break;
   }
 
   item.innerHTML = `
-    <input type="hidden" name="resources[${index}][type]" value="${type}">
-    <div class="resource-item-header">
-      <span class="resource-type-badge">${type}</span>
-      <button type="button" class="resource-item-remove">×</button>
-    </div>
-    <div class="resource-item-body">${fields}</div>
-  `;
+      <input type="hidden" name="resources[${index}][type]" value="${type}">
+      <div class="resource-item-header">
+        <span class="resource-type-badge">${type}</span>
+        <button type="button" class="resource-item-remove">×</button>
+      </div>
+      <div class="resource-item-body">${fields}</div>
+    `;
 
   container.appendChild(item);
 }
