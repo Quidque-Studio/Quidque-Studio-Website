@@ -133,6 +133,8 @@ html.sidebar-collapsed .nav-section-title,
 html.sidebar-collapsed .nav-link span,
 .sidebar.collapsed .nav-link span {
   opacity: 0;
+  width: 0;
+  overflow: hidden;
 }
 
 .sidebar-footer {
@@ -256,8 +258,10 @@ html.sidebar-collapsed .main-wrapper,
 }
 
 .btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary) 0%, #00cc99 100%);
   box-shadow: 0 0 1.25rem var(--primary-glow);
   transform: translateY(-1px);
+  color: #0a1214;
 }
 
 .btn-accent {
@@ -268,8 +272,10 @@ html.sidebar-collapsed .main-wrapper,
 }
 
 .btn-accent:hover {
+  background: linear-gradient(135deg, var(--accent) 0%, #cc00cc 100%);
   box-shadow: 0 0 1.25rem var(--accent-glow);
   transform: translateY(-1px);
+  color: #fff;
 }
 
 .btn-ghost {

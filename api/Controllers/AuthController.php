@@ -27,7 +27,10 @@ class AuthController
             exit;
         }
 
-        View::render('auth/login', ['title' => 'Login']);
+        View::render('auth/login', [
+                'title' => 'Login',
+                'styles' => ['auth']
+            ]);
     }
 
     public function sendMagicLink(): void
@@ -38,6 +41,7 @@ class AuthController
             View::render('auth/login', [
                 'title' => 'Login',
                 'error' => 'Invalid email address',
+                'styles' => ['auth']
             ]);
             return;
         }
@@ -46,6 +50,7 @@ class AuthController
             View::render('auth/login', [
                 'title' => 'Login',
                 'error' => 'Too many requests. Please try again later.',
+                'styles' => ['auth']
             ]);
             return;
         }
@@ -58,7 +63,8 @@ class AuthController
         View::render('auth/check-email', [
             'title' => 'Check Your Email',
             'email' => $email,
-        ]);
+            'styles' => ['auth']
+        ], 'main');
     }
 
     public function verify(): void
@@ -70,6 +76,7 @@ class AuthController
             View::render('auth/login', [
                 'title' => 'Login',
                 'error' => 'Invalid or expired link',
+                'styles' => ['auth']
             ]);
             return;
         }
@@ -98,7 +105,8 @@ class AuthController
         View::render('auth/register', [
             'title' => 'Complete Registration',
             'email' => $email,
-        ]);
+            'styles' => ['auth']
+        ], 'main');
     }
 
     public function register(): void
@@ -111,7 +119,8 @@ class AuthController
                 'title' => 'Complete Registration',
                 'email' => $email,
                 'error' => 'Name is required',
-            ]);
+                'styles' => ['auth']
+            ], 'main');
             return;
         }
 
