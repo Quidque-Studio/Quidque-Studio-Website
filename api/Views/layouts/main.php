@@ -16,11 +16,11 @@
 <body>
     <div class="app-layout">
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
+            <div class="sidebar-header" onclick="window.location.href = '/'">
                 <div class="sidebar-logo">
                     <img src="/QuidqueLogo.png" alt="Quidque">
                 </div>
-                <span class="sidebar-brand" onclick="window.location.href = '/'">Quidque</span>
+                <span class="sidebar-brand">Quidque</span>
             </div>
             
             <nav class="sidebar-nav">

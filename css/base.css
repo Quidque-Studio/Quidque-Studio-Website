@@ -30,6 +30,7 @@
   align-items: center;
   gap: 12px;
   border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
 }
 
 .sidebar-logo {
@@ -54,10 +55,6 @@
   white-space: nowrap;
   overflow: hidden;
   transition: opacity var(--transition-normal);
-}
-
-.sidebar-brand:hover {
-  cursor: pointer;
 }
 
 .sidebar.collapsed .sidebar-brand {
