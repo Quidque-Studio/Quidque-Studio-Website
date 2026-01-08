@@ -23,7 +23,7 @@ class AboutController
     public function index(): void
     {
         $teamMembers = $this->db->query(
-            'SELECT u.id, u.name, u.avatar, tp.role_title, tp.short_bio, tp.accent_color
+            'SELECT u.id, u.name, u.avatar, tp.role_title, tp.short_bio, tp.color_palette
              FROM users u
              LEFT JOIN team_profiles tp ON tp.user_id = u.id
              WHERE u.role = ?

@@ -20,7 +20,7 @@
                 <div class="sidebar-logo">
                     <img src="/QuidqueLogo.png" alt="Quidque">
                 </div>
-                <span class="sidebar-brand">Quidque</span>
+                <span class="sidebar-brand" onclick="window.location.href = '/'">Quidque</span>
             </div>
             
             <nav class="sidebar-nav">
