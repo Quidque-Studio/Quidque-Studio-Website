@@ -61,15 +61,15 @@ $palette = array_merge($defaultPalette, $customPalette);
                     <p>No posts yet.</p>
                 </div>
             <?php else: ?>
-                <div class="post-list">
+                <div class="member-posts-timeline">
                     <?php foreach ($posts as $post): ?>
-                        <div class="post-list-item">
-                            <a href="/team/<?= $member['id'] ?>/posts/<?= $post['slug'] ?>" class="post-list-link">
-                                <span class="post-list-title"><?= htmlspecialchars($post['title']) ?></span>
-                                <span class="post-list-date"><?= Date::short($post['created_at']) ?></span>
+                        <div class="member-post-entry">
+                            <a href="/team/<?= $member['id'] ?>/posts/<?= $post['slug'] ?>" class="member-post-card">
+                                <div class="member-post-date"><?= Date::short($post['created_at']) ?></div>
+                                <div class="member-post-title"><?= htmlspecialchars($post['title']) ?></div>
                             </a>
                             <?php if ($canEdit): ?>
-                                <div class="post-list-actions">
+                                <div class="member-post-actions">
                                     <a href="/team/<?= $member['id'] ?>/posts/<?= $post['id'] ?>/edit">Edit</a>
                                     <form method="POST" action="/team/<?= $member['id'] ?>/posts/<?= $post['id'] ?>/delete" style="display:inline">
                                         <?= \Api\Core\View::csrfField() ?>

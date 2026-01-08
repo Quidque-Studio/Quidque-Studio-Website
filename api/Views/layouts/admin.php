@@ -37,7 +37,7 @@ $currentPath = $_SERVER['REQUEST_URI'];
             <?php if (in_array('manage_newsletter', $perms)): ?>
                 <a href="/admin/newsletter" class="<?= str_starts_with($currentPath, '/admin/newsletter') ? 'active' : '' ?>">Newsletter</a>
             <?php endif; ?>
-            <a href="/" target="_blank">View Site</a>
+            <a href="/">View Site</a>
             <a href="/auth/logout">Logout</a>
         </nav>
     </aside>

@@ -22,21 +22,36 @@
   --border-color: rgba(0, 255, 187, 0.12);
   --border-subtle: rgba(255, 255, 255, 0.06);
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 0.25rem 1rem rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 0.5rem 2rem rgba(0, 0, 0, 0.5);
 
-  --sidebar-width: 240px;
-  --sidebar-collapsed: 64px;
-  --header-height: 64px;
+  --sidebar-width: 15rem;
+  --sidebar-collapsed: 4rem;
+  --header-height: 4rem;
 
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  --text-xs: clamp(0.625rem, 0.5rem + 0.25vw, 0.75rem);
+  --text-sm: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
+  --text-base: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);
+  --text-lg: clamp(1rem, 0.9rem + 0.3vw, 1.125rem);
+  --text-xl: clamp(1.125rem, 1rem + 0.4vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.2rem + 0.8vw, 2rem);
+  --text-3xl: clamp(1.75rem, 1.4rem + 1vw, 2.5rem);
 }
 
 * {
@@ -45,19 +60,23 @@
   padding: 0;
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.5;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -66,7 +85,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: var(--border-color);
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {
