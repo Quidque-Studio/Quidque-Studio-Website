@@ -1,5 +1,5 @@
 .search-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -118,9 +118,9 @@
 }
 
 .search-results-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
 }
 
 .search-result-item {

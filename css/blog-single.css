@@ -1,5 +1,5 @@
 .article-container {
-  max-width: 720px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -117,12 +117,19 @@
 
 .article-content img {
   max-width: 100%;
+  height: auto;
   border-radius: var(--radius-md);
   margin: 24px 0;
 }
 
 .article-content figure {
   margin: 32px 0;
+}
+
+.article-content figure img {
+  max-width: 600px;
+  width: 100%;
+  height: auto;
 }
 
 .article-content figcaption {
@@ -196,6 +203,7 @@
   margin: 32px 0;
   border-radius: var(--radius-md);
   overflow: hidden;
+  max-width: 720px;
 }
 
 .article-content .video-embed iframe {

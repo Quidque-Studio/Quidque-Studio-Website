@@ -30,6 +30,32 @@ function formatFileSize(?int $bytes): string {
             <?php if ($project['description']): ?>
                 <p class="project-description"><?= htmlspecialchars($project['description']) ?></p>
             <?php endif; ?>
+            
+            <?php if (!empty($gallery)): ?>
+            <div class="project-gallery-inline">
+                <div class="gallery-main" id="gallery-main">
+                    <?php $first = $gallery[0]; ?>
+                    <?php if ($first['type'] === 'video'): ?>
+                        <video src="<?= htmlspecialchars($first['path']) ?>" controls></video>
+                    <?php else: ?>
+                        <img src="<?= htmlspecialchars($first['path']) ?>" alt="" id="gallery-main-img">
+                    <?php endif; ?>
+                </div>
+                <?php if (count($gallery) > 1): ?>
+                <div class="gallery-thumbs">
+                    <?php foreach ($gallery as $i => $media): ?>
+                        <div class="gallery-thumb <?= $i === 0 ? 'active' : '' ?>" data-src="<?= htmlspecialchars($media['path']) ?>" data-type="<?= $media['type'] ?>">
+                            <?php if ($media['type'] === 'video'): ?>
+                                <video src="<?= htmlspecialchars($media['path']) ?>" muted></video>
+                            <?php else: ?>
+                                <img src="<?= htmlspecialchars($media['path']) ?>" alt="">
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
         </div>
         
         <aside class="project-sidebar">
@@ -115,32 +141,6 @@ function formatFileSize(?int $bytes): string {
             <?php endif; ?>
         </aside>
     </div>
-    
-    <?php if (!empty($gallery)): ?>
-    <section class="project-gallery">
-        <div class="gallery-main" id="gallery-main">
-            <?php $first = $gallery[0]; ?>
-            <?php if ($first['type'] === 'video'): ?>
-                <video src="<?= htmlspecialchars($first['path']) ?>" controls></video>
-            <?php else: ?>
-                <img src="<?= htmlspecialchars($first['path']) ?>" alt="" id="gallery-main-img">
-            <?php endif; ?>
-        </div>
-        <?php if (count($gallery) > 1): ?>
-        <div class="gallery-thumbs">
-            <?php foreach ($gallery as $i => $media): ?>
-                <div class="gallery-thumb <?= $i === 0 ? 'active' : '' ?>" data-src="<?= htmlspecialchars($media['path']) ?>" data-type="<?= $media['type'] ?>">
-                    <?php if ($media['type'] === 'video'): ?>
-                        <video src="<?= htmlspecialchars($media['path']) ?>" muted></video>
-                    <?php else: ?>
-                        <img src="<?= htmlspecialchars($media['path']) ?>" alt="">
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
-    </section>
-    <?php endif; ?>
     
     <?php foreach ($resources as $res): ?>
         <?php if ($res['type'] === 'embed'): ?>

@@ -1,4 +1,5 @@
-<?php if (isset($_GET['error']) && $_GET['error'] === 'tier_has_items'): ?>
+<?php
+if (isset($_GET['error']) && $_GET['error'] === 'tier_has_items'): ?>
     <div class="alert alert-error">Cannot delete tier that has items assigned to it.</div>
 <?php endif; ?>
 
@@ -17,15 +18,20 @@
             <?php if (empty($tiers)): ?>
                 <p style="color: var(--text-muted); text-align: center; padding: 20px;">No tiers yet</p>
             <?php else: ?>
-                <div class="tech-tier-list">
-                    <?php foreach ($tiers as $tier): ?>
-                        <div class="tech-tier-item">
-                            <form method="POST" action="/admin/tech-stack/tiers/<?= $tier['id'] ?>" style="display: contents;">
+                <div class="tech-tier-list" id="tier-list">
+                    <?php foreach ($tiers as $index => $tier): ?>
+                        <div class="tech-tier-item" data-id="<?= $tier['id'] ?>" data-order="<?= $tier['sort_order'] ?>">
+                            <span class="tier-drag-handle" title="Drag to reorder">⋮⋮</span>
+                            <form method="POST" action="/admin/tech-stack/tiers/<?= $tier['id'] ?>" class="tier-inline-form">
                                 <?= \Api\Core\View::csrfField() ?>
                                 <input type="text" name="name" value="<?= htmlspecialchars($tier['name']) ?>">
-                                <input type="number" name="sort_order" value="<?= $tier['sort_order'] ?>" title="Sort order">
+                                <input type="hidden" name="sort_order" value="<?= $tier['sort_order'] ?>" class="tier-order-input">
                                 <button type="submit" class="save" title="Save">✓</button>
                             </form>
+                            <div class="tier-move-btns">
+                                <button type="button" class="move-up" title="Move up" <?= $index === 0 ? 'disabled' : '' ?>>↑</button>
+                                <button type="button" class="move-down" title="Move down" <?= $index === count($tiers) - 1 ? 'disabled' : '' ?>>↓</button>
+                            </div>
                             <form method="POST" action="/admin/tech-stack/tiers/<?= $tier['id'] ?>/delete" style="display: contents;">
                                 <?= \Api\Core\View::csrfField() ?>
                                 <button type="submit" class="delete" title="Delete" onclick="return confirm('Delete this tier?')">×</button>
@@ -86,3 +92,57 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tierList = document.getElementById('tier-list');
+    if (!tierList) return;
+
+    tierList.addEventListener('click', function(e) {
+        const item = e.target.closest('.tech-tier-item');
+        if (!item) return;
+
+        const items = Array.from(tierList.querySelectorAll('.tech-tier-item'));
+        const currentIndex = items.indexOf(item);
+
+        if (e.target.classList.contains('move-up') && currentIndex > 0) {
+            tierList.insertBefore(item, items[currentIndex - 1]);
+            updateTierOrders();
+        } else if (e.target.classList.contains('move-down') && currentIndex < items.length - 1) {
+            tierList.insertBefore(items[currentIndex + 1], item);
+            updateTierOrders();
+        }
+    });
+
+    function updateTierOrders() {
+        const items = tierList.querySelectorAll('.tech-tier-item');
+        const orders = {};
+
+        items.forEach((item, index) => {
+            const id = item.dataset.id;
+            const orderInput = item.querySelector('.tier-order-input');
+            orderInput.value = index;
+            orders[id] = index;
+
+            const upBtn = item.querySelector('.move-up');
+            const downBtn = item.querySelector('.move-down');
+            upBtn.disabled = index === 0;
+            downBtn.disabled = index === items.length - 1;
+        });
+
+        const formData = new FormData();
+        const csrfInput = document.querySelector('input[name="_csrf"]');
+        if (csrfInput) {
+            formData.append('_csrf', csrfInput.value);
+        }
+        for (const [id, order] of Object.entries(orders)) {
+            formData.append(`orders[${id}]`, order);
+        }
+
+        fetch('/admin/tech-stack/tiers/order', {
+            method: 'POST',
+            body: formData
+        });
+    }
+});
+</script>

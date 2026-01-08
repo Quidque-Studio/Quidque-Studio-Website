@@ -1,5 +1,5 @@
 .devlog-container {
-    max-width: 720px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -145,12 +145,19 @@
 
 .devlog-content img {
     max-width: 100%;
+    height: auto;
     border-radius: var(--radius-md);
     margin: 24px 0;
 }
 
 .devlog-content figure {
     margin: 32px 0;
+}
+
+.devlog-content figure img {
+    max-width: 600px;
+    width: 100%;
+    height: auto;
 }
 
 .devlog-content figcaption {
@@ -223,6 +230,7 @@
     margin: 32px 0;
     border-radius: var(--radius-md);
     overflow: hidden;
+    max-width: 720px;
 }
 
 .devlog-content .video-embed iframe {

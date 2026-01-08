@@ -9,7 +9,7 @@
 }
 
 .member-profile {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -170,8 +170,25 @@
 
 .member-content img {
   max-width: 100%;
+  height: auto;
   border-radius: var(--radius-md);
   margin: 20px 0;
+}
+
+.member-content figure {
+  margin: 24px 0;
+}
+
+.member-content figure img {
+  max-width: 600px;
+  width: 100%;
+}
+
+.member-content figcaption {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 8px;
 }
 
 .member-content pre {
@@ -199,8 +216,8 @@
 }
 
 .post-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2fr, 1fr));
   gap: 12px;
 }
 
@@ -349,4 +366,20 @@
 .member-empty p {
   font-size: 14px;
   color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .member-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .member-socials {
+    justify-content: center;
+  }
+
+  .post-list {
+    grid-template-columns: 1fr;
+  }
 }
