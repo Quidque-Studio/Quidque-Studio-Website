@@ -43,7 +43,7 @@
 
 .resource-item {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: var(--space-sm);
   padding: var(--space-md);
   background: var(--bg-surface);
@@ -51,6 +51,7 @@
   border-radius: var(--radius-md);
   margin-bottom: var(--space-sm);
   flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .resource-item input,
@@ -156,11 +157,6 @@
   .gallery-item {
     width: 4rem;
     height: 2.75rem;
-  }
-
-  .resource-item {
-    flex-direction: column;
-    align-items: stretch;
   }
 
   .resource-item .remove-resource {

@@ -8,6 +8,7 @@ use Api\Core\View;
 use Api\Models\Project;
 use Api\Models\StudioPost;
 use Api\Models\Devlog;
+use Api\Models\MemberPost;
 
 class HomeController
 {
@@ -25,6 +26,7 @@ class HomeController
         $projectModel = new Project($this->db);
         $postModel = new StudioPost($this->db);
         $devlogModel = new Devlog($this->db);
+        $memberPostModel = new MemberPost($this->db);
 
         $featuredProjects = $this->db->query(
             "SELECT p.*, m.path as thumbnail
@@ -38,6 +40,7 @@ class HomeController
 
         $recentPosts = $postModel->getRecent(5);
         $recentDevlogs = $devlogModel->getRecent(5);
+        $recentMemberPosts = $memberPostModel->getRecent(5);
 
         View::render('home/index', [
             'title' => 'Quidque Studio',
@@ -45,6 +48,7 @@ class HomeController
             'featuredProjects' => $featuredProjects,
             'recentPosts' => $recentPosts,
             'recentDevlogs' => $recentDevlogs,
+            'recentMemberPosts' => $recentMemberPosts,
             'styles' => ['home'],
         ], 'main');
     }

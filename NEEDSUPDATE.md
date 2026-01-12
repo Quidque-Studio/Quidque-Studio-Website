@@ -4,17 +4,10 @@
 
 ### General
 
-#### Home
-
-- Recent activity should also include recent member blog posts.
-
-#### Sidebar / Nav
-
-- Collapsed and Expanded states should be separate for better UI
-
-#### Images
+#### Freeform Content
 
 - Images in Blogs, Devlogs, News, and member's about me sections should be smaller.
+- Spacing between the various blocks is too large
 
 #### Single Project Page
 
@@ -24,7 +17,8 @@
 #### Member Pages
 
 - The custom colorpalette should cover the "full" colorpalette, and change the root variables rather than just certain parts
-- In the settings, there should be a preview based on the selected colorpalette
+  - That means also allowing for the user to update even more than the current colors in the settings
+- In the settings, there should be a way to preview based on the selected colorpalette
   - There should also be a "reset all" button
 
 ### Admin
@@ -32,10 +26,6 @@
 #### General UX
 
 - Generally, the admin pages could use more mobile optimization
-
-#### Projects
-
-- Better resources & links editor UI for desktop
 
 #### Users
 

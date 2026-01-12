@@ -25,7 +25,7 @@ class MemberPost extends Model
     public function getRecent(int $limit = 5): array
     {
         return $this->db->query(
-            "SELECT mp.*, u.name as author_name
+            "SELECT mp.*, mp.author_id, mp.slug, u.name as author_name
              FROM member_posts mp
              JOIN users u ON u.id = mp.author_id
              ORDER BY mp.created_at DESC
