@@ -1,0 +1,63 @@
+.user-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-lg);
+}
+
+.permissions-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.permission-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.permission-item:hover {
+  border-color: var(--primary-dim);
+}
+
+.permission-item:has(input:checked) {
+  background: var(--primary-dim);
+  border-color: var(--primary-dim);
+}
+
+.permission-item input {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.permission-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.permission-label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.permission-slug {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+@media (max-width: 768px) {
+  .user-edit-grid {
+    grid-template-columns: 1fr;
+  }
+}

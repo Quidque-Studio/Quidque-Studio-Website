@@ -349,3 +349,21 @@ html.admin-sidebar-collapsed .admin-main,
     display: none;
   }
 }
+
+.nav-desktop {
+  display: flex;
+}
+
+.nav-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-desktop {
+    display: none !important;
+  }
+
+  .nav-mobile {
+    display: flex !important;
+  }
+}

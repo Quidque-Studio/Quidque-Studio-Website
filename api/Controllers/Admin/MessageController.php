@@ -95,4 +95,23 @@ class MessageController
         header("Location: /admin/messages/{$id}");
         exit;
     }
+
+    public function delete(string $id): void
+    {
+        $conversation = $this->db->queryOne(
+            'SELECT * FROM conversations WHERE id = ?',
+            [$id]
+        );
+
+        if (!$conversation) {
+            View::notFound();
+        }
+
+        $this->db->execute('DELETE FROM messages WHERE conversation_id = ?', [$id]);
+        $this->db->execute('DELETE FROM conversations WHERE id = ?', [$id]);
+
+        View::setFlash('success', 'Conversation deleted');
+        header('Location: /admin/messages');
+        exit;
+    }
 }

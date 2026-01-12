@@ -7,7 +7,11 @@
     </a>
 </div>
 
-<table class="admin-table">
+<div class="admin-table-search">
+    <input type="text" id="project-search" placeholder="Search projects..." autocomplete="off">
+</div>
+
+<table class="admin-table" id="projects-table">
     <thead>
         <tr>
             <th>Title</th>
@@ -22,7 +26,7 @@
             <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">No projects yet. Create your first project!</td></tr>
         <?php else: ?>
             <?php foreach ($projects as $project): ?>
-                <tr>
+                <tr data-href="/admin/projects/<?= $project['id'] ?>/edit" class="clickable-row">
                     <td style="font-weight: 500;"><?= htmlspecialchars($project['title']) ?></td>
                     <td>
                         <span class="badge <?= $project['status'] === 'in_progress' ? 'badge-primary' : ($project['status'] === 'completed' ? 'badge-primary' : '') ?>">
@@ -37,7 +41,7 @@
                         <?php endif; ?>
                     </td>
                     <td><?= Date::short($project['updated_at']) ?></td>
-                    <td class="actions">
+                    <td class="actions" onclick="event.stopPropagation()">
                         <a href="/admin/projects/<?= $project['id'] ?>/devlogs">Devlogs</a>
                         <a href="/admin/projects/<?= $project['id'] ?>/edit">Edit</a>
                         <form method="POST" action="/admin/projects/<?= $project['id'] ?>/delete" style="display:inline">
@@ -50,3 +54,25 @@
         <?php endif; ?>
     </tbody>
 </table>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.clickable-row').forEach(row => {
+        row.addEventListener('click', function() {
+            window.location.href = this.dataset.href;
+        });
+    });
+
+    const searchInput = document.getElementById('project-search');
+    const table = document.getElementById('projects-table');
+    if (searchInput && table) {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            table.querySelectorAll('tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+    }
+});
+</script>

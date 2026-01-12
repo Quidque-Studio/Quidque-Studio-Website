@@ -1,10 +1,17 @@
 <?php use Api\Core\Date; ?>
 
 <div class="admin-toolbar">
-    <a href="/admin/newsletter" class="btn">Back to Newsletters</a>
+    <a href="/admin/newsletter" class="btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Newsletters
+    </a>
 </div>
 
-<table class="admin-table">
+<div class="admin-table-search">
+    <input type="text" id="subscribers-search" placeholder="Search subscribers..." autocomplete="off">
+</div>
+
+<table class="admin-table" id="subscribers-table">
     <thead>
         <tr>
             <th>Email</th>
@@ -34,3 +41,19 @@
         <?php endif; ?>
     </tbody>
 </table>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('subscribers-search');
+    const table = document.getElementById('subscribers-table');
+    if (searchInput && table) {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            table.querySelectorAll('tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+    }
+});
+</script>

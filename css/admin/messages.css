@@ -1,0 +1,109 @@
+.message-container {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 280px);
+  min-height: 400px;
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.message-item {
+  max-width: 80%;
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+}
+
+.message-incoming {
+  background: var(--purple-dim);
+  border: 1px solid rgba(157, 126, 219, 0.3);
+  align-self: flex-start;
+}
+
+.message-outgoing {
+  background: var(--primary-dim);
+  border: 1px solid rgba(0, 255, 187, 0.3);
+  align-self: flex-end;
+}
+
+.message-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin-bottom: var(--space-sm);
+}
+
+.message-time {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.message-sender {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+.message-content {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.message-form {
+  padding: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.message-input-wrapper {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-end;
+}
+
+.message-input-wrapper textarea {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  resize: none;
+  min-height: 2.5rem;
+  max-height: 8rem;
+}
+
+.message-input-wrapper textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .message-container {
+    height: calc(100vh - 240px);
+  }
+
+  .message-item {
+    max-width: 90%;
+  }
+
+  .message-input-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .message-input-wrapper .btn {
+    width: 100%;
+  }
+}

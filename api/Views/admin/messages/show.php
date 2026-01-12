@@ -1,7 +1,17 @@
 <?php use Api\Core\Date; ?>
 
 <div class="admin-toolbar">
-    <a href="/admin/messages" class="btn">Back to Messages</a>
+    <a href="/admin/messages" class="btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Messages
+    </a>
+    <form method="POST" action="/admin/messages/<?= $conversation['id'] ?>/delete" style="display:inline; margin-left: auto;">
+        <?= \Api\Core\View::csrfField() ?>
+        <button type="submit" class="btn" onclick="return confirm('Delete this conversation and all messages?')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            Delete Conversation
+        </button>
+    </form>
 </div>
 
 <div class="form-section">
@@ -11,22 +21,36 @@
     </p>
 </div>
 
-<div class="message-list" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
-    <?php foreach ($messages as $msg): ?>
-        <div style="max-width: 80%; padding: 16px 20px; border-radius: 12px; <?= $msg['sender_role'] === 'team_member' ? 'background: var(--primary-dim); border: 1px solid rgba(0,255,187,0.3); align-self: flex-end;' : 'background: var(--purple-dim); border: 1px solid rgba(157,126,219,0.3); align-self: flex-start;' ?>">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px;">
-                <strong style="color: var(--text-primary);"><?= htmlspecialchars($msg['sender_name']) ?></strong>
-                <span style="color: var(--text-muted);"><?= Date::relative($msg['created_at']) ?></span>
+<div class="message-container">
+    <div class="message-list" id="message-list">
+        <?php foreach ($messages as $msg): ?>
+            <div class="message-item <?= $msg['sender_role'] === 'team_member' ? 'message-outgoing' : 'message-incoming' ?>">
+                <div class="message-header">
+                    <span class="message-time"><?= Date::relative($msg['created_at']) ?></span>
+                    <strong class="message-sender"><?= htmlspecialchars($msg['sender_name']) ?></strong>
+                </div>
+                <div class="message-content"><?= nl2br(htmlspecialchars($msg['content'])) ?></div>
             </div>
-            <div style="color: var(--text-secondary); line-height: 1.6;"><?= nl2br(htmlspecialchars($msg['content'])) ?></div>
+        <?php endforeach; ?>
+    </div>
+
+    <form method="POST" action="/admin/messages/<?= $conversation['id'] ?>/reply" class="message-form">
+        <?= \Api\Core\View::csrfField() ?>
+        <div class="message-input-wrapper">
+            <textarea name="content" rows="3" placeholder="Write a reply..." required></textarea>
+            <button type="submit" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Send
+            </button>
         </div>
-    <?php endforeach; ?>
+    </form>
 </div>
 
-<form method="POST" action="/admin/messages/<?= $conversation['id'] ?>/reply" class="form-section">
-    <?= \Api\Core\View::csrfField() ?>
-    <div class="form-group" style="margin-bottom: 16px;">
-        <textarea name="content" rows="4" placeholder="Write a reply..." required style="width: 100%; padding: 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary); resize: vertical;"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Send Reply</button>
-</form>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const messageList = document.getElementById('message-list');
+    if (messageList) {
+        messageList.scrollTop = messageList.scrollHeight;
+    }
+});
+</script>

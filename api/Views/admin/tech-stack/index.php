@@ -28,10 +28,6 @@ if (isset($_GET['error']) && $_GET['error'] === 'tier_has_items'): ?>
                                 <input type="hidden" name="sort_order" value="<?= $tier['sort_order'] ?>" class="tier-order-input">
                                 <button type="submit" class="save" title="Save">✓</button>
                             </form>
-                            <div class="tier-move-btns">
-                                <button type="button" class="move-up" title="Move up" <?= $index === 0 ? 'disabled' : '' ?>>↑</button>
-                                <button type="button" class="move-down" title="Move down" <?= $index === count($tiers) - 1 ? 'disabled' : '' ?>>↓</button>
-                            </div>
                             <form method="POST" action="/admin/tech-stack/tiers/<?= $tier['id'] ?>/delete" style="display: contents;">
                                 <?= \Api\Core\View::csrfField() ?>
                                 <button type="submit" class="delete" title="Delete" onclick="return confirm('Delete this tier?')">×</button>
@@ -93,23 +89,19 @@ if (isset($_GET['error']) && $_GET['error'] === 'tier_has_items'): ?>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tierList = document.getElementById('tier-list');
     if (!tierList) return;
 
-    tierList.addEventListener('click', function(e) {
-        const item = e.target.closest('.tech-tier-item');
-        if (!item) return;
-
-        const items = Array.from(tierList.querySelectorAll('.tech-tier-item'));
-        const currentIndex = items.indexOf(item);
-
-        if (e.target.classList.contains('move-up') && currentIndex > 0) {
-            tierList.insertBefore(item, items[currentIndex - 1]);
-            updateTierOrders();
-        } else if (e.target.classList.contains('move-down') && currentIndex < items.length - 1) {
-            tierList.insertBefore(items[currentIndex + 1], item);
+    const sortable = new Sortable(tierList, {
+        handle: '.tier-drag-handle',
+        animation: 150,
+        ghostClass: 'tier-ghost',
+        chosenClass: 'tier-chosen',
+        dragClass: 'tier-drag',
+        onEnd: function() {
             updateTierOrders();
         }
     });
@@ -123,11 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const orderInput = item.querySelector('.tier-order-input');
             orderInput.value = index;
             orders[id] = index;
-
-            const upBtn = item.querySelector('.move-up');
-            const downBtn = item.querySelector('.move-down');
-            upBtn.disabled = index === 0;
-            downBtn.disabled = index === items.length - 1;
         });
 
         const formData = new FormData();

@@ -1,0 +1,50 @@
+.tier-drag-handle {
+  color: var(--text-muted);
+  cursor: grab;
+  padding: var(--space-xs);
+  font-size: var(--text-xs);
+  letter-spacing: 2px;
+  user-select: none;
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.tier-drag-handle:hover {
+  color: var(--primary);
+}
+
+.tier-drag-handle:active {
+  cursor: grabbing;
+}
+
+.tier-ghost {
+  opacity: 0.4;
+  background: var(--primary-dim);
+}
+
+.tier-chosen {
+  background: var(--panel-hover);
+  border-color: var(--primary) !important;
+  box-shadow: 0 4px 12px rgba(0, 255, 187, 0.2);
+}
+
+.tier-drag {
+  opacity: 0.9;
+}
+
+.tech-tier-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+  transition: all var(--transition-fast);
+  flex-wrap: wrap;
+}
+
+.tech-tier-item:hover {
+  border-color: var(--primary-dim);
+}

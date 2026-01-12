@@ -11,7 +11,11 @@
     </a>
 </div>
 
-<table class="admin-table">
+<div class="admin-table-search">
+    <input type="text" id="posts-search" placeholder="Search posts..." autocomplete="off">
+</div>
+
+<table class="admin-table" id="posts-table">
     <thead>
         <tr>
             <th>Title</th>
@@ -25,7 +29,7 @@
             <tr><td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px;">No posts yet. Share some news!</td></tr>
         <?php else: ?>
             <?php foreach ($posts as $post): ?>
-                <tr>
+                <tr data-href="/admin/studio-posts/<?= $post['id'] ?>/edit" class="clickable-row">
                     <td style="font-weight: 500;"><?= htmlspecialchars($post['title']) ?></td>
                     <td>
                         <?php if ($post['category_name']): ?>
@@ -35,7 +39,7 @@
                         <?php endif; ?>
                     </td>
                     <td><?= Date::short($post['created_at']) ?></td>
-                    <td class="actions">
+                    <td class="actions" onclick="event.stopPropagation()">
                         <a href="/admin/studio-posts/<?= $post['id'] ?>/edit">Edit</a>
                         <form method="POST" action="/admin/studio-posts/<?= $post['id'] ?>/delete" style="display:inline">
                             <?= \Api\Core\View::csrfField() ?>
@@ -47,3 +51,25 @@
         <?php endif; ?>
     </tbody>
 </table>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.clickable-row').forEach(row => {
+        row.addEventListener('click', function() {
+            window.location.href = this.dataset.href;
+        });
+    });
+
+    const searchInput = document.getElementById('posts-search');
+    const table = document.getElementById('posts-table');
+    if (searchInput && table) {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            table.querySelectorAll('tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+    }
+});
+</script>

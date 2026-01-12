@@ -218,7 +218,7 @@
                 <button type="submit" class="btn btn-primary"><?= $project ? 'Update Project' : 'Create Project' ?></button>
                 <a href="/admin/projects" class="btn">Cancel</a>
                 <?php if ($project): ?>
-                    <a href="/admin/projects/<?= $project['id'] ?>/devlogs" class="btn" style="margin-left: auto;">Manage Devlogs</a>
+                    <a href="/admin/projects/<?= $project['id'] ?>/devlogs?from=edit" class="btn" style="margin-left: auto;">Manage Devlogs</a>
                 <?php endif; ?>
             </div>
         </div>

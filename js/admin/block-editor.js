@@ -10,6 +10,7 @@ class BlockEditor {
     this.jsonInput = form ? form.querySelector('#content-json') : document.querySelector('#content-json');
 
     this.blocks = [];
+    this.expandedBlocks = new Set();
     this.uploadUrl = options.uploadUrl || '/admin/media/upload';
 
     if (!this.blocksContainer || !this.jsonInput) {
@@ -42,6 +43,7 @@ class BlockEditor {
       }
 
       this.blocks.push(block);
+      this.expandedBlocks.add(this.blocks.length - 1);
       this.render();
     });
 
@@ -68,17 +70,30 @@ class BlockEditor {
       if (!item) return;
       const index = parseInt(item.dataset.index);
 
-      if (e.target.classList.contains('block-delete') || e.target.closest('.block-delete')) {
+      if (e.target.classList.contains('block-toggle') || e.target.closest('.block-toggle')) {
+        if (this.expandedBlocks.has(index)) {
+          this.expandedBlocks.delete(index);
+        } else {
+          this.expandedBlocks.add(index);
+        }
+        this.render();
+      } else if (e.target.classList.contains('block-delete') || e.target.closest('.block-delete')) {
         this.blocks.splice(index, 1);
+        this.expandedBlocks.clear();
+        this.blocks.forEach((_, i) => this.expandedBlocks.add(i));
         this.render();
       } else if (e.target.classList.contains('block-move-up') || e.target.closest('.block-move-up')) {
         if (index > 0) {
           [this.blocks[index], this.blocks[index - 1]] = [this.blocks[index - 1], this.blocks[index]];
+          this.expandedBlocks.clear();
+          this.blocks.forEach((_, i) => this.expandedBlocks.add(i));
           this.render();
         }
       } else if (e.target.classList.contains('block-move-down') || e.target.closest('.block-move-down')) {
         if (index < this.blocks.length - 1) {
           [this.blocks[index], this.blocks[index + 1]] = [this.blocks[index + 1], this.blocks[index]];
+          this.expandedBlocks.clear();
+          this.blocks.forEach((_, i) => this.expandedBlocks.add(i));
           this.render();
         }
       } else if (e.target.classList.contains('block-list-add')) {
@@ -146,6 +161,29 @@ class BlockEditor {
     return icons[type] || icons.text;
   }
 
+  getBlockPreview(block) {
+    switch (block.type) {
+      case 'text':
+      case 'quote':
+      case 'callout':
+        return block.value ? block.value.substring(0, 50) + (block.value.length > 50 ? '...' : '') : 'Empty';
+      case 'heading':
+        return block.value || 'Empty heading';
+      case 'image':
+        return block.value ? 'Image uploaded' : 'No image';
+      case 'code':
+        return block.value ? 'Code block' : 'Empty code';
+      case 'list':
+        return `${block.items?.length || 0} items`;
+      case 'video':
+        return block.value || 'No video';
+      case 'divider':
+        return 'Horizontal line';
+      default:
+        return block.type;
+    }
+  }
+
   render() {
     if (this.blocks.length === 0) {
       this.blocksContainer.innerHTML = `
@@ -172,7 +210,8 @@ class BlockEditor {
 
   createBlockElement(block, index) {
     const div = document.createElement('div');
-    div.className = 'block-item';
+    const isExpanded = this.expandedBlocks.has(index);
+    div.className = `block-item ${isExpanded ? 'block-expanded' : 'block-collapsed'}`;
     div.dataset.index = index;
 
     let content = '';
@@ -231,10 +270,14 @@ class BlockEditor {
 
     div.innerHTML = `
       <div class="block-header">
+        <button type="button" class="block-toggle" title="${isExpanded ? 'Collapse' : 'Expand'}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block-toggle-icon"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
         <div class="block-type">
           <div class="block-type-icon">${this.getBlockIcon(block.type)}</div>
           <span class="block-type-label">${block.type}</span>
         </div>
+        <span class="block-preview">${this.escapeHtml(this.getBlockPreview(block))}</span>
         <div class="block-controls">
           <button type="button" class="block-control block-move-up" ${index === 0 ? 'disabled' : ''} title="Move up">↑</button>
           <button type="button" class="block-control block-move-down" ${index === this.blocks.length - 1 ? 'disabled' : ''} title="Move down">↓</button>

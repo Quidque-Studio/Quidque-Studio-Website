@@ -4,7 +4,11 @@
     <div class="alert alert-error">You cannot delete yourself.</div>
 <?php endif; ?>
 
-<table class="admin-table">
+<div class="admin-table-search">
+    <input type="text" id="users-search" placeholder="Search users..." autocomplete="off">
+</div>
+
+<table class="admin-table" id="users-table">
     <thead>
         <tr>
             <th>Name</th>
@@ -16,7 +20,7 @@
     </thead>
     <tbody>
         <?php foreach ($users as $u): ?>
-            <tr>
+            <tr data-href="/admin/users/<?= $u['id'] ?>/edit" class="clickable-row">
                 <td><?= htmlspecialchars($u['name']) ?></td>
                 <td><?= htmlspecialchars($u['email']) ?></td>
                 <td>
@@ -25,7 +29,7 @@
                     </span>
                 </td>
                 <td><?= Date::short($u['created_at']) ?></td>
-                <td class="actions">
+                <td class="actions" onclick="event.stopPropagation()">
                     <a href="/admin/users/<?= $u['id'] ?>/edit">Edit</a>
                     <?php if ($u['id'] !== $user['id']): ?>
                         <form method="POST" action="/admin/users/<?= $u['id'] ?>/delete" style="display:inline">
@@ -38,3 +42,25 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.clickable-row').forEach(row => {
+        row.addEventListener('click', function() {
+            window.location.href = this.dataset.href;
+        });
+    });
+
+    const searchInput = document.getElementById('users-search');
+    const table = document.getElementById('users-table');
+    if (searchInput && table) {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            table.querySelectorAll('tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+    }
+});
+</script>

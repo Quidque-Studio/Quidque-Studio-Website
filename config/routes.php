@@ -112,6 +112,7 @@ $router->post('/admin/tech-stack/{id}/delete', [TechStackController::class, 'del
 $router->get('/admin/messages', [AdminMessageController::class, 'index']);
 $router->get('/admin/messages/{id}', [AdminMessageController::class, 'show']);
 $router->post('/admin/messages/{id}/reply', [AdminMessageController::class, 'reply']);
+$router->post('/admin/messages/{id}/delete', [AdminMessageController::class, 'delete']);
 
 $router->post('/admin/media/upload', [MediaController::class, 'upload']);
 $router->post('/admin/media/upload-download', [MediaController::class, 'uploadDownload']);
