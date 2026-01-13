@@ -32,7 +32,7 @@
   font-size: var(--text-base);
   color: var(--text-secondary);
   line-height: 1.7;
-  max-width: 37.5rem;
+  max-width: min(100%, 45rem);
 }
 
 .about-section {

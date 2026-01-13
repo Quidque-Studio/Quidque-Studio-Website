@@ -5,9 +5,9 @@
     <div class="about-hero-content">
         <h1>About Quidque Studio</h1>
         <p>
-            We're a small indie studio exploring game development, creative tools, and everything in between. 
-            "Quidque" is Latin for "each" or "any" — reflecting our philosophy of trying a little bit of everything 
-            rather than specializing in one area. Follow our journey through projects, devlogs, and experiments.
+            "Quidque" is Latin for "each" or "any", a name chosen to reflect a passion for building whatever comes to mind. Anything from low level systems to indie games. <br><br>
+            Our focus is on craftmanship. We build projects step by step, ensuring the final product is something we can be proud of.
+            The goal isn't to flood the web with projects, but to create stable, usable solutions that are built to last.
         </p>
     </div>
 </div>
@@ -51,31 +51,33 @@
 <section class="about-section">
     <div class="about-section-header">
         <h2 class="about-section-title">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
             Our Values
         </h2>
     </div>
     <div class="values-grid">
         <div class="value-card">
             <div class="value-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M9 1h1"/><path d="M14 1h1"/><path d="M23 9v1"/><path d="M23 14v1"/><path d="M15 23h-1"/><path d="M10 23H9"/><path d="M1 15v-1"/><path d="M1 10V9"/></svg>
             </div>
-            <h3>Always Learning</h3>
-            <p>Every project is an opportunity to explore new technologies, techniques, and ideas.</p>
+            <h3>From The Ground Up</h3>
+            <p>We believe in understanding how things work by avoiding excessive dependencies and keeping code clean and intentional.</p>
         </div>
+
         <div class="value-card">
             <div class="value-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" x2="12" y1="22" y2="12"/></svg>
             </div>
-            <h3>Open Development</h3>
-            <p>We share our progress, challenges, and lessons learned through devlogs and updates.</p>
+            <h3>Usability First</h3>
+            <p>We value finished products that anyone can use without issues. If a project is on this site, it has earned its place here.</p>
         </div>
+
         <div class="value-card">
             <div class="value-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             </div>
-            <h3>Quality Over Quantity</h3>
-            <p>We'd rather make one thing well than rush out many half-finished projects.</p>
+            <h3>Open Progress</h3>
+            <p>Most of what we build is open-source. We share the journey through honest devlogs and blogs, documenting the ups, the downs, and the process behind the code.</p>
         </div>
     </div>
 </section>

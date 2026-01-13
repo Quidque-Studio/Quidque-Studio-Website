@@ -6,8 +6,7 @@ use Api\Core\Date;
     <div class="hero-content">
         <h1 class="hero-title">Welcome to Quidque</h1>
         <p class="hero-subtitle">
-            A small indie studio exploring game development, creative tools, and everything in between. 
-            Follow our journey through projects, devlogs, and studio updates.
+            Building tools, software and digital experiments from the ground up. No shortcuts, just focused development.
         </p>
         <div class="hero-actions">
             <a href="/projects" class="btn btn-primary">

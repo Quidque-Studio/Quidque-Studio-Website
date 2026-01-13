@@ -30,7 +30,7 @@ $currentPath = $_SERVER['REQUEST_URI'];
 </head>
 <body class="admin">
     <aside class="admin-sidebar" id="admin-sidebar">
-        <div class="admin-sidebar-header" onclick="window.location.href = '/admin'">
+        <div class="admin-sidebar-header" onclick="window.location.href = '/'">
             <div class="admin-sidebar-logo">
                 <img src="/QuidqueLogo.png" alt="Quidque">
             </div>

@@ -70,6 +70,14 @@ CREATE TABLE `permissions` (
   `label` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `permissions` (`id`, `slug`, `label`) VALUES
+(1, 'manage_projects', 'Manage Projects'),
+(2, 'manage_posts', 'Manage Studio Posts'),
+(3, 'manage_tech', 'Manage Tech Stack'),
+(4, 'manage_messages', 'Manage Messages'),
+(5, 'manage_users', 'Manage Users'),
+(6, 'manage_newsletter', 'Manage Newsletter');
+
 CREATE TABLE `projects` (
   `id` int(10) UNSIGNED NOT NULL,
   `slug` varchar(100) NOT NULL,
@@ -353,7 +361,7 @@ ALTER TABLE `newsletters`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 ALTER TABLE `projects`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
