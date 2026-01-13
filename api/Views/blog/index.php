@@ -47,9 +47,9 @@ use Api\Core\Date;
                 <a href="/blog/<?= htmlspecialchars($post['slug']) ?>" class="blog-card-title">
                     <?= htmlspecialchars($post['title']) ?>
                 </a>
-                <p class="blog-card-excerpt">
+                <a href="/blog/<?= htmlspecialchars($post['slug']) ?>" class="blog-card-excerpt">
                     <?= ContentRenderer::excerpt($post['content'], 150) ?>
-                </p>
+                </a>
                 <div class="blog-card-footer">
                     <a href="/blog/<?= htmlspecialchars($post['slug']) ?>" class="read-more">
                         Read more

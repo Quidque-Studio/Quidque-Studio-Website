@@ -11,6 +11,10 @@
 
 ### Admin
 
+#### Freeform Content Editor
+
+- Should be more mobile friendly
+
 #### General UX
 
 - Generally, the admin pages could use more mobile optimization

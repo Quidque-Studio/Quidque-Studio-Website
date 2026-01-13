@@ -1,4 +1,8 @@
 .project-single {
+  --columns-narrow-wide: 2fr 3fr;
+  --columns-wide-narrow: 3fr 2fr;
+  --section-padding: var(--space-lg);
+  --section-gap: var(--space-lg);
   margin: 0 auto;
 }
 
@@ -51,13 +55,13 @@
 
 .project-overview-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: var(--space-lg);
+  grid-template-columns: var(--columns-narrow-wide);
+  gap: var(--section-gap);
   align-items: stretch;
 }
 
 .project-description-block {
-  padding: var(--space-lg);
+  padding: var(--section-padding);
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
@@ -78,7 +82,7 @@
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  padding: var(--space-sm);
+  padding: var(--section-padding);
   display: flex;
   flex-direction: column;
 }
@@ -138,8 +142,8 @@
 
 .meta-resources-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-md);
+  grid-template-columns: var(--columns-wide-narrow);
+  gap: var(--section-gap);
   align-items: start;
 }
 
@@ -157,14 +161,14 @@
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: var(--space-md);
+  padding: var(--section-padding);
 }
 
 .project-resources-card {
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: var(--space-md);
+  padding: var(--section-padding);
 }
 
 .project-meta-title {
@@ -361,8 +365,8 @@
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: var(--space-md);
-  margin-top: var(--space-md);
+  padding: var(--section-padding);
+  margin-top: var(--section-gap);
   overflow: hidden;
 }
 
@@ -464,8 +468,8 @@
 
 .tech-devlogs-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-lg);
+  grid-template-columns: var(--columns-narrow-wide);
+  gap: var(--section-gap);
   align-items: start;
 }
 
@@ -473,7 +477,7 @@
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  padding: var(--section-padding);
 }
 
 .tech-stack-panel .project-section-title {
@@ -619,7 +623,7 @@
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  padding: var(--section-padding);
 }
 
 .devlogs-panel .devlogs-header {
