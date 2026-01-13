@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/admin/editor.css">
+    <link rel="stylesheet" href="/css/admin/confirm-modal.css">
     <?php if (!empty($styles)): ?>
         <?php foreach ($styles as $style): ?>
             <link rel="stylesheet" href="/css/<?= $style ?>.css">
@@ -135,5 +136,6 @@
         }
     });
     </script>
+    <script src="/js/admin/confirm-modal.js"></script>
 </body>
 </html>

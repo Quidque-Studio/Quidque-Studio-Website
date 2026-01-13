@@ -21,6 +21,7 @@ $currentPath = $_SERVER['REQUEST_URI'];
     <link rel="stylesheet" href="/css/admin/base.css">
     <link rel="stylesheet" href="/css/admin/components.css">
     <link rel="stylesheet" href="/css/admin/editor.css">
+    <link rel="stylesheet" href="/css/admin/confirm-modal.css">
     <?php if (!empty($styles)): ?>
         <?php foreach ($styles as $style): ?>
             <link rel="stylesheet" href="/css/admin/<?= $style ?>.css">
@@ -114,5 +115,6 @@ $currentPath = $_SERVER['REQUEST_URI'];
         }
     });
     </script>
+    <script src="/js/admin/confirm-modal.js"></script>
 </body>
 </html>
