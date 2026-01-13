@@ -150,7 +150,7 @@ class NewsletterController
             View::notFound();
         }
 
-        $htmlContent = Markdown::toHtml($newsletter['content']);
+        $htmlContent = $this->formatContent($newsletter['content']);
 
         View::render('admin/newsletter/preview', [
             'title' => 'Preview: ' . $newsletter['subject'],
@@ -227,9 +227,20 @@ class NewsletterController
         exit;
     }
 
+    private function formatContent(string $content): string
+    {
+        $html = Markdown::toHtml($content);
+        $html = nl2br($html);
+        $html = preg_replace('/<\/p>\s*<br\s*\/?>\s*/i', '</p>', $html);
+        $html = preg_replace('/<br\s*\/?>\s*<p>/i', '<p>', $html);
+        $html = preg_replace('/<br\s*\/?>\s*<(h[1-6]|ul|ol|blockquote|hr)/i', '<$1', $html);
+        $html = preg_replace('/<\/(h[1-6]|ul|ol|blockquote)>\s*<br\s*\/?>/i', '</$1>', $html);
+        return $html;
+    }
+
     private function buildEmailHtml(array $newsletter): string
     {
-        $content = Markdown::toHtml($newsletter['content']);
+        $content = $this->formatContent($newsletter['content']);
         
         return <<<HTML
 <!DOCTYPE html>
@@ -261,7 +272,7 @@ class NewsletterController
         h1 { font-size: 24px; }
         h2 { font-size: 20px; }
         h3 { font-size: 18px; }
-        p { margin: 1em 0; }
+        p { margin: 0.5em 0; }
         a { color: #9d7edb; }
         hr {
             border: none;

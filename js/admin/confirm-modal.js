@@ -7,7 +7,7 @@
             <p class="confirm-modal-message"></p>
             <div class="confirm-modal-buttons">
                 <button type="button" class="btn confirm-modal-cancel">Cancel</button>
-                <button type="button" class="btn btn-accent confirm-modal-ok">Delete</button>
+                <button type="button" class="btn btn-accent confirm-modal-ok">Confirm</button>
             </div>
         </div>
     `;
@@ -16,11 +16,22 @@
   let pendingForm = null;
   let pendingButton = null;
 
+  const okButton = modal.querySelector('.confirm-modal-ok');
+
+  function getButtonLabel(message) {
+    const lower = message.toLowerCase();
+    if (lower.includes('delete')) return 'Delete';
+    if (lower.includes('send')) return 'Send';
+    if (lower.includes('remove')) return 'Remove';
+    return 'Confirm';
+  }
+
   const originalConfirm = window.confirm;
   window.confirm = function (message) {
     if (window._confirmBypassing) return true;
     modal.classList.add('active');
     modal.querySelector('.confirm-modal-message').textContent = message;
+    okButton.textContent = getButtonLabel(message);
     return false;
   };
 

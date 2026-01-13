@@ -12,8 +12,9 @@
 <div class="form-section" style="max-width: 700px; margin-top: 24px;">
     <h2 style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Email Preview</h2>
     <div style="background: #f5f5f5; padding: 32px; border-radius: 8px;">
+        <style>.preview-content p { margin: 0.5em 0; }</style>
         <div style="background: #fff; padding: 32px; border-radius: 8px; max-width: 600px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333;">
-            <?= $htmlContent ?>
+            <div class="preview-content"><?= $htmlContent ?></div>
         </div>
     </div>
 </div>
