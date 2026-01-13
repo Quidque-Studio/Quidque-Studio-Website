@@ -158,14 +158,23 @@ class SettingsController
     private function getDefaultPalette(): array
     {
         return [
-            'bg' => '#012a31',
-            'panel' => 'rgba(1, 42, 49, 0.5)',
-            'accent' => '#9d7edb',
-            'highlight' => '#ff00ff',
-            'success' => '#39ffb6',
-            'text' => '#e0e0e0',
-            'textMuted' => '#8a9bb5',
-            'border' => 'rgba(157, 126, 219, 0.2)',
+            'bg' => '#0a1214',
+            'bgSurface' => '#0f1a1d',
+            'panel' => '#142125',
+            'panelHover' => '#1a2a2f',
+            'primary' => '#00ffbb',
+            'primaryDim' => 'rgba(0, 255, 187, 0.15)',
+            'primaryGlow' => 'rgba(0, 255, 187, 0.3)',
+            'accent' => '#ff00ff',
+            'accentDim' => 'rgba(255, 0, 255, 0.15)',
+            'accentGlow' => 'rgba(255, 0, 255, 0.3)',
+            'purple' => '#9d7edb',
+            'purpleDim' => 'rgba(157, 126, 219, 0.15)',
+            'text' => '#f0f4f5',
+            'textSecondary' => '#8a9da3',
+            'textMuted' => '#5a6d73',
+            'border' => 'rgba(0, 255, 187, 0.12)',
+            'borderSubtle' => 'rgba(255, 255, 255, 0.06)',
         ];
     }
 

@@ -1,15 +1,9 @@
 .member-page {
-  --member-bg: var(--bg-color);
-  --member-panel: var(--panel-bg);
-  --member-accent: var(--purple);
-  --member-accent-dim: var(--purple-dim);
-  --member-text: var(--text-primary);
-  --member-text-muted: var(--text-muted);
-  --member-border: var(--border-subtle);
+  min-height: 100%;
 }
 
 .member-profile {
-  max-width: min(100%, 62.5rem);
+  max-width: min(100%, 85%);
   margin: 0 auto;
 }
 
@@ -18,8 +12,8 @@
   align-items: flex-start;
   gap: var(--space-lg);
   padding: var(--space-xl);
-  background: var(--member-panel);
-  border: 1px solid var(--member-border);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
   margin-bottom: var(--space-lg);
 }
@@ -28,8 +22,8 @@
   width: clamp(5rem, 15vw, 7.5rem);
   height: clamp(5rem, 15vw, 7.5rem);
   border-radius: 50%;
-  background: var(--member-accent-dim);
-  border: 0.1875rem solid var(--member-accent);
+  background: var(--purple-dim);
+  border: 0.1875rem solid var(--purple);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,7 +40,7 @@
 .member-avatar svg {
   width: 3rem;
   height: 3rem;
-  color: var(--member-accent);
+  color: var(--purple);
 }
 
 .member-info {
@@ -57,19 +51,19 @@
 .member-name {
   font-size: var(--text-2xl);
   font-weight: 700;
-  color: var(--member-text);
+  color: var(--text-primary);
   margin-bottom: var(--space-xs);
 }
 
 .member-role {
   font-size: var(--text-sm);
-  color: var(--member-accent);
+  color: var(--purple);
   margin-bottom: var(--space-sm);
 }
 
 .member-bio {
   font-size: var(--text-sm);
-  color: var(--member-text-muted);
+  color: var(--text-muted);
   line-height: 1.6;
   margin-bottom: var(--space-md);
 }
@@ -85,9 +79,9 @@
   align-items: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
-  background: var(--member-accent-dim);
+  background: var(--purple-dim);
   border-radius: var(--radius-sm);
-  color: var(--member-accent);
+  color: var(--purple);
   text-decoration: none;
   font-size: var(--text-sm);
   font-weight: 500;
@@ -95,7 +89,7 @@
 }
 
 .member-socials a:hover {
-  background: var(--member-accent);
+  background: var(--purple);
   color: var(--bg-color);
 }
 
@@ -119,14 +113,14 @@
 }
 
 .member-nav a:hover {
-  border-color: var(--member-accent-dim);
+  border-color: var(--purple-dim);
   color: var(--text-primary);
 }
 
 .member-nav a.active {
-  background: var(--member-accent-dim);
-  border-color: var(--member-accent-dim);
-  color: var(--member-accent);
+  background: var(--purple-dim);
+  border-color: var(--purple-dim);
+  color: var(--purple);
 }
 
 .member-toolbar {
@@ -136,8 +130,8 @@
 }
 
 .member-content {
-  background: var(--member-panel);
-  border: 1px solid var(--member-border);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
 }
@@ -145,7 +139,7 @@
 .member-content h2 {
   font-size: var(--text-xl);
   font-weight: 600;
-  color: var(--member-text);
+  color: var(--text-primary);
   margin: var(--space-xl) 0 var(--space-md);
 }
 
@@ -156,7 +150,7 @@
 .member-content h3 {
   font-size: var(--text-base);
   font-weight: 600;
-  color: var(--member-text);
+  color: var(--text-primary);
   margin: var(--space-lg) 0 var(--space-sm);
 }
 
@@ -168,7 +162,7 @@
 }
 
 .member-content a {
-  color: var(--member-accent);
+  color: var(--purple);
   text-decoration: none;
 }
 
@@ -211,7 +205,7 @@
 }
 
 .member-content blockquote {
-  border-left: 0.1875rem solid var(--member-accent);
+  border-left: 0.1875rem solid var(--purple);
   padding-left: var(--space-md);
   margin: var(--space-lg) 0;
   color: var(--text-secondary);
@@ -241,7 +235,7 @@
   top: 0.5rem;
   bottom: 0.5rem;
   width: 0.125rem;
-  background: var(--member-border);
+  background: var(--border-subtle);
   border-radius: 0.0625rem;
 }
 
@@ -261,13 +255,13 @@
   transform: translateY(-50%);
   width: 0.625rem;
   height: 0.625rem;
-  background: var(--member-accent);
+  background: var(--purple);
   border-radius: 50%;
-  border: 0.125rem solid var(--member-bg);
+  border: 0.125rem solid var(--bg-color);
 }
 
 .member-post-entry:hover::before {
-  box-shadow: 0 0 0 0.25rem var(--member-accent-dim);
+  box-shadow: 0 0 0 0.25rem var(--purple-dim);
 }
 
 .member-post-card {
@@ -275,7 +269,7 @@
   display: block;
   padding: var(--space-md) var(--space-lg);
   background: var(--bg-surface);
-  border: 1px solid var(--member-border);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   text-decoration: none;
   transition: all var(--transition-fast);
@@ -283,24 +277,24 @@
 }
 
 .member-post-card:hover {
-  border-color: var(--member-accent-dim);
+  border-color: var(--purple-dim);
   background: var(--panel-hover);
 }
 
 .member-post-date {
   font-size: var(--text-xs);
-  color: var(--member-text-muted);
+  color: var(--text-muted);
   margin-bottom: var(--space-xs);
 }
 
 .member-post-title {
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--member-text);
+  color: var(--text-primary);
 }
 
 .member-post-card:hover .member-post-title {
-  color: var(--member-accent);
+  color: var(--purple);
 }
 
 .member-post-actions {
@@ -323,8 +317,8 @@
 }
 
 .member-post-actions a:hover {
-  border-color: var(--member-accent-dim);
-  color: var(--member-accent);
+  border-color: var(--purple-dim);
+  color: var(--purple);
 }
 
 .member-post-actions button:hover {
@@ -351,7 +345,7 @@
 }
 
 .post-back:hover {
-  color: var(--member-accent);
+  color: var(--purple);
 }
 
 .post-title {
@@ -375,9 +369,9 @@
 
 .post-tag {
   padding: var(--space-xs) var(--space-sm);
-  background: var(--member-accent-dim);
+  background: var(--purple-dim);
   border-radius: var(--radius-sm);
-  color: var(--member-accent);
+  color: var(--purple);
   font-size: var(--text-xs);
   font-weight: 500;
 }

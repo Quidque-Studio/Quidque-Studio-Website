@@ -1,30 +1,40 @@
 <?php
 use Api\Core\Date;
 
-$defaultPalette = [
-    'bg' => '#0a1214',
-    'panel' => '#142125',
-    'accent' => '#9d7edb',
-    'text' => '#f0f4f5',
-    'textMuted' => '#5a6d73',
-    'border' => 'rgba(255, 255, 255, 0.06)',
-];
-
 $customPalette = json_decode($member['color_palette'] ?? '{}', true) ?: [];
-$palette = array_merge($defaultPalette, $customPalette);
+
+$cssVarMap = [
+    'bg' => '--bg-color',
+    'bgSurface' => '--bg-surface',
+    'panel' => '--panel-bg',
+    'panelHover' => '--panel-hover',
+    'primary' => '--primary',
+    'primaryDim' => '--primary-dim',
+    'primaryGlow' => '--primary-glow',
+    'accent' => '--accent',
+    'accentDim' => '--accent-dim',
+    'accentGlow' => '--accent-glow',
+    'purple' => '--purple',
+    'purpleDim' => '--purple-dim',
+    'text' => '--text-primary',
+    'textSecondary' => '--text-secondary',
+    'textMuted' => '--text-muted',
+    'border' => '--border-color',
+    'borderSubtle' => '--border-subtle',
+];
 ?>
 
+<?php if (!empty($customPalette)): ?>
 <style>
-.member-page {
-    --member-bg: <?= htmlspecialchars($palette['bg']) ?>;
-    --member-panel: <?= htmlspecialchars($palette['panel']) ?>;
-    --member-accent: <?= htmlspecialchars($palette['accent']) ?>;
-    --member-accent-dim: <?= htmlspecialchars($palette['accent']) ?>26;
-    --member-text: <?= htmlspecialchars($palette['text']) ?>;
-    --member-text-muted: <?= htmlspecialchars($palette['textMuted']) ?>;
-    --member-border: <?= htmlspecialchars($palette['border']) ?>;
+:root {
+<?php foreach ($customPalette as $key => $value): ?>
+<?php if (isset($cssVarMap[$key])): ?>
+    <?= $cssVarMap[$key] ?>: <?= htmlspecialchars($value) ?>;
+<?php endif; ?>
+<?php endforeach; ?>
 }
 </style>
+<?php endif; ?>
 
 <div class="member-page">
     <div class="member-profile">

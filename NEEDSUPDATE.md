@@ -14,13 +14,6 @@
 - "Team" And "Resources" should be next to each other, not on top of each other.
 - Gallery should auto swap images after a time period
 
-#### Member Pages
-
-- The custom colorpalette should cover the "full" colorpalette, and change the root variables rather than just certain parts
-  - That means also allowing for the user to update even more than the current colors in the settings
-- In the settings, there should be a way to preview based on the selected colorpalette
-  - There should also be a "reset all" button
-
 ### Admin
 
 #### General UX

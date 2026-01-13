@@ -1,4 +1,40 @@
-<?php use Api\Core\Str; ?>
+<?php
+use Api\Core\Str;
+
+$customPalette = json_decode($member['color_palette'] ?? '{}', true) ?: [];
+
+$cssVarMap = [
+    'bg' => '--bg-color',
+    'bgSurface' => '--bg-surface',
+    'panel' => '--panel-bg',
+    'panelHover' => '--panel-hover',
+    'primary' => '--primary',
+    'primaryDim' => '--primary-dim',
+    'primaryGlow' => '--primary-glow',
+    'accent' => '--accent',
+    'accentDim' => '--accent-dim',
+    'accentGlow' => '--accent-glow',
+    'purple' => '--purple',
+    'purpleDim' => '--purple-dim',
+    'text' => '--text-primary',
+    'textSecondary' => '--text-secondary',
+    'textMuted' => '--text-muted',
+    'border' => '--border-color',
+    'borderSubtle' => '--border-subtle',
+];
+?>
+
+<?php if (!empty($customPalette)): ?>
+<style>
+:root {
+<?php foreach ($customPalette as $key => $value): ?>
+<?php if (isset($cssVarMap[$key])): ?>
+    <?= $cssVarMap[$key] ?>: <?= htmlspecialchars($value) ?>;
+<?php endif; ?>
+<?php endforeach; ?>
+}
+</style>
+<?php endif; ?>
 
 <div class="member-page">
     <div class="member-profile">

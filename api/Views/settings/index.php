@@ -1,18 +1,40 @@
 <?php
 $paletteLabels = [
     'bg' => 'Background',
+    'bgSurface' => 'Surface',
     'panel' => 'Panel',
+    'panelHover' => 'Panel Hover',
+    'primary' => 'Primary',
+    'primaryDim' => 'Primary Dim',
+    'primaryGlow' => 'Primary Glow',
     'accent' => 'Accent',
-    'highlight' => 'Highlight',
-    'success' => 'Success',
+    'accentDim' => 'Accent Dim',
+    'accentGlow' => 'Accent Glow',
+    'purple' => 'Purple',
+    'purpleDim' => 'Purple Dim',
     'text' => 'Text',
-    'textMuted' => 'Muted',
+    'textSecondary' => 'Text Secondary',
+    'textMuted' => 'Text Muted',
     'border' => 'Border',
+    'borderSubtle' => 'Border Subtle',
+];
+
+$paletteGroups = [
+    'Backgrounds' => ['bg', 'bgSurface', 'panel', 'panelHover'],
+    'Primary' => ['primary', 'primaryDim', 'primaryGlow'],
+    'Accent' => ['accent', 'accentDim', 'accentGlow'],
+    'Purple' => ['purple', 'purpleDim'],
+    'Text' => ['text', 'textSecondary', 'textMuted'],
+    'Borders' => ['border', 'borderSubtle'],
 ];
 
 $currentPalette = [];
 if (!empty($profile['color_palette'])) {
     $currentPalette = json_decode($profile['color_palette'], true) ?? [];
+}
+
+function isHexColor(string $value): bool {
+    return preg_match('/^#[0-9A-Fa-f]{6}$/', $value) || preg_match('/^#[0-9A-Fa-f]{3}$/', $value);
 }
 ?>
 
@@ -148,22 +170,44 @@ if (!empty($profile['color_palette'])) {
                 <div class="settings-field">
                     <label>Color Palette</label>
                     <small>Customize your public profile page colors</small>
-                    <div class="palette-grid" style="margin-top: 12px;">
-                        <?php foreach ($defaultPalette as $key => $default): ?>
-                            <div class="palette-item">
-                                <label for="palette_<?= $key ?>"><?= $paletteLabels[$key] ?? $key ?></label>
-                                <div class="palette-input-row">
-                                    <input type="color" 
-                                           id="palette_<?= $key ?>" 
-                                           name="palette[<?= $key ?>]" 
-                                           value="<?= htmlspecialchars($currentPalette[$key] ?? $default) ?>"
-                                           data-default="<?= htmlspecialchars($default) ?>">
-                                    <button type="button" class="palette-reset" data-target="palette_<?= $key ?>">Reset</button>
-                                </div>
-                                <span class="palette-default"><?= htmlspecialchars($default) ?></span>
-                            </div>
-                        <?php endforeach; ?>
+                    <div class="palette-actions" style="margin-top: 12px; margin-bottom: 16px;">
+                        <button type="button" id="preview-palette" class="btn">Preview Theme</button>
+                        <button type="button" id="reset-all-palette" class="btn">Reset All</button>
+                        <button type="button" id="close-preview" class="btn" style="display: none;">Close Preview</button>
                     </div>
+                    
+                    <?php foreach ($paletteGroups as $groupName => $keys): ?>
+                    <div class="palette-group">
+                        <div class="palette-group-title"><?= $groupName ?></div>
+                        <div class="palette-grid">
+                            <?php foreach ($keys as $key): 
+                                $currentValue = $currentPalette[$key] ?? $defaultPalette[$key];
+                                $defaultValue = $defaultPalette[$key];
+                                $isHex = isHexColor($currentValue);
+                                $colorPickerValue = $isHex ? $currentValue : '#888888';
+                            ?>
+                                <div class="palette-item">
+                                    <label for="palette_<?= $key ?>"><?= $paletteLabels[$key] ?? $key ?></label>
+                                    <div class="palette-input-row">
+                                        <input type="color" 
+                                               id="palette_color_<?= $key ?>" 
+                                               value="<?= htmlspecialchars($colorPickerValue) ?>"
+                                               class="palette-color-input"
+                                               data-target="palette_<?= $key ?>">
+                                        <input type="text" 
+                                               id="palette_<?= $key ?>" 
+                                               name="palette[<?= $key ?>]" 
+                                               value="<?= htmlspecialchars($currentValue) ?>"
+                                               data-default="<?= htmlspecialchars($defaultValue) ?>"
+                                               class="palette-text-input"
+                                               placeholder="<?= htmlspecialchars($defaultValue) ?>">
+                                        <button type="button" class="palette-reset" data-target="palette_<?= $key ?>" data-color-target="palette_color_<?= $key ?>">↺</button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="settings-actions">
@@ -174,6 +218,46 @@ if (!empty($profile['color_palette'])) {
         </div>
     </section>
     <?php endif; ?>
+</div>
+
+<div id="palette-preview-panel" class="palette-preview-panel">
+    <div class="palette-preview-header">
+        <span>Theme Preview</span>
+        <button type="button" id="close-preview-panel">×</button>
+    </div>
+    <div class="palette-preview-content">
+        <div class="preview-section">
+            <div class="preview-card">
+                <div class="preview-card-header">Sample Card</div>
+                <div class="preview-card-body">
+                    <p class="preview-text-primary">Primary text content</p>
+                    <p class="preview-text-secondary">Secondary text content</p>
+                    <p class="preview-text-muted">Muted text content</p>
+                </div>
+            </div>
+        </div>
+        <div class="preview-section">
+            <div class="preview-buttons">
+                <button class="preview-btn-primary">Primary Button</button>
+                <button class="preview-btn-accent">Accent Button</button>
+                <button class="preview-btn-default">Default Button</button>
+            </div>
+        </div>
+        <div class="preview-section">
+            <div class="preview-badges">
+                <span class="preview-badge-primary">Primary</span>
+                <span class="preview-badge-accent">Accent</span>
+                <span class="preview-badge-purple">Purple</span>
+            </div>
+        </div>
+        <div class="preview-section">
+            <div class="preview-avatar"></div>
+            <div class="preview-member-info">
+                <div class="preview-member-name">Member Name</div>
+                <div class="preview-member-role">Role Title</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -195,12 +279,106 @@ document.getElementById('social-links')?.addEventListener('click', function(e) {
     }
 });
 
-document.querySelectorAll('.palette-reset').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const target = document.getElementById(this.dataset.target);
-        if (target) {
-            target.value = target.dataset.default;
+document.querySelectorAll('.palette-color-input').forEach(colorInput => {
+    colorInput.addEventListener('input', function() {
+        const textInput = document.getElementById(this.dataset.target);
+        if (textInput) {
+            textInput.value = this.value;
+            updatePreview();
         }
     });
 });
+
+document.querySelectorAll('.palette-text-input').forEach(textInput => {
+    textInput.addEventListener('input', function() {
+        const key = this.id.replace('palette_', '');
+        const colorInput = document.getElementById('palette_color_' + key);
+        if (colorInput && /^#[0-9A-Fa-f]{6}$/.test(this.value)) {
+            colorInput.value = this.value;
+        }
+        updatePreview();
+    });
+});
+
+document.querySelectorAll('.palette-reset').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const textInput = document.getElementById(this.dataset.target);
+        const colorInput = document.getElementById(this.dataset.colorTarget);
+        if (textInput) {
+            textInput.value = textInput.dataset.default;
+            if (colorInput && /^#[0-9A-Fa-f]{6}$/.test(textInput.dataset.default)) {
+                colorInput.value = textInput.dataset.default;
+            }
+            updatePreview();
+        }
+    });
+});
+
+document.getElementById('reset-all-palette')?.addEventListener('click', function() {
+    document.querySelectorAll('.palette-text-input').forEach(textInput => {
+        textInput.value = textInput.dataset.default;
+        const key = textInput.id.replace('palette_', '');
+        const colorInput = document.getElementById('palette_color_' + key);
+        if (colorInput && /^#[0-9A-Fa-f]{6}$/.test(textInput.dataset.default)) {
+            colorInput.value = textInput.dataset.default;
+        }
+    });
+    updatePreview();
+});
+
+const previewPanel = document.getElementById('palette-preview-panel');
+const previewBtn = document.getElementById('preview-palette');
+const closePreviewBtn = document.getElementById('close-preview');
+const closePreviewPanelBtn = document.getElementById('close-preview-panel');
+
+function getCSSVarName(key) {
+    const varMap = {
+        'bg': '--bg-color',
+        'bgSurface': '--bg-surface',
+        'panel': '--panel-bg',
+        'panelHover': '--panel-hover',
+        'primary': '--primary',
+        'primaryDim': '--primary-dim',
+        'primaryGlow': '--primary-glow',
+        'accent': '--accent',
+        'accentDim': '--accent-dim',
+        'accentGlow': '--accent-glow',
+        'purple': '--purple',
+        'purpleDim': '--purple-dim',
+        'text': '--text-primary',
+        'textSecondary': '--text-secondary',
+        'textMuted': '--text-muted',
+        'border': '--border-color',
+        'borderSubtle': '--border-subtle'
+    };
+    return varMap[key] || key;
+}
+
+function updatePreview() {
+    if (!previewPanel) return;
+    
+    document.querySelectorAll('.palette-text-input').forEach(input => {
+        const key = input.id.replace('palette_', '');
+        const cssVar = getCSSVarName(key);
+        const value = input.value || input.dataset.default;
+        previewPanel.style.setProperty(cssVar, value);
+    });
+}
+
+function showPreview() {
+    previewPanel.classList.add('active');
+    closePreviewBtn.style.display = 'inline-flex';
+    previewBtn.style.display = 'none';
+    updatePreview();
+}
+
+function hidePreview() {
+    previewPanel.classList.remove('active');
+    closePreviewBtn.style.display = 'none';
+    previewBtn.style.display = 'inline-flex';
+}
+
+previewBtn?.addEventListener('click', showPreview);
+closePreviewBtn?.addEventListener('click', hidePreview);
+closePreviewPanelBtn?.addEventListener('click', hidePreview);
 </script>
