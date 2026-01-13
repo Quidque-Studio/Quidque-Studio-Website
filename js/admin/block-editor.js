@@ -52,15 +52,15 @@ class BlockEditor {
       if (!item) return;
       const index = parseInt(item.dataset.index);
 
-      if (e.target.classList.contains('block-input') || e.target.classList.contains('block-textarea')) {
-        this.blocks[index].value = e.target.value;
-        this.updateJson();
-      } else if (e.target.classList.contains('block-caption')) {
+      if (e.target.classList.contains('block-caption')) {
         this.blocks[index].caption = e.target.value;
         this.updateJson();
       } else if (e.target.classList.contains('block-list-item-input')) {
         const itemIndex = parseInt(e.target.dataset.itemIndex);
         this.blocks[index].items[itemIndex] = e.target.value;
+        this.updateJson();
+      } else if (e.target.classList.contains('block-input') || e.target.classList.contains('block-textarea')) {
+        this.blocks[index].value = e.target.value;
         this.updateJson();
       }
     });
@@ -79,21 +79,15 @@ class BlockEditor {
         this.render();
       } else if (e.target.classList.contains('block-delete') || e.target.closest('.block-delete')) {
         this.blocks.splice(index, 1);
-        this.expandedBlocks.clear();
-        this.blocks.forEach((_, i) => this.expandedBlocks.add(i));
         this.render();
       } else if (e.target.classList.contains('block-move-up') || e.target.closest('.block-move-up')) {
         if (index > 0) {
           [this.blocks[index], this.blocks[index - 1]] = [this.blocks[index - 1], this.blocks[index]];
-          this.expandedBlocks.clear();
-          this.blocks.forEach((_, i) => this.expandedBlocks.add(i));
           this.render();
         }
       } else if (e.target.classList.contains('block-move-down') || e.target.closest('.block-move-down')) {
         if (index < this.blocks.length - 1) {
           [this.blocks[index], this.blocks[index + 1]] = [this.blocks[index + 1], this.blocks[index]];
-          this.expandedBlocks.clear();
-          this.blocks.forEach((_, i) => this.expandedBlocks.add(i));
           this.render();
         }
       } else if (e.target.classList.contains('block-list-add')) {
