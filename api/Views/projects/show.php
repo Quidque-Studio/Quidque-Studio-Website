@@ -13,7 +13,7 @@ function formatFileSize(?int $bytes): string {
 $techByTier = [];
 foreach ($techStack as $tech) {
     $tierName = $tech['tier_name'] ?? 'Other';
-    $tierOrder = $tech['tier_sort_order'] ?? 999;
+    $tierOrder = $tech['tier_order'] ?? 999;
     if (!isset($techByTier[$tierOrder])) {
         $techByTier[$tierOrder] = [
             'name' => $tierName,
@@ -79,74 +79,78 @@ ksort($techByTier);
         <?php endif; ?>
     </section>
 
-    <?php if (!empty($authors)): ?>
-    <section class="project-meta-section">
-        <div class="project-meta-card">
-            <h3 class="project-meta-title">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                Team
-            </h3>
-            <div class="author-list">
-                <?php foreach ($authors as $author): ?>
-                <a href="/team/<?= $author['id'] ?>" class="author-item">
-                    <div class="author-avatar">
-                        <?php if ($author['avatar']): ?>
-                            <img src="<?= htmlspecialchars($author['avatar']) ?>" alt="">
-                        <?php else: ?>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <?php endif; ?>
-                    </div>
-                    <div class="author-info">
-                        <div class="author-name"><?= htmlspecialchars($author['name']) ?></div>
-                        <?php if ($author['role_title']): ?>
-                            <div class="author-role"><?= htmlspecialchars($author['role_title']) ?></div>
-                        <?php endif; ?>
-                    </div>
-                </a>
-                <?php endforeach; ?>
+    <?php if (!empty($authors) || !empty($resources)): ?>
+    <section class="project-meta-resources-section">
+        <div class="meta-resources-grid">
+            <?php if (!empty($authors)): ?>
+            <div class="project-meta-card">
+                <h3 class="project-meta-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Team
+                </h3>
+                <div class="author-list">
+                    <?php foreach ($authors as $author): ?>
+                    <a href="/team/<?= $author['id'] ?>" class="author-item">
+                        <div class="author-avatar">
+                            <?php if ($author['avatar']): ?>
+                                <img src="<?= htmlspecialchars($author['avatar']) ?>" alt="">
+                            <?php else: ?>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <?php endif; ?>
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name"><?= htmlspecialchars($author['name']) ?></div>
+                            <?php if ($author['role_title']): ?>
+                                <div class="author-role"><?= htmlspecialchars($author['role_title']) ?></div>
+                            <?php endif; ?>
+                        </div>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
-    </section>
-    <?php endif; ?>
+            <?php endif; ?>
 
-    <?php if (!empty($resources)): ?>
-    <section class="project-resources-section">
-        <h2 class="project-section-title">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            Links & Downloads
-        </h2>
-        <div class="resource-grid">
-            <?php foreach ($resources as $res): ?>
-                <?php if ($res['type'] === 'link'): ?>
-                    <a href="<?= htmlspecialchars($res['url']) ?>" target="_blank" class="resource-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-                        <?= htmlspecialchars($res['label']) ?>
-                    </a>
-                <?php elseif ($res['type'] === 'steam'): ?>
-                    <a href="https://store.steampowered.com/app/<?= htmlspecialchars($res['app_id']) ?>" target="_blank" class="resource-link resource-steam">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-9.96 11.04l5.48 2.28a2.85 2.85 0 0 1 1.6-.49c.17 0 .33.01.5.04l2.32-3.37v-.05a3.8 3.8 0 1 1 3.8 3.8h-.09l-3.32 2.37c0 .14.02.28.02.43a2.85 2.85 0 0 1-5.68.28L2.2 16.54A10 10 0 1 0 12 2z"/></svg>
-                        Steam
-                    </a>
-                <?php elseif ($res['type'] === 'itch'): ?>
-                    <a href="<?= htmlspecialchars($res['url']) ?>" target="_blank" class="resource-link resource-itch">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96 1.02 3.15 1.02 4.18v.92c0 1.5.53 2.37 1.63 2.88 1.13.52 2.04.3 2.73-.38.68-.67.96-1.55.96-2.5v-.92c0-.77-.25-1.47-.75-2.1-.5-.64-1.16-1.02-2-1.13-.57-.08-1.1.1-1.46.32zm6.37-.02c-.92.02-1.7.47-2.2 1.13-.5.64-.75 1.34-.75 2.1v.92c0 .95.28 1.83.97 2.5.68.68 1.6.9 2.72.38 1.1-.5 1.63-1.38 1.63-2.88v-.92c0-1.03-1.06-2.22-2.1-2.84-.17-.1-.35-.18-.54-.24a2.3 2.3 0 0 0-.73-.14v-.01zm5.86.02c-.57.08-1.1.3-1.53.65-.5.4-.9.95-1.13 1.63v.92c0 1.5.53 2.37 1.63 2.88 1.12.52 2.04.3 2.72-.38.7-.67.97-1.55.97-2.5v-.92c0-.77-.24-1.47-.74-2.1-.5-.64-1.16-1.02-2-1.13l.08-.05zm-8.84 9.4c-.35 0-.68.07-1 .2l-3.77 1.56a2.33 2.33 0 0 0 .6 4.38c.57.17 1.18.1 1.7-.18l2.04-1.13a.3.3 0 0 1 .3 0l1.74.95c.68.37 1.5.4 2.2.06.7-.34 1.2-.96 1.36-1.7a2.33 2.33 0 0 0-1.12-2.5l-2.1-1.2a2.35 2.35 0 0 0-1.95-.44z"/></svg>
-                        Itch.io
-                    </a>
-                <?php elseif ($res['type'] === 'youtube'): ?>
-                    <a href="https://youtube.com/watch?v=<?= htmlspecialchars($res['video_id']) ?>" target="_blank" class="resource-link resource-youtube">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2c-.3-1-1-1.8-2-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.5.5c-1 .3-1.7 1.1-2 2.1C0 8.2 0 12 0 12s0 3.8.5 5.8c.3 1 1 1.8 2 2.1 1.9.5 9.5.5 9.5.5s7.6 0 9.5-.5c1-.3 1.7-1.1 2-2.1.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8zM9.6 15.6V8.4l6.4 3.6-6.4 3.6z"/></svg>
-                        YouTube
-                    </a>
-                <?php elseif ($res['type'] === 'download'): ?>
-                    <a href="<?= htmlspecialchars($res['file_path']) ?>" download class="resource-link resource-download">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                        <?= htmlspecialchars($res['label']) ?>
-                        <?php if (!empty($res['file_size'])): ?>
-                            <span class="file-size"><?= formatFileSize($res['file_size']) ?></span>
+            <?php if (!empty($resources)): ?>
+            <div class="project-resources-card">
+                <h3 class="project-meta-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    Links & Downloads
+                </h3>
+                <div class="resource-list">
+                    <?php foreach ($resources as $res): ?>
+                        <?php if ($res['type'] === 'link'): ?>
+                            <a href="<?= htmlspecialchars($res['url']) ?>" target="_blank" class="resource-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                                <?= htmlspecialchars($res['label']) ?>
+                            </a>
+                        <?php elseif ($res['type'] === 'steam'): ?>
+                            <a href="https://store.steampowered.com/app/<?= htmlspecialchars($res['app_id']) ?>" target="_blank" class="resource-link resource-steam">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-9.96 11.04l5.48 2.28a2.85 2.85 0 0 1 1.6-.49c.17 0 .33.01.5.04l2.32-3.37v-.05a3.8 3.8 0 1 1 3.8 3.8h-.09l-3.32 2.37c0 .14.02.28.02.43a2.85 2.85 0 0 1-5.68.28L2.2 16.54A10 10 0 1 0 12 2z"/></svg>
+                                Steam
+                            </a>
+                        <?php elseif ($res['type'] === 'itch'): ?>
+                            <a href="<?= htmlspecialchars($res['url']) ?>" target="_blank" class="resource-link resource-itch">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96 1.02 3.15 1.02 4.18v.92c0 1.5.53 2.37 1.63 2.88 1.13.52 2.04.3 2.73-.38.68-.67.96-1.55.96-2.5v-.92c0-.77-.25-1.47-.75-2.1-.5-.64-1.16-1.02-2-1.13-.57-.08-1.1.1-1.46.32zm6.37-.02c-.92.02-1.7.47-2.2 1.13-.5.64-.75 1.34-.75 2.1v.92c0 .95.28 1.83.97 2.5.68.68 1.6.9 2.72.38 1.1-.5 1.63-1.38 1.63-2.88v-.92c0-1.03-1.06-2.22-2.1-2.84-.17-.1-.35-.18-.54-.24a2.3 2.3 0 0 0-.73-.14v-.01zm5.86.02c-.57.08-1.1.3-1.53.65-.5.4-.9.95-1.13 1.63v.92c0 1.5.53 2.37 1.63 2.88 1.12.52 2.04.3 2.72-.38.7-.67.97-1.55.97-2.5v-.92c0-.77-.24-1.47-.74-2.1-.5-.64-1.16-1.02-2-1.13l.08-.05zm-8.84 9.4c-.35 0-.68.07-1 .2l-3.77 1.56a2.33 2.33 0 0 0 .6 4.38c.57.17 1.18.1 1.7-.18l2.04-1.13a.3.3 0 0 1 .3 0l1.74.95c.68.37 1.5.4 2.2.06.7-.34 1.2-.96 1.36-1.7a2.33 2.33 0 0 0-1.12-2.5l-2.1-1.2a2.35 2.35 0 0 0-1.95-.44z"/></svg>
+                                Itch.io
+                            </a>
+                        <?php elseif ($res['type'] === 'youtube'): ?>
+                            <a href="https://youtube.com/watch?v=<?= htmlspecialchars($res['video_id']) ?>" target="_blank" class="resource-link resource-youtube">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2c-.3-1-1-1.8-2-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.5.5c-1 .3-1.7 1.1-2 2.1C0 8.2 0 12 0 12s0 3.8.5 5.8c.3 1 1 1.8 2 2.1 1.9.5 9.5.5 9.5.5s7.6 0 9.5-.5c1-.3 1.7-1.1 2-2.1.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8zM9.6 15.6V8.4l6.4 3.6-6.4 3.6z"/></svg>
+                                YouTube
+                            </a>
+                        <?php elseif ($res['type'] === 'download'): ?>
+                            <a href="<?= htmlspecialchars($res['file_path']) ?>" download class="resource-link resource-download">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                <?= htmlspecialchars($res['label']) ?>
+                                <?php if (!empty($res['file_size'])): ?>
+                                    <span class="file-size"><?= formatFileSize($res['file_size']) ?></span>
+                                <?php endif; ?>
+                            </a>
                         <?php endif; ?>
-                    </a>
-                <?php endif; ?>
-            <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
         
         <?php foreach ($resources as $res): ?>
@@ -169,14 +173,21 @@ ksort($techByTier);
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
                     Tech Stack
                 </h2>
-                <div class="tech-stack-tiers">
-                    <?php foreach ($techByTier as $tier): ?>
-                    <div class="tech-tier">
-                        <div class="tech-tier-name"><?= htmlspecialchars($tier['name']) ?></div>
-                        <div class="tech-tier-items">
-                            <?php foreach ($tier['items'] as $tech): ?>
-                                <span class="tech-tag"><?= htmlspecialchars($tech['name']) ?></span>
-                            <?php endforeach; ?>
+                <div class="tech-stack-tower">
+                    <?php 
+                    $tiers = array_values($techByTier);
+                    $totalTiers = count($tiers);
+                    foreach (array_reverse($tiers) as $index => $tier): 
+                        $tierLevel = $totalTiers - $index;
+                    ?>
+                    <div class="tech-stack-block" data-tier="<?= $tierLevel ?>" style="--tier-index: <?= $index ?>; --total-tiers: <?= $totalTiers ?>;">
+                        <div class="tech-stack-block-inner">
+                            <div class="tech-stack-tier-name"><?= htmlspecialchars($tier['name']) ?></div>
+                            <div class="tech-stack-items">
+                                <?php foreach ($tier['items'] as $tech): ?>
+                                    <span class="tech-tag"><?= htmlspecialchars($tech['name']) ?></span>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -211,20 +222,53 @@ ksort($techByTier);
 </article>
 
 <script>
-document.querySelectorAll('.gallery-thumb').forEach(thumb => {
-    thumb.addEventListener('click', function() {
-        const src = this.dataset.src;
-        const type = this.dataset.type;
-        const main = document.getElementById('gallery-main');
+(function() {
+    const thumbs = document.querySelectorAll('.gallery-thumb');
+    const main = document.getElementById('gallery-main');
+    let currentIndex = 0;
+    let autoSwapInterval = null;
+    const AUTO_SWAP_DELAY = 5000;
+
+    function showSlide(index) {
+        if (thumbs.length === 0) return;
+        currentIndex = index;
+        const thumb = thumbs[index];
+        const src = thumb.dataset.src;
+        const type = thumb.dataset.type;
         
-        document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
+        thumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
         
         if (type === 'video') {
-            main.innerHTML = '<video src="' + src + '" controls autoplay></video>';
+            main.innerHTML = '<video src="' + src + '" controls></video>';
         } else {
             main.innerHTML = '<img src="' + src + '" alt="">';
         }
+    }
+
+    function nextSlide() {
+        const next = (currentIndex + 1) % thumbs.length;
+        showSlide(next);
+    }
+
+    function startAutoSwap() {
+        if (thumbs.length > 1) {
+            autoSwapInterval = setInterval(nextSlide, AUTO_SWAP_DELAY);
+        }
+    }
+
+    function resetAutoSwap() {
+        clearInterval(autoSwapInterval);
+        startAutoSwap();
+    }
+
+    thumbs.forEach((thumb, index) => {
+        thumb.addEventListener('click', function() {
+            showSlide(index);
+            resetAutoSwap();
+        });
     });
-});
+
+    startAutoSwap();
+})();
 </script>

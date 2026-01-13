@@ -1,5 +1,4 @@
 .project-single {
-  max-width: min(100%, 70rem);
   margin: 0 auto;
 }
 
@@ -133,6 +132,17 @@
   object-fit: cover;
 }
 
+.project-meta-resources-section {
+  margin-bottom: var(--space-xl);
+}
+
+.meta-resources-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  align-items: start;
+}
+
 .project-meta-section {
   margin-bottom: var(--space-lg);
 }
@@ -144,6 +154,13 @@
 }
 
 .project-meta-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+}
+
+.project-resources-card {
   background: var(--panel-bg);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
@@ -280,12 +297,18 @@
   margin-bottom: var(--space-md);
 }
 
+.resource-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
 .resource-link {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
-  background: var(--panel-bg);
+  background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   text-decoration: none;
@@ -457,6 +480,110 @@
   margin-bottom: var(--space-md);
 }
 
+.tech-stack-tower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: var(--space-md) 0;
+}
+
+.tech-stack-block {
+  --block-width: calc(60% + (var(--tier-index) * 40% / var(--total-tiers)));
+  width: var(--block-width);
+  min-width: 70%;
+  max-width: 100%;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.tech-stack-block-inner {
+  background: linear-gradient(to bottom,
+      var(--bg-surface) 0%,
+      var(--panel-bg) 100%);
+  border: 1px solid var(--border-subtle);
+  border-bottom-width: 3px;
+  padding: var(--space-sm) var(--space-md);
+  text-align: center;
+  position: relative;
+}
+
+.tech-stack-block:first-child .tech-stack-block-inner {
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.tech-stack-block:last-child .tech-stack-block-inner {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  border-bottom-width: 4px;
+  border-bottom-color: var(--primary);
+  background: linear-gradient(to bottom,
+      var(--primary-dim) 0%,
+      var(--bg-surface) 100%);
+}
+
+.tech-stack-block:only-child .tech-stack-block-inner {
+  border-radius: var(--radius-md);
+}
+
+.tech-stack-block:not(:first-child) .tech-stack-block-inner {
+  border-top: none;
+}
+
+.tech-stack-block:hover {
+  z-index: 2;
+}
+
+.tech-stack-block:hover .tech-stack-block-inner {
+  border-color: var(--primary-dim);
+  background: var(--primary-dim);
+}
+
+.tech-stack-block::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: calc(var(--block-width) + 2%);
+  height: 100%;
+  background: var(--border-subtle);
+  opacity: 0.1;
+  z-index: -1;
+  border-radius: var(--radius-sm);
+}
+
+.tech-stack-tier-name {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.tech-stack-block:last-child .tech-stack-tier-name {
+  color: var(--primary);
+}
+
+.tech-stack-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  justify-content: center;
+}
+
+.tech-stack-items .tech-tag {
+  background: var(--panel-bg);
+  border-color: var(--border-subtle);
+}
+
+.tech-stack-block:last-child .tech-stack-items .tech-tag {
+  background: var(--bg-surface);
+  border-color: var(--primary-dim);
+  color: var(--primary);
+  font-weight: 600;
+}
+
 .tech-stack-tiers {
   display: flex;
   flex-direction: column;
@@ -531,6 +658,14 @@
   .tech-devlogs-grid {
     grid-template-columns: 1fr;
   }
+
+  .meta-resources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tech-stack-block {
+    min-width: 80%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -545,5 +680,9 @@
   .tech-stack-panel,
   .devlogs-panel {
     padding: var(--space-md);
+  }
+
+  .tech-stack-block {
+    min-width: 90%;
   }
 }
