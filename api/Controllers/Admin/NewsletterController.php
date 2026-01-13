@@ -295,7 +295,7 @@ HTML;
     {
         $token = hash_hmac('sha256', $email, $_ENV['APP_SECRET'] ?? 'quidque-secret');
         $encoded = urlencode($email);
-        return "https://quidque.studio/newsletter/unsubscribe?email={$encoded}&token={$token}";
+        return "https://quidque.no/newsletter/unsubscribe?email={$encoded}&token={$token}";
     }
 
     private function sendEmail(string $to, string $subject, string $html, string $plain): bool
@@ -303,8 +303,7 @@ HTML;
         $boundary = md5(time());
         
         $headers = [
-            'From: Quidque Studio <newsletter@quidque.studio>',
-            'Reply-To: hello@quidque.studio',
+            'From: Quidque Studio <newsletter@quidque.no>',
             'MIME-Version: 1.0',
             "Content-Type: multipart/alternative; boundary=\"{$boundary}\"",
         ];
