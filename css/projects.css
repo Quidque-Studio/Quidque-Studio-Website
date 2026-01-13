@@ -172,6 +172,15 @@
   background: var(--accent);
 }
 
+.status-live_service {
+  background: rgba(0, 200, 100, 0.15);
+  color: #00c864;
+}
+
+.status-live_service::before {
+  background: #00c864;
+}
+
 .projects-empty {
   grid-column: 1 / -1;
   text-align: center;
