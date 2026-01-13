@@ -25,7 +25,7 @@ class DevlogController
         $this->auth = $auth;
         $this->devlogModel = new Devlog($db);
         $this->projectModel = new Project($db);
-        $this->requireTeamMember();
+        $this->requirePermission('manage_projects');
     }
 
     private function getProjectOr404(string $projectId): array

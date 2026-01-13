@@ -40,22 +40,30 @@ $currentPath = $_SERVER['REQUEST_URI'];
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
                 <span>Dashboard</span>
             </a>
-            <a href="/admin/projects" class="<?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.9a2 2 0 0 1-1.69-.9l-.81-1.2a2 2 0 0 0-1.67-.9H8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2Z"/><path d="M2 8v11a2 2 0 0 0 2 2h14"/></svg>
-                <span>Projects</span>
-            </a>
-            <a href="/admin/studio-posts" class="<?= str_starts_with($currentPath, '/admin/studio-posts') ? 'active' : '' ?>">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
-                <span>News</span>
-            </a>
-            <a href="/admin/tech-stack" class="nav-desktop <?= str_starts_with($currentPath, '/admin/tech-stack') ? 'active' : '' ?>">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
-                <span>Tech</span>
-            </a>
-            <a href="/admin/messages" class="nav-desktop <?= str_starts_with($currentPath, '/admin/messages') ? 'active' : '' ?>">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-                <span>Messages</span>
-            </a>
+            <?php if (in_array('manage_projects', $perms)): ?>
+                <a href="/admin/projects" class="<?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.9a2 2 0 0 1-1.69-.9l-.81-1.2a2 2 0 0 0-1.67-.9H8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2Z"/><path d="M2 8v11a2 2 0 0 0 2 2h14"/></svg>
+                    <span>Projects</span>
+                </a>
+            <?php endif; ?>
+            <?php if (in_array('manage_posts', $perms)): ?>
+                <a href="/admin/studio-posts" class="<?= str_starts_with($currentPath, '/admin/studio-posts') ? 'active' : '' ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+                    <span>News</span>
+                </a>
+            <?php endif; ?>
+            <?php if (in_array('manage_tech', $perms)): ?>
+                <a href="/admin/tech-stack" class="nav-desktop <?= str_starts_with($currentPath, '/admin/tech-stack') ? 'active' : '' ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                    <span>Tech</span>
+                </a>
+            <?php endif; ?>
+            <?php if (in_array('manage_messages', $perms)): ?>
+                <a href="/admin/messages" class="nav-desktop <?= str_starts_with($currentPath, '/admin/messages') ? 'active' : '' ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    <span>Messages</span>
+                </a>
+            <?php endif; ?>
             <?php if (in_array('manage_users', $perms)): ?>
                 <a href="/admin/users" class="nav-desktop <?= str_starts_with($currentPath, '/admin/users') ? 'active' : '' ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>

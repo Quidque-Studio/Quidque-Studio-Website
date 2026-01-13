@@ -18,7 +18,3 @@
 #### General UX
 
 - Generally, the admin pages could use more mobile optimization
-
-#### Users
-
-- Permissions other than "manage_users" don't work at the moment (backend issue)

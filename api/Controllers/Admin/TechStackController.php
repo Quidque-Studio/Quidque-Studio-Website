@@ -19,7 +19,7 @@ class TechStackController
     {
         $this->db = $db;
         $this->auth = $auth;
-        $this->requireTeamMember();
+        $this->requirePermission('manage_tech');
     }
 
     public function index(): void

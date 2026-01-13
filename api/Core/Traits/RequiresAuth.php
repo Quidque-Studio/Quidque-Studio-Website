@@ -23,6 +23,7 @@ trait RequiresAuth
     
     protected function requirePermission(string $permission): void
     {
+        $this->requireTeamMember();
         if (!$this->auth->hasPermission($permission)) {
             View::notFound();
         }
@@ -38,9 +39,6 @@ trait RequiresAuth
     
     protected function requireAdmin(): void
     {
-        $this->requireTeamMember();
-        if (!$this->auth->hasPermission('manage_newsletter')) {
-            View::notFound();
-        }
+        $this->requirePermission('manage_newsletter');
     }
 }

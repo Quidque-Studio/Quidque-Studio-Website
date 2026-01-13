@@ -26,7 +26,7 @@ class ProjectController
         $this->auth = $auth;
         $this->projectModel = new Project($db);
         $this->resourceModel = new Resource($db);
-        $this->requireTeamMember();
+        $this->requirePermission('manage_projects');
     }
 
     public function index(): void

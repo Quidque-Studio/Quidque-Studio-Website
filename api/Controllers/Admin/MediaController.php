@@ -5,10 +5,13 @@ namespace Api\Controllers\Admin;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Traits\RequiresAuth;
 use Api\Models\Media;
 
 class MediaController
 {
+    use RequiresAuth;
+
     private Database $db;
     private Auth $auth;
     private Media $mediaModel;
@@ -18,10 +21,7 @@ class MediaController
         $this->db = $db;
         $this->auth = $auth;
         $this->mediaModel = new Media($db);
-
-        if (!$this->auth->isTeamMember()) {
-            View::notFound();
-        }
+        $this->requirePermission('manage_projects');
     }
 
     public function upload(): void

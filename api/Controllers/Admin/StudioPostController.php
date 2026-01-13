@@ -22,7 +22,7 @@ class StudioPostController
         $this->db = $db;
         $this->auth = $auth;
         $this->postModel = new StudioPost($db);
-        $this->requireTeamMember();
+        $this->requirePermission('manage_posts');
     }
 
     public function index(): void

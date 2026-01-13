@@ -18,7 +18,7 @@ class MessageController
     {
         $this->db = $db;
         $this->auth = $auth;
-        $this->requireTeamMember();
+        $this->requirePermission('manage_messages');
     }
 
     public function index(): void
