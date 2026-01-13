@@ -54,11 +54,30 @@ class MediaController
 
         $file = $_FILES['file'];
         
-        $allowedExt = ['zip', 'rar', '7z', 'tar', 'gz', 'pdf', 'exe', 'dmg', 'apk'];
+        $allowedTypes = [
+            'zip' => ['application/zip', 'application/x-zip-compressed'],
+            'rar' => ['application/x-rar-compressed', 'application/vnd.rar'],
+            '7z'  => ['application/x-7z-compressed'],
+            'tar' => ['application/x-tar'],
+            'gz'  => ['application/gzip', 'application/x-gzip'],
+            'pdf' => ['application/pdf'],
+            'exe' => ['application/x-msdownload', 'application/x-dosexec', 'application/octet-stream'],
+            'dmg' => ['application/x-apple-diskimage', 'application/octet-stream'],
+            'apk' => ['application/vnd.android.package-archive', 'application/zip'],
+        ];
+        
         $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         
-        if (!in_array($ext, $allowedExt)) {
-            echo json_encode(['error' => 'File type not allowed. Allowed: ' . implode(', ', $allowedExt)]);
+        if (!isset($allowedTypes[$ext])) {
+            echo json_encode(['error' => 'File type not allowed. Allowed: ' . implode(', ', array_keys($allowedTypes))]);
+            return;
+        }
+        
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $detectedMime = $finfo->file($file['tmp_name']);
+        
+        if (!in_array($detectedMime, $allowedTypes[$ext])) {
+            echo json_encode(['error' => 'File content does not match extension']);
             return;
         }
         

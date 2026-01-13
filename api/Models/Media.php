@@ -17,8 +17,10 @@ class Media extends Model
             'video/webm' => 'webm',
         ];
 
-        if (!isset($allowed[$file['type']])) {
-            return ['error' => 'File type not allowed'];
+        $detectedMime = $this->detectMimeType($file['tmp_name']);
+        
+        if (!$detectedMime || !isset($allowed[$detectedMime])) {
+            return ['error' => 'File type not allowed or could not be verified'];
         }
 
         $sha = sha1_file($file['tmp_name']);
@@ -27,8 +29,8 @@ class Media extends Model
             return ['success' => true, 'media' => $existing, 'duplicate' => true];
         }
 
-        $ext = $allowed[$file['type']];
-        $type = str_starts_with($file['type'], 'video/') ? 'video' : 'image';
+        $ext = $allowed[$detectedMime];
+        $type = str_starts_with($detectedMime, 'video/') ? 'video' : 'image';
         if ($ext === 'gif') $type = 'gif';
 
         $folder = match($type) {
@@ -46,7 +48,7 @@ class Media extends Model
         }
 
         if ($type === 'image' && $ext !== 'gif') {
-            $this->compressImage($file['tmp_name'], $fullPath, $file['type']);
+            $this->compressImage($file['tmp_name'], $fullPath, $detectedMime);
         } else {
             move_uploaded_file($file['tmp_name'], $fullPath);
         }
@@ -95,7 +97,8 @@ class Media extends Model
 
         $width = imagesx($image);
         $height = imagesy($image);
-        $maxDim = 1920;
+        $maxDim = 1024;
+        $hasTransparency = ($mime === 'image/png' || $mime === 'image/webp');
 
         if ($width > $maxDim || $height > $maxDim) {
             $ratio = min($maxDim / $width, $maxDim / $height);
@@ -104,14 +107,20 @@ class Media extends Model
 
             $resized = imagecreatetruecolor($newWidth, $newHeight);
             
-            if ($mime === 'image/png') {
+            if ($hasTransparency) {
                 imagealphablending($resized, false);
                 imagesavealpha($resized, true);
+                $transparent = imagecolorallocatealpha($resized, 0, 0, 0, 127);
+                imagefill($resized, 0, 0, $transparent);
             }
 
             imagecopyresampled($resized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
             imagedestroy($image);
             $image = $resized;
+        }
+
+        if ($hasTransparency) {
+            imagesavealpha($image, true);
         }
 
         match($mime) {
@@ -121,6 +130,66 @@ class Media extends Model
         };
 
         imagedestroy($image);
+    }
+
+    private function detectMimeType(string $filepath): ?string
+    {
+        if (!file_exists($filepath) || !is_readable($filepath)) {
+            return null;
+        }
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $detectedMime = $finfo->file($filepath);
+
+        $imageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (in_array($detectedMime, $imageTypes)) {
+            $imageInfo = @getimagesize($filepath);
+            if ($imageInfo === false) {
+                return null;
+            }
+            
+            $imageMimeMap = [
+                IMAGETYPE_JPEG => 'image/jpeg',
+                IMAGETYPE_PNG => 'image/png',
+                IMAGETYPE_GIF => 'image/gif',
+                IMAGETYPE_WEBP => 'image/webp',
+            ];
+            
+            $imageTypeMime = $imageMimeMap[$imageInfo[2]] ?? null;
+            if ($imageTypeMime !== $detectedMime) {
+                return null;
+            }
+        }
+
+        $videoTypes = ['video/mp4', 'video/webm'];
+        if (in_array($detectedMime, $videoTypes)) {
+            if (!$this->validateVideoMagicBytes($filepath, $detectedMime)) {
+                return null;
+            }
+        }
+
+        return $detectedMime;
+    }
+
+    private function validateVideoMagicBytes(string $filepath, string $expectedMime): bool
+    {
+        $handle = fopen($filepath, 'rb');
+        if (!$handle) {
+            return false;
+        }
+
+        $bytes = fread($handle, 12);
+        fclose($handle);
+
+        if (strlen($bytes) < 12) {
+            return false;
+        }
+
+        return match($expectedMime) {
+            'video/mp4' => substr($bytes, 4, 4) === 'ftyp',
+            'video/webm' => substr($bytes, 0, 4) === "\x1A\x45\xDF\xA3",
+            default => false,
+        };
     }
 
     public function delete(int $id): int
