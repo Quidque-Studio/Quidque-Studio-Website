@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Quidque Studio' ?></title>
+    <?= isset($seo) ? $seo->render() : '<title>' . htmlspecialchars($title ?? 'Quidque Studio') . '</title>' ?>
     <script>
         if (localStorage.getItem('sidebarCollapsed') === 'true') {
             document.documentElement.classList.add('sidebar-collapsed');

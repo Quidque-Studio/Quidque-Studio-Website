@@ -28,7 +28,7 @@
                     <div class="editor-field">
                         <label class="editor-label">Status</label>
                         <select name="status" class="editor-select">
-                            <?php foreach (['planned', 'in_progress', 'completed', 'on_hold', 'abandoned'] as $status): ?>
+                            <?php foreach (['planned', 'in_progress', 'live_service', 'completed', 'on_hold', 'abandoned'] as $status): ?>
                                 <option value="<?= $status ?>" <?= ($project['status'] ?? '') === $status ? 'selected' : '' ?>>
                                     <?= ucfirst(str_replace('_', ' ', $status)) ?>
                                 </option>

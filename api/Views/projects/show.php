@@ -219,12 +219,23 @@ ksort($techByTier);
         </div>
     </section>
     <?php endif; ?>
+    <div id="gallery-modal" class="gallery-modal">
+        <button class="gallery-modal-close" aria-label="Close">&times;</button>
+        <div class="gallery-modal-content">
+            <img id="gallery-modal-img" src="" alt="">
+        </div>
+    </div>
 </article>
 
 <script>
 (function() {
     const thumbs = document.querySelectorAll('.gallery-thumb');
     const main = document.getElementById('gallery-main');
+
+    const modal = document.getElementById('gallery-modal');
+    const modalImg = document.getElementById('gallery-modal-img');
+    const closeBtn = document.querySelector('.gallery-modal-close');
+
     let currentIndex = 0;
     let autoSwapInterval = null;
     const AUTO_SWAP_DELAY = 5000;
@@ -269,6 +280,38 @@ ksort($techByTier);
         });
     });
 
-    startAutoSwap();
+    main.addEventListener('click', function(e) {
+        if (e.target.tagName === 'IMG') {
+            modalImg.src = e.target.src;
+            modal.classList.add('active');
+            clearInterval(autoSwapInterval);
+        }
+    });
+
+    function closeModal() {
+        modal.classList.remove('active');
+        modalImg.src = '';
+        startAutoSwap();
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    // --- Init ---
+    if (thumbs.length > 0) {
+        showSlide(0);
+        startAutoSwap();
+    }
 })();
 </script>

@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 use Api\Models\Project;
 use Api\Models\StudioPost;
 use Api\Models\Devlog;
@@ -49,6 +50,11 @@ class HomeController
             'recentPosts' => $recentPosts,
             'recentDevlogs' => $recentDevlogs,
             'recentMemberPosts' => $recentMemberPosts,
+            'seo' => Seo::make('Quidque Studio', [
+                'description' => 'Building tools, software and digital experiments from the ground up. No shortcuts, just focused development.',
+                'image' => '/QuidqueLogo.png',
+                'imageAlt' => 'Quidque Studio Logo',
+            ]),
             'styles' => ['home'],
         ], 'main');
     }

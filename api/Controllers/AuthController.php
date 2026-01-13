@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 use Api\Models\User;
 
 class AuthController
@@ -28,9 +29,10 @@ class AuthController
         }
 
         View::render('auth/login', [
-                'title' => 'Login',
-                'styles' => ['auth']
-            ]);
+            'title' => 'Login',
+            'seo' => Seo::noIndex('Login'),
+            'styles' => ['auth']
+        ]);
     }
 
     public function sendMagicLink(): void
@@ -41,6 +43,7 @@ class AuthController
             View::render('auth/login', [
                 'title' => 'Login',
                 'error' => 'Invalid email address',
+                'seo' => Seo::noIndex('Login'),
                 'styles' => ['auth']
             ]);
             return;
@@ -50,6 +53,7 @@ class AuthController
             View::render('auth/login', [
                 'title' => 'Login',
                 'error' => 'Too many requests. Please try again later.',
+                'seo' => Seo::noIndex('Login'),
                 'styles' => ['auth']
             ]);
             return;
@@ -63,6 +67,7 @@ class AuthController
         View::render('auth/check-email', [
             'title' => 'Check Your Email',
             'email' => $email,
+            'seo' => Seo::noIndex('Check Your Email'),
             'styles' => ['auth']
         ], 'main');
     }
@@ -76,6 +81,7 @@ class AuthController
             View::render('auth/login', [
                 'title' => 'Login',
                 'error' => 'Invalid or expired link',
+                'seo' => Seo::noIndex('Login'),
                 'styles' => ['auth']
             ]);
             return;
@@ -105,6 +111,7 @@ class AuthController
         View::render('auth/register', [
             'title' => 'Complete Registration',
             'email' => $email,
+            'seo' => Seo::noIndex('Complete Registration'),
             'styles' => ['auth']
         ], 'main');
     }
@@ -119,6 +126,7 @@ class AuthController
                 'title' => 'Complete Registration',
                 'email' => $email,
                 'error' => 'Name is required',
+                'seo' => Seo::noIndex('Complete Registration'),
                 'styles' => ['auth']
             ], 'main');
             return;

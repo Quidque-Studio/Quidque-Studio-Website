@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 use Api\Core\Str;
 use Api\Core\Traits\RequiresAuth;
 use Api\Models\User;
@@ -48,6 +49,11 @@ class MemberController
             'user' => $this->auth->user(),
             'member' => $member,
             'canEdit' => $canEdit,
+            'seo' => Seo::make($member['name'], [
+                'description' => $member['short_bio'] ?? "Team member at Quidque Studio.",
+                'image' => $member['avatar'],
+                'imageAlt' => $member['name'],
+            ]),
             'styles' => ['member'],
         ], 'main');
     }
@@ -87,6 +93,7 @@ class MemberController
             'member' => $member,
             'posts' => $posts,
             'canEdit' => $canEdit,
+            'seo' => Seo::noIndex("{$member['name']}'s Blog"),
             'styles' => ['member'],
         ], 'main');
     }
@@ -102,6 +109,7 @@ class MemberController
             'user' => $this->auth->user(),
             'member' => $member,
             'post' => null,
+            'seo' => Seo::noIndex('New Post'),
             'styles' => ['member'],
         ], 'main');
     }
@@ -141,6 +149,7 @@ class MemberController
             'user' => $this->auth->user(),
             'member' => $member,
             'post' => $post,
+            'seo' => Seo::noIndex('Edit Post'),
             'styles' => ['member'],
         ], 'main');
     }
@@ -210,6 +219,7 @@ class MemberController
             'member' => $member,
             'post' => $post,
             'canEdit' => $canEdit,
+            'seo' => Seo::noIndex($post['title']),
             'styles' => ['member'],
         ], 'main');
     }

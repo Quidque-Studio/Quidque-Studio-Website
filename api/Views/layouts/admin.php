@@ -11,6 +11,7 @@ $currentPath = $_SERVER['REQUEST_URI'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title><?= $title ?? 'Admin' ?> - Quidque Studio</title>
     <script>
         if (localStorage.getItem('adminSidebarCollapsed') === 'true') {

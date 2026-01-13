@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 use Api\Core\Validator;
 use Api\Models\User;
 
@@ -50,6 +51,7 @@ class SettingsController
             'profile' => $profile,
             'isSubscribed' => $subscription !== null,
             'defaultPalette' => $this->getDefaultPalette(),
+            'seo' => Seo::noIndex('Settings'),
             'styles' => ['settings'],
         ], 'main');
     }

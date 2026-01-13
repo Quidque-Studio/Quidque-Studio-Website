@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 use Api\Models\User;
 
 class AboutController
@@ -35,6 +36,9 @@ class AboutController
             'title' => 'About',
             'user' => $this->auth->user(),
             'teamMembers' => $teamMembers,
+            'seo' => Seo::make('About', [
+                'description' => 'Meet the team behind Quidque Studio.',
+            ]),
             'styles' => ['about'],
         ], 'main');
     }

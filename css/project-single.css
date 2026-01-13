@@ -70,6 +70,7 @@
 }
 
 .project-description {
+  white-space: pre-wrap;
   font-size: var(--text-sm);
   color: var(--text-secondary);
   line-height: 1.7;
@@ -95,6 +96,7 @@
   overflow: hidden;
   background: var(--bg-surface);
   margin-bottom: var(--space-sm);
+  cursor: zoom-in;
 }
 
 .gallery-main img,
@@ -688,4 +690,59 @@
   .tech-stack-block {
     min-width: 90%;
   }
+}
+
+.gallery-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+.gallery-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.gallery-modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.gallery-modal-content img {
+  display: block;
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+}
+
+.gallery-modal-close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 2.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: var(--space-xs);
+  opacity: 0.7;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+  z-index: 1001;
+}
+
+.gallery-modal-close:hover {
+  opacity: 1;
+  color: var(--primary);
 }

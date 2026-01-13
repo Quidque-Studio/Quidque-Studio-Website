@@ -4,6 +4,7 @@ namespace Api\Controllers;
 
 use Api\Core\Database;
 use Api\Core\View;
+use Api\Core\Seo;
 
 class NewsletterController
 {
@@ -26,6 +27,7 @@ class NewsletterController
                 'title' => 'Unsubscribe',
                 'success' => false,
                 'error' => 'Invalid unsubscribe link',
+                'seo' => Seo::noIndex('Unsubscribe'),
             ], 'main');
             return;
         }
@@ -46,6 +48,7 @@ class NewsletterController
             'title' => 'Unsubscribed',
             'success' => true,
             'email' => $email,
+            'seo' => Seo::noIndex('Unsubscribed'),
         ], 'main');
     }
 

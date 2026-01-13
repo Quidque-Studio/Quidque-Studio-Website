@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 use Api\Models\Project;
 use Api\Models\Devlog;
 
@@ -48,6 +49,7 @@ class DevlogController
             'user' => $this->auth->user(),
             'project' => $project,
             'devlog' => $devlog,
+            'seo' => Seo::noIndex($devlog['title']),
             'styles' => ['devlog-single'],
         ], 'main');
     }

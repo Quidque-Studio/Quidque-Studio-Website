@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 
 class SearchController
 {
@@ -105,6 +106,7 @@ class SearchController
             'searchContent' => $searchContent,
             'results' => $results,
             'totalResults' => $totalResults,
+            'seo' => Seo::noIndex('Search'),
             'styles' => ['search'],
         ], 'main');
     }

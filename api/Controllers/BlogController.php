@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 use Api\Core\Paginator;
 use Api\Models\StudioPost;
 
@@ -68,13 +69,18 @@ class BlogController
 
         $categories = $this->db->query('SELECT * FROM studio_categories ORDER BY name');
 
+        $seoTitle = $currentCategory ? $currentCategory['name'] . ' - Blog' : 'Blog';
+
         View::render('blog/index', [
-            'title' => $currentCategory ? $currentCategory['name'] . ' - Blog' : 'Blog',
+            'title' => $seoTitle,
             'user' => $this->auth->user(),
             'posts' => $posts,
             'categories' => $categories,
             'currentCategory' => $currentCategory,
             'paginator' => $paginator,
+            'seo' => Seo::make($seoTitle, [
+                'description' => 'News, updates and articles from Quidque Studio.',
+            ]),
             'styles' => ['blog'],
         ], 'main');
     }
@@ -97,6 +103,7 @@ class BlogController
             'title' => $post['title'],
             'user' => $this->auth->user(),
             'post' => $post,
+            'seo' => Seo::noIndex($post['title']),
             'styles' => ['blog-single'],
         ], 'main');
     }

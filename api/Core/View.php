@@ -7,6 +7,11 @@ class View
     public static function render(string $view, array $data = [], ?string $layout = 'main'): void
     {
         $data['flash'] = self::getFlash();
+        
+        if (!isset($data['seo']) && isset($data['title'])) {
+            $data['seo'] = Seo::make($data['title']);
+        }
+        
         extract($data);
 
         $viewPath = BASE_PATH . '/api/Views/' . $view . '.php';
@@ -53,6 +58,7 @@ class View
         self::render('errors/404', [
             'title' => '404 Not Found',
             'user' => $GLOBALS['auth']->user(),
+            'seo' => Seo::noIndex('Page Not Found'),
             'styles' => ['errors'],
         ], 'main');
         exit;

@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 
 class MessageController
 {
@@ -41,6 +42,7 @@ class MessageController
             'title' => 'My Messages',
             'user' => $this->auth->user(),
             'conversations' => $conversations,
+            'seo' => Seo::noIndex('My Messages'),
             'styles' => ['messages'],
         ], 'main');
     }
@@ -50,6 +52,7 @@ class MessageController
         View::render('messages/create', [
             'title' => 'New Message',
             'user' => $this->auth->user(),
+            'seo' => Seo::noIndex('New Message'),
             'styles' => ['messages'],
         ], 'main');
     }
@@ -99,6 +102,7 @@ class MessageController
             'user' => $this->auth->user(),
             'conversation' => $conversation,
             'messages' => $messages,
+            'seo' => Seo::noIndex($conversation['subject']),
             'styles' => ['messages'],
         ], 'main');
     }

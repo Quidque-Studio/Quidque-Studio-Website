@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use Api\Core\Database;
 use Api\Core\Auth;
 use Api\Core\View;
+use Api\Core\Seo;
 use Api\Core\Paginator;
 use Api\Models\Project;
 use Api\Models\Devlog;
@@ -49,6 +50,9 @@ class ProjectController
             'user' => $this->auth->user(),
             'projects' => $projects,
             'paginator' => $paginator,
+            'seo' => Seo::make('Projects', [
+                'description' => 'Browse all projects built by Quidque Studio. Tools, software, games and digital experiments.',
+            ]),
             'styles' => ['projects'],
         ], 'main');
     }
@@ -67,6 +71,9 @@ class ProjectController
         $resources = $this->resourceModel->getAllForProject($project['id']);
         $devlogs = $this->devlogModel->getByProject($project['id']);
 
+        $thumbnail = !empty($gallery) ? $gallery[0]['path'] : null;
+        $description = $project['excerpt'] ?? $project['description'] ?? null;
+
         View::render('projects/show', [
             'title' => $project['title'],
             'user' => $this->auth->user(),
@@ -76,6 +83,12 @@ class ProjectController
             'authors' => $authors,
             'resources' => $resources,
             'devlogs' => $devlogs,
+            'seo' => Seo::make($project['title'], [
+                'description' => $description,
+                'image' => $thumbnail,
+                'imageAlt' => $project['title'],
+                'type' => 'article',
+            ]),
             'styles' => ['project-single'],
         ], 'main');
     }
