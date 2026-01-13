@@ -750,7 +750,7 @@ html.sidebar-collapsed .main-wrapper,
   }
 
   .btn {
-    padding: var(--space-xs) var(--space-sm);
+    padding: var(--space-sm) var(--space-sm);
     font-size: var(--text-xs);
   }
 
