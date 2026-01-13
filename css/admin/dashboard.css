@@ -22,6 +22,10 @@
   box-shadow: 0 8px 24px rgba(0, 255, 187, 0.15);
 }
 
+.stat-card-link:active {
+  transform: translateY(0);
+}
+
 .stat-card-purple:hover {
   border-color: var(--purple);
   box-shadow: 0 8px 24px rgba(157, 126, 219, 0.15);
@@ -70,6 +74,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
+  min-width: 0;
 }
 
 .stat-number {
@@ -153,12 +158,17 @@
   font-size: var(--text-sm);
   font-weight: 500;
   transition: all var(--transition-fast);
+  min-height: 5rem;
 }
 
 .quick-action:hover {
   border-color: var(--primary-dim);
   color: var(--text-primary);
   background: var(--primary-dim);
+}
+
+.quick-action:active {
+  transform: scale(0.98);
 }
 
 .quick-action-icon {
@@ -194,15 +204,14 @@
   color: var(--accent);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
   }
 
   .stat-card {
     padding: var(--space-md);
-    flex-direction: column;
-    align-items: flex-start;
     gap: var(--space-sm);
   }
 
@@ -216,7 +225,92 @@
     height: 1.25rem;
   }
 
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: var(--text-xs);
+  }
+
+  .dashboard-sections {
+    margin-top: var(--space-lg);
+    gap: var(--space-md);
+  }
+
+  .dashboard-section-header {
+    padding: var(--space-sm) var(--space-md);
+  }
+
   .quick-actions-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+  }
+
+  .quick-action {
+    padding: var(--space-sm);
+    font-size: var(--text-xs);
+    min-height: 4.5rem;
+  }
+
+  .quick-action-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .quick-action-icon svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-sm);
+  }
+
+  .stat-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .stat-icon svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.25rem;
+  }
+
+  .quick-actions-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .quick-action {
+    padding: var(--space-xs);
+    gap: var(--space-xs);
+    min-height: auto;
+  }
+
+  .quick-action span {
+    display: none;
+  }
+
+  .quick-action-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .quick-action-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }

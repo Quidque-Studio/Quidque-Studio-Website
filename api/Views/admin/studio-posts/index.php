@@ -3,11 +3,11 @@
 <div class="admin-toolbar">
     <a href="/admin/studio-posts/create" class="btn btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-        New Post
+        <span class="btn-text">New Post</span>
     </a>
     <a href="/admin/studio-posts/categories" class="btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
-        Manage Categories
+        <span class="btn-text">Categories</span>
     </a>
 </div>
 
@@ -15,7 +15,7 @@
     <input type="text" id="posts-search" placeholder="Search posts..." autocomplete="off">
 </div>
 
-<table class="admin-table" id="posts-table">
+<table class="admin-table admin-table-desktop" id="posts-table">
     <thead>
         <tr>
             <th>Title</th>
@@ -52,6 +52,35 @@
     </tbody>
 </table>
 
+<div class="mobile-card-view" id="posts-cards">
+    <?php if (empty($posts)): ?>
+        <div class="mobile-card" style="text-align: center; color: var(--text-muted); padding: 40px;">
+            No posts yet. Share some news!
+        </div>
+    <?php else: ?>
+        <?php foreach ($posts as $post): ?>
+            <div class="mobile-card" data-search="<?= htmlspecialchars(strtolower($post['title'] . ' ' . ($post['category_name'] ?? ''))) ?>">
+                <a href="/admin/studio-posts/<?= $post['id'] ?>/edit" class="mobile-card-link">
+                    <div class="mobile-card-title"><?= htmlspecialchars($post['title']) ?></div>
+                    <div class="mobile-card-meta">
+                        <?php if ($post['category_name']): ?>
+                            <span class="badge badge-purple" style="font-size: 0.625rem;"><?= htmlspecialchars($post['category_name']) ?></span>
+                        <?php endif; ?>
+                        <span style="margin-left: auto;"><?= Date::short($post['created_at']) ?></span>
+                    </div>
+                </a>
+                <div class="mobile-card-actions">
+                    <a href="/admin/studio-posts/<?= $post['id'] ?>/edit">Edit</a>
+                    <form method="POST" action="/admin/studio-posts/<?= $post['id'] ?>/delete" style="display:contents">
+                        <?= \Api\Core\View::csrfField() ?>
+                        <button type="submit" onclick="return confirm('Delete this post?')">Delete</button>
+                    </form>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.clickable-row').forEach(row => {
@@ -62,13 +91,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const searchInput = document.getElementById('posts-search');
     const table = document.getElementById('posts-table');
-    if (searchInput && table) {
+    const cards = document.getElementById('posts-cards');
+    
+    if (searchInput) {
         searchInput.addEventListener('input', function() {
             const query = this.value.toLowerCase();
-            table.querySelectorAll('tbody tr').forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
-            });
+            
+            if (table) {
+                table.querySelectorAll('tbody tr').forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(query) ? '' : 'none';
+                });
+            }
+            
+            if (cards) {
+                cards.querySelectorAll('.mobile-card[data-search]').forEach(card => {
+                    const text = card.dataset.search;
+                    card.style.display = text.includes(query) ? '' : 'none';
+                });
+            }
         });
     }
 });

@@ -4,7 +4,7 @@
     <div class="editor-header">
         <a href="/admin/projects" class="btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            Back
+            <span>Back</span>
         </a>
         <h1 class="editor-title"><?= $project ? 'Edit Project' : 'New Project' ?></h1>
     </div>
@@ -99,7 +99,7 @@
                 <div class="gallery-manager">
                     <div class="gallery-header">
                         <span class="gallery-title">Project Images</span>
-                        <span class="gallery-hint">First image is used as thumbnail</span>
+                        <span class="gallery-hint">First image is thumbnail</span>
                     </div>
                     <div class="gallery-grid" id="gallery-preview">
                         <?php foreach ($gallery ?? [] as $i => $media): ?>
@@ -112,9 +112,11 @@
                                 <button type="button" class="gallery-item-remove remove-media">×</button>
                             </div>
                         <?php endforeach; ?>
-                    </div>
-                    <div class="gallery-upload">
-                        <input type="file" id="gallery-upload" class="gallery-upload-input" accept="image/*,video/*" multiple>
+                        <label class="gallery-upload">
+                            <input type="file" id="gallery-upload" accept="image/*" style="display: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                            <span>Add</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -181,7 +183,7 @@
                                                 </div>
                                             </div>
                                             <?php if (!empty($resource['file_path'])): ?>
-                                                <div class="editor-hint">Current: <?= htmlspecialchars($resource['file_path']) ?></div>
+                                                <div class="editor-hint" style="margin-top: var(--space-sm); word-break: break-all;">Current: <?= htmlspecialchars($resource['file_path']) ?></div>
                                             <?php endif; ?>
                                         <?php elseif ($resource['type'] === 'embed'): ?>
                                             <div class="resource-item-field">
@@ -218,7 +220,7 @@
                 <button type="submit" class="btn btn-primary"><?= $project ? 'Update Project' : 'Create Project' ?></button>
                 <a href="/admin/projects" class="btn">Cancel</a>
                 <?php if ($project): ?>
-                    <a href="/admin/projects/<?= $project['id'] ?>/devlogs?from=edit" class="btn" style="margin-left: auto;">Manage Devlogs</a>
+                    <a href="/admin/projects/<?= $project['id'] ?>/devlogs?from=edit" class="btn btn-devlogs">Manage Devlogs</a>
                 <?php endif; ?>
             </div>
         </div>

@@ -78,6 +78,8 @@ body {
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 ::-webkit-scrollbar {
@@ -102,5 +104,11 @@ body {
   ::-webkit-scrollbar {
     width: 0.25rem;
     height: 0.25rem;
+  }
+}
+
+@media (pointer: coarse) {
+  ::-webkit-scrollbar {
+    display: none;
   }
 }

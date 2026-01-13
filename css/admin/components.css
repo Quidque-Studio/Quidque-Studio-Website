@@ -14,11 +14,16 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   white-space: nowrap;
+  min-height: 2.5rem;
 }
 
 .btn:hover {
   background: var(--panel-hover);
   border-color: var(--primary-dim);
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn-primary {
@@ -31,6 +36,10 @@
 .btn-primary:hover {
   box-shadow: 0 0 1.25rem var(--primary-glow);
   transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .form-group {
@@ -57,8 +66,9 @@
   border-radius: var(--radius-md);
   background: var(--bg-surface);
   color: var(--text-primary);
-  font-size: var(--text-sm);
+  font-size: 16px;
   transition: all var(--transition-fast);
+  min-height: 2.75rem;
 }
 
 .form-group input:focus,
@@ -82,6 +92,7 @@
   color: var(--text-primary);
   font-size: var(--text-sm);
   cursor: pointer;
+  padding: var(--space-xs) 0;
 }
 
 .checkbox-grid small {
@@ -151,6 +162,7 @@
   text-decoration: none;
   transition: color var(--transition-fast);
   white-space: nowrap;
+  padding: var(--space-xs) var(--space-sm);
 }
 
 .admin-table .actions button:hover,
@@ -172,9 +184,10 @@
   border-radius: var(--radius-md);
   background: var(--bg-surface);
   color: var(--text-primary);
-  font-size: var(--text-sm);
+  font-size: 16px;
   flex: 1;
   min-width: 8rem;
+  min-height: 2.75rem;
 }
 
 .inline-edit-form {
@@ -190,7 +203,7 @@
   background: transparent;
   color: var(--text-primary);
   border-radius: var(--radius-sm);
-  font-size: var(--text-sm);
+  font-size: 16px;
   transition: all var(--transition-fast);
 }
 
@@ -208,7 +221,7 @@
   background: var(--bg-surface);
   color: var(--text-primary);
   border-radius: var(--radius-sm);
-  font-size: var(--text-sm);
+  font-size: 16px;
 }
 
 .inline-select {
@@ -217,7 +230,8 @@
   background: var(--bg-surface);
   color: var(--text-primary);
   border-radius: var(--radius-sm);
-  font-size: var(--text-sm);
+  font-size: 16px;
+  min-height: 2.5rem;
 }
 
 .inline-save {
@@ -228,6 +242,8 @@
   font-size: var(--text-sm);
   font-weight: 500;
   transition: color var(--transition-fast);
+  padding: var(--space-sm);
+  min-height: 2.5rem;
 }
 
 .inline-save:hover {
@@ -295,10 +311,18 @@
 }
 
 @media (max-width: 768px) {
+  .admin-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 calc(var(--space-md) * -1);
+    padding: 0 var(--space-md);
+  }
+
   .admin-table {
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    min-width: 100%;
   }
 
   .admin-table th,
@@ -307,12 +331,40 @@
     font-size: var(--text-xs);
   }
 
+  .admin-table td:first-child {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .tech-stack-grid {
     grid-template-columns: 1fr;
   }
 
   .form-section {
     padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    border-radius: var(--radius-md);
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  .inline-form {
+    flex-direction: column;
+  }
+
+  .inline-form input,
+  .inline-form select,
+  .inline-form .btn {
+    width: 100%;
+    min-width: 100%;
   }
 }
 
@@ -324,13 +376,14 @@
 
 .admin-table-search input {
   flex: 1;
-  max-width: 20rem;
+  max-width: 100%;
   padding: var(--space-sm) var(--space-md);
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--text-primary);
-  font-size: var(--text-sm);
+  font-size: 16px;
+  min-height: 2.75rem;
 }
 
 .admin-table-search input:focus {
@@ -353,17 +406,142 @@
 }
 
 @media (max-width: 768px) {
-  .admin-table .actions {
+  .admin-table-search {
     flex-direction: column;
+  }
+
+  .admin-table-search input {
+    max-width: 100%;
+  }
+
+  .admin-table .actions {
+    flex-direction: row;
     gap: var(--space-xs);
   }
 
   .admin-table .actions a,
   .admin-table .actions button {
-    padding: var(--space-xs) var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
     background: var(--panel-bg);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-sm);
     text-align: center;
+    font-size: var(--text-xs);
+    min-height: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-section {
+    padding: var(--space-sm);
+  }
+
+  .form-section h2 {
+    font-size: var(--text-sm);
+  }
+
+  .btn {
+    padding: var(--space-sm);
+    font-size: var(--text-xs);
+  }
+}
+
+.mobile-card-view {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .admin-table-desktop {
+    display: none;
+  }
+
+  .mobile-card-view {
+    display: block;
+  }
+
+  .mobile-card {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+  }
+
+  .mobile-card-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .mobile-card-meta {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-bottom: var(--space-sm);
+  }
+
+  .mobile-card-actions {
+    display: flex;
+    gap: var(--space-sm);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .mobile-card-actions a,
+  .mobile-card-actions button {
+    flex: 1;
+    padding: var(--space-sm);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+    text-align: center;
+    font-size: var(--text-xs);
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.mobile-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: var(--space-sm);
+}
+
+.mobile-card-link .mobile-card-title {
+  color: var(--text-primary);
+}
+
+.mobile-card-link:active {
+  opacity: 0.7;
+}
+
+.mobile-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.btn-devlogs {
+  margin-left: auto;
+}
+
+@media (max-width: 768px) {
+  .btn-devlogs {
+    margin-left: 0;
+  }
+
+  .btn-text {
+    display: none;
+  }
+}
+
+@media (min-width: 481px) {
+  .btn-text {
+    display: inline;
   }
 }

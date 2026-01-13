@@ -4,7 +4,7 @@
     <div class="editor-header">
         <a href="/admin/studio-posts" class="btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            Back
+            <span>Back</span>
         </a>
         <h1 class="editor-title"><?= $post ? 'Edit Post' : 'New Post' ?></h1>
     </div>
@@ -37,7 +37,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="editor-field" style="margin-top: 20px;">
+                <div class="editor-field" style="margin-top: var(--space-md);">
                     <label class="editor-label">Tags <span class="optional">(comma separated)</span></label>
                     <input type="text" name="tags" class="editor-input" value="<?= htmlspecialchars(implode(', ', Str::formatTags($post['tags'] ?? null))) ?>" placeholder="announcement, update, etc.">
                 </div>

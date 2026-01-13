@@ -1207,98 +1207,6 @@
   background: var(--accent-dim);
 }
 
-.category-manager {
-  max-width: min(100%, 37.5rem);
-}
-
-.category-form {
-  display: flex;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-lg);
-  flex-wrap: wrap;
-}
-
-.category-form input {
-  flex: 1;
-  min-width: 10rem;
-  padding: var(--space-sm) var(--space-md);
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  color: var(--text-primary);
-  font-size: var(--text-sm);
-}
-
-.category-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.category-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  background: var(--panel-bg);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  flex-wrap: wrap;
-}
-
-.category-item input {
-  flex: 1;
-  min-width: 8rem;
-  padding: var(--space-sm) var(--space-md);
-  background: var(--bg-surface);
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  font-size: var(--text-sm);
-  transition: all var(--transition-fast);
-}
-
-.category-item input:hover,
-.category-item input:focus {
-  border-color: var(--border-subtle);
-  outline: none;
-}
-
-.category-slug {
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-  font-family: 'SF Mono', Monaco, monospace;
-  min-width: 6.25rem;
-}
-
-.category-actions {
-  display: flex;
-  gap: var(--space-xs);
-}
-
-.category-actions button {
-  padding: var(--space-xs) var(--space-sm);
-  background: none;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  color: var(--text-muted);
-  font-size: var(--text-xs);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.category-actions button.save:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: var(--primary-dim);
-}
-
-.category-actions button.delete:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-dim);
-}
-
 @media (max-width: 768px) {
   .editor-section-header {
     padding: var(--space-sm) var(--space-md);
@@ -1318,6 +1226,51 @@
 
   .block-add-bar {
     padding: var(--space-sm);
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .block-add-select {
+    max-width: 100%;
+  }
+
+  .block-header {
+    padding: var(--space-sm);
+  }
+
+  .block-body {
+    padding: var(--space-sm);
+  }
+
+  .block-type-label {
+    display: none;
+  }
+
+  .block-preview {
+    font-size: var(--text-xs);
+  }
+
+  .block-control {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .block-toggle {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .block-list-item {
+    flex-wrap: wrap;
+  }
+
+  .block-list-item-input {
+    min-width: calc(100% - 4rem);
+  }
+
+  .block-list-item-remove {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 
   .gallery-grid {
@@ -1352,14 +1305,76 @@
     width: 100%;
   }
 
-  .block-header {
+  .block-editor-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--space-xs);
+  }
+
+  .block-header {
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .block-type {
+    order: 1;
+  }
+
+  .block-toggle {
+    order: 0;
+  }
+
+  .block-preview {
+    order: 3;
+    flex-basis: 100%;
+    padding-left: 2.5rem;
   }
 
   .block-controls {
-    width: 100%;
-    justify-content: flex-end;
+    order: 2;
+    margin-left: auto;
+  }
+
+  .block-item.block-collapsed .block-preview {
+    margin-top: var(--space-xs);
+  }
+
+  .block-control {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: var(--text-base);
+  }
+
+  .block-toggle {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .block-list-controls {
+    flex-direction: column;
+  }
+
+  .block-list-toggle,
+  .block-list-add {
+    padding: var(--space-sm) var(--space-md);
+    text-align: center;
+  }
+
+  .block-list-item {
+    gap: var(--space-xs);
+  }
+
+  .block-list-marker {
+    width: 1.25rem;
+  }
+
+  .block-list-item-remove {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .block-textarea {
+    min-height: 5rem;
   }
 
   .gallery-item {
@@ -1391,19 +1406,6 @@
 
   .tech-item-row select {
     width: 100%;
-  }
-
-  .category-item {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .category-slug {
-    min-width: auto;
-  }
-
-  .category-actions {
-    justify-content: flex-end;
   }
 }
 

@@ -42,8 +42,15 @@ class ContentRenderer
     {
         $src = htmlspecialchars($block['value'] ?? '');
         $caption = htmlspecialchars($block['caption'] ?? '');
+        $size = $block['size'] ?? 'medium';
+        $sizeClass = match($size) {
+            'small' => 'img-small',
+            'large' => 'img-large',
+            'full' => 'img-full',
+            default => 'img-medium',
+        };
         
-        $html = '<figure><img src="' . $src . '" alt="" loading="lazy">';
+        $html = '<figure class="' . $sizeClass . '"><img src="' . $src . '" alt="" loading="lazy">';
         if ($caption) {
             $html .= '<figcaption>' . $caption . '</figcaption>';
         }
@@ -72,15 +79,20 @@ class ContentRenderer
     private static function renderVideo(array $block): string
     {
         $value = $block['value'] ?? '';
+        $size = $block['size'] ?? 'medium';
+        $sizeClass = match($size) {
+            'small' => 'video-small',
+            'large' => 'video-large',
+            'full' => 'video-full',
+            default => 'video-medium',
+        };
         
-        // YouTube
         if (preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/', $value, $matches)) {
-            return '<div class="video-embed"><iframe src="https://www.youtube.com/embed/' . htmlspecialchars($matches[1]) . '" frameborder="0" allowfullscreen></iframe></div>';
+            return '<div class="video-embed ' . $sizeClass . '"><iframe src="https://www.youtube.com/embed/' . htmlspecialchars($matches[1]) . '" frameborder="0" allowfullscreen></iframe></div>';
         }
         
-        // Direct video file
         if (preg_match('/\.(mp4|webm)$/i', $value)) {
-            return '<video src="' . htmlspecialchars($value) . '" controls></video>';
+            return '<video class="' . $sizeClass . '" src="' . htmlspecialchars($value) . '" controls></video>';
         }
         
         return '';

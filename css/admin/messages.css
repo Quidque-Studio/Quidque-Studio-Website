@@ -4,7 +4,7 @@
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 280px);
+  height: calc(95vh - 280px);
   min-height: 400px;
 }
 
@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  -webkit-overflow-scrolling: touch;
 }
 
 .message-item {
@@ -27,12 +28,14 @@
   background: var(--purple-dim);
   border: 1px solid rgba(157, 126, 219, 0.3);
   align-self: flex-start;
+  border-bottom-left-radius: var(--radius-sm);
 }
 
 .message-outgoing {
   background: var(--primary-dim);
   border: 1px solid rgba(0, 255, 187, 0.3);
   align-self: flex-end;
+  border-bottom-right-radius: var(--radius-sm);
 }
 
 .message-header {
@@ -56,6 +59,7 @@
   font-size: var(--text-sm);
   color: var(--text-secondary);
   line-height: 1.6;
+  word-break: break-word;
 }
 
 .message-form {
@@ -63,6 +67,7 @@
   border-top: 1px solid var(--border-subtle);
   background: var(--bg-surface);
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  flex-shrink: 0;
 }
 
 .message-input-wrapper {
@@ -78,32 +83,171 @@
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--text-primary);
-  font-size: var(--text-sm);
+  font-size: 16px;
   resize: none;
-  min-height: 2.5rem;
+  min-height: 2.75rem;
   max-height: 8rem;
+  font-family: inherit;
+  line-height: 1.5;
 }
 
 .message-input-wrapper textarea:focus {
   outline: none;
   border-color: var(--primary);
+  box-shadow: 0 0 0 0.1875rem var(--primary-dim);
+}
+
+.message-input-wrapper .btn {
+  flex-shrink: 0;
+  min-height: 2.75rem;
+}
+
+.conversation-info {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.conversation-info p {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.conversation-info strong {
+  color: var(--text-primary);
+}
+
+.conversation-user-email {
+  word-break: break-all;
 }
 
 @media (max-width: 768px) {
   .message-container {
-    height: calc(100vh - 240px);
+    height: calc(95dvh - 220px);
+    min-height: 300px;
+    border-radius: var(--radius-md);
+  }
+
+  .message-list {
+    padding: var(--space-sm);
+    gap: var(--space-sm);
+  }
+
+  .message-item {
+    max-width: 85%;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+  }
+
+  .message-incoming {
+    border-bottom-left-radius: var(--radius-xs);
+  }
+
+  .message-outgoing {
+    border-bottom-right-radius: var(--radius-xs);
+  }
+
+  .message-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .message-time {
+    order: 2;
+  }
+
+  .message-sender {
+    order: 1;
+    font-size: var(--text-xs);
+  }
+
+  .message-content {
+    font-size: var(--text-sm);
+  }
+
+  .message-form {
+    padding: var(--space-sm);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+
+  .message-input-wrapper {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .message-input-wrapper textarea {
+    min-height: 2.5rem;
+  }
+
+  .message-input-wrapper .btn {
+    padding: var(--space-sm);
+  }
+
+  .message-input-wrapper .btn span {
+    display: none;
+  }
+
+  .message-input-wrapper .btn svg {
+    margin: 0;
+  }
+
+  .conversation-info {
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+  }
+
+  .conversation-info p {
+    font-size: var(--text-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .message-container {
+    height: calc(95dvh - 200px);
   }
 
   .message-item {
     max-width: 90%;
+    padding: var(--space-xs) var(--space-sm);
   }
 
-  .message-input-wrapper {
-    flex-direction: column;
-    align-items: stretch;
+  .message-sender {
+    font-size: 0.625rem;
   }
 
-  .message-input-wrapper .btn {
-    width: 100%;
+  .message-time {
+    font-size: 0.625rem;
+  }
+
+  .message-content {
+    font-size: var(--text-xs);
+  }
+}
+
+.toolbar-delete-form {
+  margin-left: auto;
+}
+
+.btn-delete {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+}
+
+.btn-delete:hover {
+  background: var(--accent-dim);
+}
+
+@media (max-width: 768px) {
+  .toolbar-delete-form {
+    margin-left: 0;
+  }
+
+  .admin-toolbar .btn-delete {
+    flex: 1;
   }
 }

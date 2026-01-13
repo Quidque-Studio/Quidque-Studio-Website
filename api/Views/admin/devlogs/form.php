@@ -4,7 +4,7 @@
     <div class="editor-header">
         <a href="/admin/projects/<?= $project['id'] ?>/devlogs" class="btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            Back
+            <span>Back</span>
         </a>
         <h1 class="editor-title"><?= $devlog ? 'Edit Devlog' : 'New Devlog' ?></h1>
     </div>
