@@ -239,29 +239,24 @@
 
 .devlog-content .video-embed {
     position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
+    aspect-ratio: 16 / 9;
     margin: var(--space-sm) 0;
     border-radius: var(--radius-sm);
     overflow: hidden;
+    width: 100%;
 }
-
 .devlog-content .video-embed.video-small {
     max-width: 320px;
 }
-
 .devlog-content .video-embed.video-medium {
     max-width: 480px;
 }
-
 .devlog-content .video-embed.video-large {
     max-width: 640px;
 }
-
 .devlog-content .video-embed.video-full {
     max-width: 100%;
 }
-
 .devlog-content .video-embed iframe {
     position: absolute;
     top: 0;
